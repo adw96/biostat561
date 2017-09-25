@@ -2,7 +2,10 @@
 title: "Computational Skills for Biostatistics I: Lecture 1"
 author: Amy Willis, Biostatistics, UW
 date: September 28, 2017
-output: beamer_presentation
+output:
+  beamer_presentation:
+    includes:
+      in_header: header_pagenrs.tex
 ---
 
 ```{r setup, include=FALSE}
@@ -22,6 +25,10 @@ knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 - Weekly homeworks
 - Weekly office hours: HSB F-657. Tuesday 3-4? 
 - Office hours by appointment
+
+Public folder of course materials at 
+<https://github.com/adw96/biostat561>
+
 
 # Topics
 
@@ -44,10 +51,9 @@ Subject to change
 
 # Resources
 
-- Available via github
+- Available via github <https://github.com/adw96/biostat561>
     * Syllabus
-    * Slides
-    * Source code for slides
+    * Slides (& source code)
     * Examples
     * Homeworks
 - Available via github classroom
@@ -86,9 +92,7 @@ I won't record attendance, but if you consistently do not show up you will not r
 
 # About me
 
-[photo holding chickens]
-
-[github page]
+![](images/github.png){width=300px} ![](images/friendly.png){width=150px}
 
 # About you
 
@@ -307,25 +311,34 @@ There are many ways to get help with using functions or debugging code
 
 1. The internet
 
-[picture]
+![](images/google.png)
+
 
 # Help
 
 2. `?fn` shows the documentation for `fn`... if it exists!
 
-[picture]
+![](images/questionmark.png)
+
+# Help
+
+2. ... if it exists!
+
+![](images/documentation.png)
 
 # Help
 
 3. `help.search("topic")` searches help pages for "topic"
 
-[picture]
+![](images/helpsearch.png)
+
 
 
 # Examples
 
 The documentation pages often show examples (`example(plot)`) and have demos (`demo(plotmath)`). `vignette()` opens longer worked examples that are great for playing with new packages.
 
+![](images/vignette.png)
 # Keep in mind
 
 - The user of a function assumes responsibility for giving arguments in the correct form
@@ -346,3 +359,10 @@ Don't get bogged down in reading *all* the documentation -- experiment and learn
 
 # Homework 1 and next week
 
+- Slides:
+    * <https://github.com/adw96/biostat561/lecture1/lecture1.pdf>
+- Homework 1 is due next Thursday at 2 p.m. 
+    * <https://github.com/adw96/biostat561/lecture1/homework1.pdf>
+- Complete Question 0 by next Tuesday so you can attend office hours if you have trouble
+- Submission via github classroom (instructions included):
+    * <https://classroom.github.com/classrooms/32249780-biost-561>
