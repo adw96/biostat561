@@ -2,9 +2,12 @@
 title: "Computational Skills for Biostatistics I: Lecture 1"
 author: Amy Willis, Biostatistics, UW
 date: September 28, 2017
-output: slidy_presentation
+output: beamer_presentation
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+```
 
 # Welcome!
 
@@ -17,7 +20,8 @@ output: slidy_presentation
 
 - Weekly lectures
 - Weekly homeworks
-- Weekly office hours: HSB F-657. Tuesday 3:30-5?
+- Weekly office hours: HSB F-657. Tuesday 3-4? 
+- Office hours by appointment
 
 # Topics
 
@@ -45,20 +49,23 @@ Subject to change
     * Slides
     * Source code for slides
     * Examples
-- Available via Canvas
     * Homeworks
+- Available via github classroom
     * Homework submission
+- Available via email
     * Announcements
 
 # Expectations
 
 What you should expect of me
 
-- I will talk slowly (tell me if I'm speaking too fast!)
 - I will make your learning a priority
 - I will give you timely feedback on your homeworks
 - I will treat you as adults, I will treat you with respect
+- I will talk slowly (tell me if I'm speaking too fast!)
 - I will try to make class engaging and fun!
+
+# Expectations
 
 What I will expect of you
 
@@ -77,13 +84,17 @@ The only assessment in this course is homework.
 
 I won't record attendance, but if you consistently do not show up you will not receive credit.
 
-# Survey
+# About me
+
+[photo holding chickens]
+
+[github page]
+
+# About you
 
 Everyone is here with different backgrounds in programming and computing. Let's get statistical!
 
 [Analyse survey here]
-
-Class discussion
 
 
 # Class
@@ -94,10 +105,7 @@ There are many different *classes* of objects in R
 x <- c(1, 2, 5)
 y <- c("a", "b")
 z <- as.factor(y)
-class(x)
-class(y)
-class(z)
-class(c)
+c(class(x), class(y), class(z), class(c))
 ```
 
 Others include `logical` (`TRUE`, `FALSE`), complex numbers...
@@ -113,12 +121,14 @@ mode(z) # factors are stored as numerics
 mode(c)
 ```
 
+# Modes
+
 `is.[class]` asks about the class. Normally you will be interested in the class, not the mode.
 
 ```{r, echo = TRUE}
 is.numeric(x)
 is.factor(z)
-is.numeric(z) # since we asked about the class, not the mode
+is.numeric(z) # we asked about class, not the mode
 ```
 
 # Data structures
@@ -130,24 +140,40 @@ R can store data in various *objects*
 - data frame: two-dimensional, all data points in same column have same mode
 - list: one-dimensional, data points can be of any type
 
-Be very careful with matrices!
-```{r, echo=F}
+# Matrices
+
+Matrices vs data frames: all elements have same mode in matrices
+
+```{r, echo=TRUE}
 cbind(c(1,2), c("a", "b"))
-data.frame(c(1,2), c("a", "b"))
-data.frame("ID"=c(1,2), "name"=c("a", "b")) # better
 ```
 
 # Matrices
 
-```{r, echo=F}
+Be very careful with matrix operations!
+
+```{r, echo=TRUE}
 aa <- matrix(c(1, 2, 3, 5), nrow = 2, byrow = T)
 bb <- c(0.5, 2)
 aa
 bb
+```
+
+# Matrices
+
+```{r, echo=TRUE}
 aa %*% bb # matrix multiplication
 aa * bb # careful! pointwise
 ```
 
+# Data frames
+
+```{r, echo=TRUE}
+data.frame(c(1,2), c("a", "b"))
+dd <- data.frame("ID"=c(1,2), "name"=c("a", "b")) # better
+dd
+str(dd) # structure: compact info about frame & variables
+```
 
 # vectorisation
 
@@ -158,6 +184,13 @@ x <- c(0.5, 2, 3, 6)
 x^2
 y <- c(3, 1, 2, 1)
 x^y 
+```
+
+# vectorisation
+
+The slow way: with loops. Avoid where possible!
+
+```
 z <- rep(NA, 4)
 for (i in 1:4) {
   z[i] <- x[i]^y[i] 
@@ -171,6 +204,7 @@ Code is easier to read, and usually easier to debug, when vectorised
 
 In many tasks, R recycles elements of one input until it has enough to match the other
 
+\footnotesize
 ```{r}
 aa
 bb
@@ -199,54 +233,69 @@ Speed up factor of vectorisation: 36!
 
 # Lists
 
-Lists store information of many different types
+Lists store information of many different types. Names are optional, but recommended!
 
+
+\footnotesize
 ```{r}
-amy <- list(office = "f657", hikes = TRUE, scores = c(7, 9))
+amy <- list(office.num = 657, pets = TRUE, 
+            pets.names = c("Princess Jaws", "Friendly", "Mohawk",
+                           "Canada", "USA", "Regina George"), 
+            is.cat = c(TRUE, rep(FALSE, 5)))
 amy
 ```
 
-Names are optional, but recommended!
+# Lists
+
 
 Double square brackets pull out individual elements. Single square brackets pull out subsets of the list. I recommend using names wherever possible!
+
+\footnotesize
 ```{r}
 amy[[3]] # subset third element
 amy[3] # third element -- a list!
-amy[2:3] # second and third elements -- a list!
-amy$office
 ```
 
+# Lists
 
-
-
+\footnotesize
+```{r}
+amy[2:3] # second and third elements -- a list!
+amy$office # can also refer by name
+```
 
 # Generic functions
 
 The same function can apply to objects of different classes. How does R know what to do?
-```{r}
-class(log)
-class(trees)
-plot(log)
-plot(trees)
-plot
+
+\footnotesize
+```{r, fig.width=3, fig.height=2.5}
+c(class(log), class(trees))
+layout(t(1:2), widths = c(3,1)); plot(log); plot(trees)
 ```
+
+# Generic functions
 
 `plot` is a *generic* function. Generic functions don't do anything themselves -- they call *methods*, which are tailored to the class.
 
 ```{r}
 plot
-methods("plot") # lists all types that R knows how to plot
+methods("plot") # lists all types R knows how to plot
 ```
 
 If no specialised method exists for that class, R will call `summary.default()`
 
+# Generic functions
+
 To find the functions that apply to a class
 
 ```{r}
-methods(class = "data.frame")
+methods(class = "lm")
 ```
 
-To see the code for a generic function, type [function].[class]
+# Generic functions
+
+To see the code for a generic function, type `[function].[class]`
 
 ```{r}
 dimnames.data.frame
@@ -255,9 +304,25 @@ dimnames.data.frame
 # Help
 
 There are many ways to get help with using functions or debugging code
+
 1. The internet
+
+[picture]
+
+# Help
+
 2. `?fn` shows the documentation for `fn`... if it exists!
+
+[picture]
+
+# Help
+
 3. `help.search("topic")` searches help pages for "topic"
+
+[picture]
+
+
+# Examples
 
 The documentation pages often show examples (`example(plot)`) and have demos (`demo(plotmath)`). `vignette()` opens longer worked examples that are great for playing with new packages.
 
@@ -276,10 +341,8 @@ Don't get bogged down in reading *all* the documentation -- experiment and learn
 
 1. Stare at it until you identify the problem a.k.a. psychic debugging
 2. Breakdown the components until you find the problem (bisection method converges linearly!)
-3. `traceback()`
-
-# traceback
-
+3. `traceback()` -- covered later in the course
 
 
 # Homework 1 and next week
+
