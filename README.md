@@ -17,21 +17,21 @@ Correct at time of writing (9/24) but subject to change
 - Office hours: To be confirmed: Mondays 11am-12pm. We will confirm during the first lecture. Office hours location is Health Sciences F657. Please bring your laptop if you want to show problems "live".
 - Accessibility:  Please contact me as soon as possible to let me know what accommodations you need.
 
-Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu). I try not to check my email more than twice per day, so please be patient with me!
+Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu). I try not to check my email more than twice per day, so please be patient with me if I don't respond immediately!
 
 ## Schedule (subject to change!)
 
-- 9/28 Advanced classes, methods, objects, debugging
-- 10/5 Efficient loops, functions
-- 10/12 Pipes
-- 10/19 ggplot
-- 10/26 latex *
-- 11/2 Markdown *
-- 11/9 unix, shell, UW cluster computing *
-- 11/16 version control, git, github, packages *
+- 9/28 Lecture 1: Advanced classes, methods, objects, debugging
+- 10/5 Lecture 2: Efficient loops, functions
+- 10/12 Lecture 3: Pipes
+- 10/19 Lecture 4: ggplot
+- 10/26 Lecture 5: latex *
+- 11/2 Lecture 6: Markdown *
+- 11/9 Lecture 7: unix, shell, UW cluster computing *
+- 11/16 Lecture 8: version control, git, github, packages *
 - 11/23 no class; Thanksgiving
-- 11/30 Calling C/C++ in R *
-- 12/7 Python *
+- 11/30 Lecture 9: Calling C/C++ in R *
+- 12/7 Lecture 10: Python *
 
 \* Indicates guest lecture by one of your classmates!
 
