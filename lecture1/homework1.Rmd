@@ -9,11 +9,14 @@ output:
 
 # Instructions and preliminaries
 
-Due 2:00pm Thursday 5 October via github classroom (instructions below)
+Question 0: Due by the end of office hours (Tuesday 4:00pm) via github classroom (instructions below).
+
+Questions 1-7: Due 2:00pm Thursday 5 October via github classroom (instructions below).
 
 * You may discuss the questions with other students or the instructor, but you should write up your own answers in your own words. The only exception to this is Question 0 Parts 1-7, which you are welcome to discuss in full detail with classmates.
 * Instructions for uploading homeworks are contained in Question 0. Please complete Question 0 by Tuesday, and if you have trouble, please bring your computer to office hours on Tuesday at 3 p.m.
 * Answer all questions in full sentences and paragraphs; supplying just code or its output is not a good-faith attempt to answer the question.
+* Many of the questions in this homework were not discussed in class. They are research questions, intended to make you think about what happens "underneath" `R`. I expect you to make extensive use of online resources to complete these exercises.
 
 # Question 0
 
@@ -21,23 +24,25 @@ Please complete Steps 1-7 before Tuesday afternoon, and attend office hours if y
 
 1. If you do not have `R` installed on your computer, install it. Google "how to install R" for instructions.
 
-2. Install RStudio on your computer. 
+2. Install RStudio on your computer.
 
-3. Create an account on `github.com`. Choose a professional-sounding username! 
+3. Create an account on `github.com`. Choose a professional-sounding username!
 
-4. Sign into our virtual classroom at `https://classroom.github.com/classrooms/32249780-biost-561`. Create a repository with your name or github username followed by "-561". eg. "adw96-561" would be ideal for user adw96.
+4. Sign into our virtual classroom at `https://classroom.github.com/classrooms/32249780-biost-561`. Create a repository with your name or github username followed by "-561". eg. "adw96-561" or "amyw-561" would be ideal for user adw96.
 
 5. Create a folder on your computer for this class, e.g. "Users/name/Documents/coursework/biost561"
 
 6. Copy a blank (or random) pdf to this folder, and call it "homework1.pdf"
 
-7. Initialise a git repository, add the pdf, commit the pdf, and push it to your classroom repository. http://kbroman.org/github_tutorial/pages/init.html is a great resource, as is googling any error messages you get.
+7. Initialise a git repository, add the pdf, commit the pdf, and push it to your classroom repository. `http://kbroman.org/github_tutorial/pages/init.html` is a great resource, as is googling any error messages you get.
 
 8. Work on your response to Questions 1-4 in this folder. Overwrite the blank pdf with your responses. Repeat Step 7 with your actual submission to submit your homework!
 
+Our repositories on github classroom are private, so your classmates cannot see your solution (but I can). You should practice adding, committing and pushing your homework as you work (e.g. as you finish each question) to get into good habits! I will not begin grading your solutions until next Thursday, 
+
 # Question 1: I don't know
 
-`R`’s code for missing data is `NA`. Thinking of it as “I don’t know” helps understand its behavior, e.g. `42+NA` returns `NA`; the sum of 42 and a number I don’t know is another number I don’t know. 
+`R`’s code for missing data is `NA`. Thinking of it as “I don’t know” helps understand its behavior, e.g. `42+NA` returns `NA`; the sum of 42 and a number I don’t know is another number I don’t know.
 
 1. Explain what these mathematical operations return, and why this is sensible:
 

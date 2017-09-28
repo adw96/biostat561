@@ -23,10 +23,10 @@ knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 
 - Weekly lectures
 - Weekly homeworks
-- Weekly office hours: HSB F-657. Tuesday 3-4? 
+- Weekly office hours: HSB F-657. Tuesday 3-4?
 - Office hours by appointment
 
-Public folder of course materials at 
+Public folder of course materials at
 <https://github.com/adw96/biostat561>
 
 
@@ -34,20 +34,19 @@ Public folder of course materials at
 
 Subject to change
 
-- 9/28 Lecture 1: Advanced classes, methods, objects, debugging
+- 9/28 Lecture 1: Intro to version control, types, methods
 - 10/5 Lecture 2: Efficient loops, functions
 - 10/12 Lecture 3: Pipes
-- 10/19 Lecture 4: ggplot
-- 10/26 Lecture 5: latex *
-- 11/2 Lecture 6: Markdown *
-- 11/9 Lecture 7: unix, shell, UW cluster computing *
-- 11/16 Lecture 8: version control, git, github, packages
+- 10/19 Lecture 4: ggplot, shiny *
+- 10/26 Lecture 5: Debugging, profiling
+- 11/2 Lecture 6: LaTex, Markdown, knitr *
+- 11/9 Lecture 7: More version control, writing packages *
+- 11/16 Lecture 8: unix, shell, UW cluster computing *
 - 11/23 no class; Thanksgiving
 - 11/30 Lecture 9: Calling C/C++ in R *
 - 12/7 Lecture 10: Python *
 
-
-\* indicates guest lecture by one of your classmates. A great opportunity to learn the latest and greatest!
+\* indicates guest lecture by one of your classmates. A great opportunity to learn the latest, from the greatest!
 
 # Resources
 
@@ -98,10 +97,73 @@ I won't record attendance, but if you consistently do not show up you will not r
 
 Everyone is here with different backgrounds in programming and computing. Let's get statistical!
 
-[Analyse survey here]
+13 responses to class survey
+
+- 50-50 Mac-Windows users
+- \>90\% have used R
+- <50\% use the apply() family
+- <30\% pipe, write packages
+- <20\% use git for **version control**
+
+Is data missing at random?
+
+# Version control
+
+What problems can you see with the following approach to version control?
+
+- papersims-v1.R
+- papersims-v2.R
+- papersims-thea-comments.R
+- papersims-hellfire.R
+- papersims-v5.R
+- papersims-final.R
 
 
-# Class
+# Version control
+
+1. How many versions until this becomes intractable?
+2. *Date Modified* sorting does not always help
+3. Tracking the changes is very difficult; what happens if you need to revert?
+4. Exponential file number growth with multiple collaborators!
+5. The dreaded computer crash
+
+Dropbox can help with some of these issues, but generally not (3) or (4)!
+
+# Git
+
+- git is an open source version control system (VCS):
+    - Track changes to code and documents. *What* changes by *who* and *when*?
+    - Share code and collaborate
+
+- github is a website that uses git's VCS:
+    - Collaborate with others effectively
+    - Distribute code
+    - Solicit improvements (*pull* requests)
+    - Track issues & feature requests
+    - (Build your coding portfolio!)
+
+# Git with R
+
+Git & github are popular with R developers
+
+- Integration with RStudio
+- Easy distribution of packages
+    - Circumvents CRAN moderators; for better or worse
+- Always get the latest features (`devtools`; `install_github`)
+(in addition to all the other great things about good version control)
+
+# Getting started with git
+
+- Download/update: <https://git-scm.com/downloads>
+- Intro: <https://guides.github.com/activities/hello-world/>
+    - Do this with Homework 1 and a blank pdf, not hello-world
+- With RStudio: File/New Project
+- Questions? Error messages? The internet is a great resource!
+- A great habit to get into early!
+
+Homework 1 Question 0 will get you started using git. More later in the semester!
+
+# R: Class
 
 There are many different *classes* of objects in R
 
@@ -154,8 +216,6 @@ cbind(c(1,2), c("a", "b"))
 
 # Matrices
 
-Be very careful with matrix operations!
-
 ```{r, echo=TRUE}
 aa <- matrix(c(1, 2, 3, 5), nrow = 2, byrow = T)
 bb <- c(0.5, 2)
@@ -165,13 +225,15 @@ bb
 
 # Matrices
 
+Be very careful with matrix operations!
+
 ```{r, echo=TRUE}
 aa %*% bb # matrix multiplication
 aa * bb # careful! pointwise
 ```
 
 # Data frames
-
+\footnotesize
 ```{r, echo=TRUE}
 data.frame(c(1,2), c("a", "b"))
 dd <- data.frame("ID"=c(1,2), "name"=c("a", "b")) # better
@@ -179,32 +241,32 @@ dd
 str(dd) # structure: compact info about frame & variables
 ```
 
-# vectorisation
+# Vectorization
 
-vectorisation: doing many calculations with a single command
+Vectorization: doing many calculations with a single command
 
 ```{r}
 x <- c(0.5, 2, 3, 6)
 x^2
 y <- c(3, 1, 2, 1)
-x^y 
+x^y
 ```
 
-# vectorisation
+# Vectorization
 
 The slow way: with loops. Avoid where possible!
 
 ```
 z <- rep(NA, 4)
 for (i in 1:4) {
-  z[i] <- x[i]^y[i] 
+  z[i] <- x[i]^y[i]
 }
 z
 ```
 
 Code is easier to read, and usually easier to debug, when vectorised
 
-# recycling
+# Recycling
 
 In many tasks, R recycles elements of one input until it has enough to match the other
 
@@ -220,10 +282,10 @@ aa + cc # the silent killer
 Be careful!
 
 # Speed comparison
-Vectorisation can cause major speed-ups, because task is optimised and precompiled in C/Fortran, not interpreted R.
+vectorization can cause major speed-ups, because task is optimised and precompiled in C/Fortran, not interpreted R.
 
 ```{r, eval=F, echo=T}
-dd <- matrix(rnorm(1e6), nrow = 1000) 
+dd <- matrix(rnorm(1e6), nrow = 1000)
 cor(dd)
 
 ee <- matrix(NA, 1000, 1000)
@@ -233,7 +295,7 @@ for (i in 1:1000) {
   }
 }
 ```
-Speed up factor of vectorisation: 36!
+Speed up factor of vectorization: 36!
 
 # Lists
 
@@ -242,9 +304,9 @@ Lists store information of many different types. Names are optional, but recomme
 
 \footnotesize
 ```{r}
-amy <- list(office.num = 657, pets = TRUE, 
+amy <- list(office.num = 657, pets = TRUE,
             pets.names = c("Princess Jaws", "Friendly", "Mohawk",
-                           "Canada", "USA", "Regina George"), 
+                           "Canada", "USA", "Regina George"),
             is.cat = c(TRUE, rep(FALSE, 5)))
 amy
 ```
@@ -304,7 +366,7 @@ To see the code for a generic function, type `[function].[class]`
 ```{r}
 dimnames.data.frame
 ```
-  
+
 # Help
 
 There are many ways to get help with using functions or debugging code
@@ -316,7 +378,7 @@ There are many ways to get help with using functions or debugging code
 
 # Help
 
-2. `?fn` shows the documentation for `fn`... if it exists!
+2. `?fn` shows the documentation for `fn`...
 
 ![](images/questionmark.png)
 
@@ -347,7 +409,7 @@ The documentation pages often show examples (`example(plot)`) and have demos (`d
     * Named arguments can be anywhere in ordering
 - Not supplied arguments assume default value
     * Not supplying arguments without a default gives an error message
-    
+
 Don't get bogged down in reading *all* the documentation -- experiment and learn from your mistakes instead!
 
 # Debugging
@@ -361,8 +423,8 @@ Don't get bogged down in reading *all* the documentation -- experiment and learn
 
 - Slides:
     * <https://github.com/adw96/biostat561/lecture1/lecture1.pdf>
-- Homework 1 is due next Thursday at 2 p.m. 
+- Homework 1 is due next Thursday at 2 p.m.
     * <https://github.com/adw96/biostat561/lecture1/homework1.pdf>
-- Complete Question 0 by next Tuesday so you can attend office hours if you have trouble
+- Complete Question 0 by next Tuesday (Office hours!)
 - Submission via github classroom (instructions included):
     * <https://classroom.github.com/classrooms/32249780-biost-561>

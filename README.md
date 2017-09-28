@@ -21,13 +21,13 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 
 ## Schedule (subject to change!)
 
-- 9/28 Lecture 1: Classes, generic functions
+- 9/28 Lecture 1: Intro to version control, types, methods
 - 10/5 Lecture 2: Efficient loops, functions
 - 10/12 Lecture 3: Pipes
-- 10/19 Lecture 4: ggplot
-- 10/26 Lecture 5: latex *
-- 11/2 Lecture 6: Markdown *
-- 11/9 Lecture 7: version control, git, github, packages *
+- 10/19 Lecture 4: ggplot, shiny *
+- 10/26 Lecture 5: Debugging, profiling
+- 11/2 Lecture 6: LaTex, Markdown, knitr *
+- 11/9 Lecture 7: More version control, writing packages *
 - 11/16 Lecture 8: unix, shell, UW cluster computing *
 - 11/23 no class; Thanksgiving
 - 11/30 Lecture 9: Calling C/C++ in R *
