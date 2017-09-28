@@ -30,7 +30,7 @@ Please complete Steps 1-7 before Tuesday afternoon, and attend office hours if y
 
 4. Create a folder on your computer for this class, e.g. "Users/name/Documents/coursework/biost561/". Create 2 subfolders: "materials" and "responses".
 
-5. In Terminal, go to "/materials/" and type `git clone git@github.com/adw96/biostat561 .`
+5. In Terminal, go to "/materials/" and type `git clone http://github.com/adw96/biostat561 .`
 
 6. Sign into our virtual classroom at `https://classroom.github.com/classrooms/32249780-biost-561`. Create a repository with your name or github username followed by "-561". eg. "adw96-561" or "amyw-561" would be ideal for user adw96.
 
