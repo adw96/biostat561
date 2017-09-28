@@ -1,6 +1,6 @@
 ---
 title: "Biostat 561: Homework 1"
-author: Amy Willis, Biostatistics, UW
+author: "Instructor: Amy Willis, Biostatistics, UW"
 date: September 28, 2017
 output:
   pdf_document:
@@ -26,17 +26,22 @@ Please complete Steps 1-7 before Tuesday afternoon, and attend office hours if y
 
 2. Install RStudio on your computer.
 
-3. Create an account on `github.com`. Choose a professional-sounding username!
+3. Download and install git and create an account on `github.com`. Choose a professional-sounding username!
 
-4. Sign into our virtual classroom at `https://classroom.github.com/classrooms/32249780-biost-561`. Create a repository with your name or github username followed by "-561". eg. "adw96-561" or "amyw-561" would be ideal for user adw96.
+4. Create a folder on your computer for this class, e.g. "Users/name/Documents/coursework/biost561/". Create 2 subfolders: "materials" and "responses".
 
-5. Create a folder on your computer for this class, e.g. "Users/name/Documents/coursework/biost561"
+5. In Terminal, go to "/materials/" and type `git clone git@github.com/adw96/biostat561 .`
 
-6. Copy a blank (or random) pdf to this folder, and call it "homework1.pdf"
+6. Sign into our virtual classroom at `https://classroom.github.com/classrooms/32249780-biost-561`. Create a repository with your name or github username followed by "-561". eg. "adw96-561" or "amyw-561" would be ideal for user adw96.
 
-7. Initialise a git repository, add the pdf, commit the pdf, and push it to your classroom repository. `http://kbroman.org/github_tutorial/pages/init.html` is a great resource, as is googling any error messages you get.
+7. Copy a blank (or random) pdf to "/responses/", and call it "homework1-response.pdf"
 
-8. Work on your response to Questions 1-4 in this folder. Overwrite the blank pdf with your responses. Repeat Step 7 with your actual submission to submit your homework!
+8. Read `https://stackoverflow.com/questions/6143285/git-add-vs-push-vs-commit` and
+`http://kbroman.org/github_tutorial/pages/init.html`
+
+9. Initialise a git repository in "/responses/" (your local copy) to "[your-name-561]" in github classroom (your remote copy). Add the pdf "homework1-response.pdf", commit the pdf, and push it to your classroom repository. Google (or similar) error messages you get. You  may need to add an SSH key to your computer.
+
+10. Work on your response to Questions 1-4 in this folder. Overwrite the blank pdf as you go through your responses. Repeat Step 9 with your actual submission to submit your homework!
 
 Our repositories on github classroom are private, so your classmates cannot see your solution (but I can). You should practice adding, committing and pushing your homework as you work (e.g. as you finish each question) to get into good habits! I will not begin grading your solutions until next Thursday, 
 
@@ -94,4 +99,4 @@ While you will probably use them only rarely, `R` can handle complex numbers:
 
 `class(0+1i)`
 
-Euler's formula gives us that $e^{i \pi}+1=0$. Can  `R` calculate this exactly? If not, what's going on? You should research the binary accuracy of `R` to develop your answer.
+Euler's formula gives us that $e^{i \pi}+1=0$. Can  `R` confirm this? If not, what's going on? You should research the binary accuracy of `R` to develop your answer.
