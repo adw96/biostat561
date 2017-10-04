@@ -6,15 +6,13 @@ This course treats advanced programming and computing skills for biostatistics. 
 
 ## Logistics
 
-Correct at time of writing (9/24) but subject to change
-
 - Instructor: Amy Willis
 - Lectures: Thursday 2:30pm - 3:20pm, HSRR RR134. This classroom is very difficult to find, so please plan to arrive early!
-- Materials: I will distribute materials using some combination of UW's Canvas and github. Specifically, all course notes will be available from github, but homework access and submission will be from Canvas.
+- Materials: I will distribute materials using github and github classroom. Specifically, all homeworks and course notes will be available from github, but homework will be submitted via github classroom.
 - Assessment: Weekly homework, no exams. While attendance will not be formally recorded, credit will not be given if a student does not regularly attend lecture.
 - Homework: There will be a short exercise following each class, due the next week in class. To obtain credit for the class, students must make a good faith effort to answer every part of each exercise. Solutions will be read and corrected but not graded. Students who will miss the deadline for any exercise should contact me as early as possible so that we can come to a fair arrangement.
 - Discussion with classmates: Highly encouraged! However, you must code and write up your homework on your own. As a general rule, conversations regarding homework should not involve taking notes, and never involve emailing or copying code.
-- Office hours: To be confirmed: Mondays 11am-12pm. We will confirm during the first lecture. Office hours location is Health Sciences F657. Please bring your laptop if you want to show problems "live".
+- Office hours: Tuesdays 3-4 p.m. in Health Sciences F657. Please bring your laptop if you want to show problems "live".
 - Accessibility:  Please contact me as soon as possible to let me know what accommodations you need.
 
 Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu). I try not to check my email more than twice per day, so please be patient with me if I don't respond immediately!
@@ -27,7 +25,7 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 - 10/19 Lecture 4: ggplot, shiny *
 - 10/26 Lecture 5: Debugging, profiling
 - 11/2 Lecture 6: LaTex, Markdown, knitr *
-- 11/9 Lecture 7: More version control, writing packages *
+- 11/9 Lecture 7: More version control, writing packages, namespaces *
 - 11/16 Lecture 8: unix, shell, UW cluster computing *
 - 11/23 no class; Thanksgiving
 - 11/30 Lecture 9: Calling C/C++ in R *
@@ -36,6 +34,7 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 \* Indicates guest lecture by one of your classmates!
 
 The homework based on the prior week's lecture will be due at 2 p.m. sharp on Thursdays.
+
 ## Inclusivity
 Diverse backgrounds, embodiments, and experiences are essential to the critical thinking endeavor at the heart of university education. I expect you to follow the UW Student Conduct Code in your interactions with your colleagues and me in this course by respecting the many social and cultural differences among us. Please talk with me right away if you experience disrespect in this class, and I will work to address it as best I can. I hope you will feel comfortable speaking with me if you feel that I could make my classroom more inclusive. If you do not feel comfortable speaking with me, I encourage you to contact DCinfo@uw.edu, a resource for students with classroom climate concerns.
 
