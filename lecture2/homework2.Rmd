@@ -17,7 +17,7 @@ Please complete Question 0 before Tuesday 10 October at 3pm, and attend office h
 
 1. Go to your materials folder that you created last week and type `git pull`. This should download Lecture 2 and Homework 2 to your local copy, as well as the revised syllabus. You should repeat this command every week to give you the latest course information and resources.
 
-2. Complete the following questions in your responses folder, then use the workflow described on Slide 2.27 (`git`) to upload Homework 2 to github classroom.
+2. Complete the following questions in your responses folder, then use the workflow from last week to upload Homework 2 to github classroom as a submission to `homework2`.
 
 This is the last homework where these instructions will be formally repeated, but all future homeworks should be submitted in this way.
 
