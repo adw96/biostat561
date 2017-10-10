@@ -21,6 +21,8 @@ Please complete Question 0 before Tuesday 10 October at 3pm, and attend office h
 
 This is the last homework where these instructions will be formally repeated, but all future homeworks should be submitted in this way.
 
+Link to Homework 2 submissiohn: `https://classroom.github.com/a/gNSRRCjE`
+
 # Question 1: Writing your own function
 
 Write a function that takes a vector of positive numeric data and does both of the following
