@@ -1,0 +1,153 @@
+---
+title: "Computational Skills for Biostatistics I: Lecture 3"
+author: Amy Willis, Biostatistics, UW
+date: October 12, 2017
+output:
+  beamer_presentation:
+    includes:
+      in_header: header_pagenrs.tex
+    fig_caption: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+```
+
+# This week
+
+- Big challenge with Homework 2: working within requirements of each function
+- Another challenging assignment, more great work
+- Comments from homeworks go in README files
+    * Each week, look in the repository for this
+
+# RStudio
+
+- Laying out your workspace effectively
+- Running code quickly
+
+# R packages
+
+- Need to be installed, and then loaded
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+Multiple different ways to distribute packages
+- github
+- from source code
+- from CRAN
+- from Bioconductor, others
+
+# Writing beautiful code
+
+Suppose you have a data frame of Star Wars characters `starwars` and you want to
+- Count the number of characters in each species
+- Calculate the average weight of each species
+- Show the average weight of each species where we observed more than 2 characters
+
+# Writing beautiful code
+
+This is one way to write that code
+```{r}
+ns <- by(starwars, list("Species"=starwars$species), sum)
+means <- by(starwars, list("Species"=starwars$species), mean, na.rm = TRUE)
+means[ns > 1]
+```
+
+What is lousy about this code?
+
+# Writing beautiful code
+
+Here is another way to write that code
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(
+    n = n(),
+    mass = mean(mass, na.rm = TRUE)
+  ) %>%
+  filter(n > 1)
+```
+Which is easier to read? Which is easier to debug?
+
+# tidyverse
+
+A collection of packages based on 4 principles for handling data
+
+1. Reuse existing data structures.
+2. Compose simple functions with the pipe.
+3. Embrace functional programming.
+4. Design for humans.
+
+The R project for Statistical Computing was built for a different age; the tidyverse is a collection of tools for *our* age
+
+# tidyverse
+
+![](tidypic.png){width=450px}
+
+
+# tibbles
+
+Data frames are great! Except for when you
+- think they have few columns and you're wrong
+- have both character strings and factors
+- want to manipulate using multiple columns
+
+tibbles are the data frame alternative of the tidyverse
+
+
+# tibbles
+
+
+```{r}
+starwars
+```
+
+Note: informative printing!
+
+# How do we read code?
+
+What does this do?
+
+```{r}
+# change this to a list example
+
+apply(starwars, 2, function(x) sum(unique(x)))
+```
+
+# Intuitive coding
+
+```{r}
+starwars %>% apply(2, function(x) sum(unique(x)))
+```
+
+
+
+# dplyr
+
+Data manipulation
+
+```{r}
+starwars %>%
+  select(name, ends_with("color"))
+```
+
+# magrittr
+
+
+
+Homework questions
+- wide to long
+- nested functions
+- very big data
+- tibbles
+- speed comparison
+
+
+#  Coming soon
+
+- Homework 3 due next Thursday at 2 p.m.
+    * Submission via github classroom
+    * Same instructions as homework 2
+- Homework 2 feedback coming soon
+- Next week: how to make awesome plots!!
