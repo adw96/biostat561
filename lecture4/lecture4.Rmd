@@ -1,0 +1,21 @@
+---
+title: "Computational Skills for Biostatistics I: Lecture 4"
+author: Amy Willis, Biostatistics, UW
+date: October 19, 2017
+output:
+  beamer_presentation:
+    includes:
+      in_header: ../lecture3/header_pagenrs.tex
+    fig_caption: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+```
+
+# This week
+
+- ggplot
+- shiny apps
+
+# Grammar of graphics
