@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+library(ggplot2)
 ```
 
 # This week
@@ -18,4 +19,102 @@ knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 - ggplot
 - shiny apps
 
-# Grammar of graphics
+# Graphical communication
+
+Name to know: Edward Tufte
+-
+
+# Graphical communication
+
+Tufte's principles for data visualisation
+
+# Graphical communication in practice
+
+Graphical communication is critical for both *exploring* and *explaining* data
+
+- New tools are constantly emerging
+- base graphics in R are easy to use and (usually) effective
+- `ggplot` produces beautiful static plots
+- `shiny` makes beautiful interactive plots (and other things!)
+
+# ggplot
+
+ggplot as a function available in the `ggplot2` package
+
+- Graphics are built in layers: a plot is called, data is then drawn, then annotations are added
+
+# ggplot
+
+![](images/documentation.png){width=300px}
+
+# ggplot
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(carat, price))
+```
+
+# ggplot
+
+We first create a plotting object, *then* add plotting elements
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
+# ggplot(diamonds) + geom_point(aes(x = caret, y = price))
+# ggplot(diamonds, aes(x = price)) + geom_point(aes(y = caret))
+```
+
+# ggplot
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point(aes(col = color), alpha = 0.2)
+```
+
+# Layering objects
+
+Arguments to a ggplot call:
+
+- The first argument to a ggplot is the data frame (or tibble)
+- You can fix the aesthetics with `aes()` OR you can add aesthetics in layers
+- Any aspect of a plot that you want to vary based on a variable needs to be wrapped in a `aes()` call
+
+# `aes()` calls
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point(col = "blue")
+# ggplot(diamonds, aes(x = carat, y = price)) + geom_point(col = color)
+# ggplot(diamonds, aes(x = carat, y = price)) + geom_point(aes(col = "blue"))
+```
+
+# Adding layers
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point() + geom_smooth()
+```
+
+`ggplot` usually give sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise extreme caution!
+
+# More modifications
+
+```{r, fig.width=3, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point() +
+  theme_bw() +
+  labs(x="Weight (carats)", y="Diamond price ($)") +
+  ggtitle("Exploratory analysis of Diamond prices") +
+  coord_cartesian(xlim = c(0, 3), ylim=c(0, 10000))
+```
+
+# Pie charts
+
+Never, ever show a pie chart to a statistical audience
+
+
+# Final tips
+
+-
+
+#
+
+# Coming up
+
+- Homework 4 due next Thursday at the usual time in the usual way
+- shiny with Katie Wilson

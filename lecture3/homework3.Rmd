@@ -15,9 +15,9 @@ You will need to install and load the `tidyverse` for this homework.
 
 # Question 1: Getting started with the tidyverse
 
-The dataset `faithful` gives waiting time between eruptions and the duration of the eruption for the Old Faithful geiser in Yellowstone. 
+The dataset `faithful` gives waiting time between eruptions and the duration of the eruption for the Old Faithful geiser in Yellowstone.
 
-a) Use `apply` (without any piping) to calculate the mean waiting time and duration of the eruptions. 
+a) Use `apply` (without any piping) to calculate the mean waiting time and duration of the eruptions.
 
 b) Use the pipe operator in conjunction with `apply` to calculate the mean waiting time and duration.
 
@@ -31,13 +31,13 @@ e) `faithful` is a data frame. How many lines are output by default when you sho
 
 a) `filter()` and `subset()` perform similar functions. List 3 differences between them. Which will you intend to use?
 
-b) Using the data frame `airquality`, calculate the mean and standard deviation of Ozone for Temperatures of 85 degrees or more. 
+b) Using the data frame `airquality`, calculate the mean and standard deviation of Ozone for Temperatures of 85 degrees or more.
 
 c) Using the data frame `airquality`, calculate the mean and standard deviation of Ozone, stratifying observations with temperatures of 85 degrees or more (versus less than 85 degrees). Verify that this matches your results from last week using `by()`. Which do you find more intuitive?
 
 # Question 3: Function composition
 
-Install and load the package `magrittr`. Make extensive use of the documentation `http://magrittr.tidyverse.org/` in answering these questions. 
+Install and load the package `magrittr`. Make extensive use of the documentation `http://magrittr.tidyverse.org/` in answering these questions.
 
 a) What does this do: `f <- . %>% cos %>% sin`?
 
