@@ -1,0 +1,42 @@
+---
+title: "Biostat 561: Homework 4"
+author: "Instructor: Amy Willis, Biostatistics, UW"
+date: October 19, 2017
+output:
+  pdf_document:
+  number_sections: true
+---
+
+Homework due October 26, 2 p.m.
+
+Link to Homework 4 submission: `https://classroom.github.com/a/VtY_d3vi`
+
+A completed homework will involve multiple figures. Please prepare your submission as a single pdf file -- do not upload figures individually. All plots that you submit with this homework should be publication-worthy, i.e. informative legends and titles are mandatory.
+
+# Question 1: The Rules
+
+Edward Tufte, data illustration extraordinaire, has 10 rules for effectively illustrating information. All rules apply to the illustration of both quantitative and qualitative information. Read through the rules here.
+
+http://www.sealthreinhold.com/school/tuftes-rules/rule_one.php
+
+Find 3 figures that display quantitative information, preferably with some qualitative information as well, from different sources and in different styles. These can be from the statistical literature or scientific literature (eg. preprint or journal article that you're reading), from a periodical (eg. newspaper or magazine), or from popular culture (eg. a blog post or advertisement). Critique the 3 figures, explaining what they each do well, and what they each do poorly. Explain how you would improve them. Explicitly refer to Tufte's rules in your answer, detailing which rules are broken and upheld by the figures.
+
+# Question : Customising legends
+
+The following code has a critical error. Find it and correct it.
+
+
+
+
+7-10% of men are estimated to be red-green colour blind. Try to avoid illustrating with red/brown/green (blue vs yellow vs grey is more distinguishable from most people). Colourblind friendly palettes for ggplot exist; the internet makes many suggestions.
+
+# Question : Multiple plots
+
+Based on the `gapminder` dataset in the package `gapminder`, make 2 plots: the first showing the population of China over time, and the second showing the per-capita GDP of China over time. Is it more natural to plot these 2 figures horizontally or vertically? Why?
+
+# Question : Integrating multiple data frames
+
+
+
+# Question : Shiny
+
