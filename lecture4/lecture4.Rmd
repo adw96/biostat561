@@ -12,61 +12,110 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 library(ggplot2)
+library(tidyverse)
+library(magrittr)
+library(gapminder)
 ```
-
-# This week
-
-- ggplot
-- shiny apps
-
-# Graphical communication
-
-Name to know: Edward Tufte
--
-
-# Graphical communication
-
-Tufte's principles for data visualisation
 
 # Graphical communication in practice
 
 Graphical communication is critical for both *exploring* and *explaining* data
 
-- New tools are constantly emerging
-- base graphics in R are easy to use and (usually) effective
-- `ggplot` produces beautiful static plots
-- `shiny` makes beautiful interactive plots (and other things!)
+- base graphics in `R`: static
+- `ggplot`: static
+- `shiny`: interactive 
+- Non-data-based figures
+
+# Name to know: Edward Tufte
+
+"If you’re not doing something different, you’re not doing anything at all."
+
+The Rules:
+
+1. Show Your Data
+2. Use Graphics
+3. Avoid Chartjunk
+4. Utilize Data-ink
+5. Use Labels
+6. Utilize Micro/Macro
+7. Separate Layers
+8. Use Multiples
+9. Utilize Color
+10. Understand Narrative
+
+<!-- 1. Show the data -->
+<!-- 2. "Induce the viewer to think about the substance rather than about methodology, graphic design, the tech of graphic production, or something else." -->
+<!-- 3. Avoid Distorting the Data -->
+<!-- 4. Present Many Numbers in a Small Space -->
+<!-- 5. Make Large Datasets Coherent -->
+<!-- 6. Encourage Eyes to Compare Data -->
+<!-- 7. Reveal Data at Several Levels of Detail -->
+<!-- 8. Serve a Reasonably Clear Purpose -->
+<!-- 9. Be Closely Integrated with Statistical and Verbal Descriptions of the Dataset -->
+
+# The greatest statistical graphic ever drawn
+
+
+![](images/Minard.png){width=400px}
+
+# The worst statistical graphic ever drawn
+
+![](images/worst.png){width=350px}
 
 # ggplot
 
-ggplot as a function available in the `ggplot2` package
-
-- Graphics are built in layers: a plot is called, data is then drawn, then annotations are added
+- `ggplot` is a function available in the `ggplot2` package.
+- Graphics are built in layers: a plot is initialised, *then* data is then drawn, *then* annotations are added.
+- Annotations include
+    * scales
+    * labels
+    * legends
+    * coordinate systems
 
 # ggplot
 
-![](images/documentation.png){width=300px}
+![](images/documentation.png){width=400px}
 
 # ggplot
 
-```{r, fig.width=3, fig.height=2.5}
-ggplot(diamonds, aes(carat, price))
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price))
 ```
 
-# ggplot
+# Initialize, *then* add plotting elements
 
-We first create a plotting object, *then* add plotting elements
+\footnotesize
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point()
+```
 
-```{r, fig.width=3, fig.height=2.5}
+# Customise features about the layer
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2)
+```
+
+# Add another layer
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2) + geom_smooth()
+```
+
+
+`ggplot` usually gives sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise caution and use your judgement!
+
+# Equivalent calls
+
+\footnotesize
+```{r, eval=FALSE}
 ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
-# ggplot(diamonds) + geom_point(aes(x = caret, y = price))
-# ggplot(diamonds, aes(x = price)) + geom_point(aes(y = caret))
-```
-
-# ggplot
-
-```{r, fig.width=3, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + geom_point(aes(col = color), alpha = 0.2)
+ggplot(diamonds) + geom_point(aes(x = carat, y = price))
+ggplot(diamonds, aes(x = carat)) + geom_point(aes(y = price))
 ```
 
 # Layering objects
@@ -79,42 +128,90 @@ Arguments to a ggplot call:
 
 # `aes()` calls
 
-```{r, fig.width=3, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + geom_point(col = "blue")
-# ggplot(diamonds, aes(x = carat, y = price)) + geom_point(col = color)
-# ggplot(diamonds, aes(x = carat, y = price)) + geom_point(aes(col = "blue"))
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(col = "blue")
 ```
 
-# Adding layers
-
-```{r, fig.width=3, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + geom_point() + geom_smooth()
+Color only exists locally (in the context of the diamonds), so the following results in an error:
+```{r}
+# ggplot(diamonds, aes(x=carat, y=price))+geom_point(col=color)
 ```
 
-`ggplot` usually give sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise extreme caution!
 
-# More modifications
+# More layers
 
-```{r, fig.width=3, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + geom_point() +
-  theme_bw() +
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point() + theme_bw() +
   labs(x="Weight (carats)", y="Diamond price ($)") +
   ggtitle("Exploratory analysis of Diamond prices") +
-  coord_cartesian(xlim = c(0, 3), ylim=c(0, 10000))
+  coord_cartesian(xlim = c(0, 3), ylim=c(0, 10000)) +
+  theme(plot.title = element_text(size = 10))
 ```
 
-# Pie charts
+# Histograms
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = price)) + 
+  geom_histogram(binwidth = 200)
+```
 
-Never, ever show a pie chart to a statistical audience
+
+# Timeseries
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+g <- ggplot(gapminder %>% filter(country == "Japan"), 
+            aes(x = year, y = lifeExp)) + geom_line() 
+g
+```
+
+# Storing and modifying
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+g + scale_x_continuous(breaks = seq(1950, 2011, 15)) +
+  theme_bw() +
+  ggtitle("Life expectancy in 20th C Japan")
+```
+
+Creating and plotting `ggplot` objects is not always fast; this may help
+
+# Showing intervals using transparency
+
+The most important information should be the most clear, the next most important information should be the next most clear, etc.. 
+
+![](images/intervals.png){width=400px}
 
 
 # Final tips
 
--
+- Never, ever show a pie chart to a statistical audience... or the internet!
+    * Exploding or otherwise
+- Align plots with similar axes 
+- Defer less important points to appendices
+     * Use figures where appropriate. Would a table suffice?
+- Critique your own figures 
+     * Especially before public talks/conferences
 
-#
+Highly recommended reading: 
+
+"Graphical Display of Quantitative Information" by Edward Tufte
+
+# Limitations of `ggplot`
+
+- *Forces you to use good coding practice*
+    * Data should all come from the same data frame
+    * Painful at first but better than a retraction!
+- Constrained to two-dimensional (see `plot3d`, `scatterplot3d`)
+- No graphs/trees (`igraph`)
+- Static (`shiny`)
+- Limited use for non-statistical graphics (Illustrator, Photoshop, Inkscape)
 
 # Coming up
 
+- Reminder: `git pull` -- any time you work on any file in a directory with version control!
 - Homework 4 due next Thursday at the usual time in the usual way
-- shiny with Katie Wilson
+- `shiny` with Katie Wilson
