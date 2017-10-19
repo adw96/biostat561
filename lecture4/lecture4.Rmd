@@ -28,7 +28,7 @@ Graphical communication is critical for both *exploring* and *explaining* data
 
 # Name to know: Edward Tufte
 
-"If you’re not doing something different, you’re not doing anything at all."
+"Design cannot rescue failed content."
 
 The Rules:
 
@@ -214,4 +214,7 @@ Highly recommended reading:
 
 - Reminder: `git pull` -- any time you work on any file in a directory with version control!
 - Homework 4 due next Thursday at the usual time in the usual way
+    * Question 1 should be fun
+    * Question 3 should be challenging: work in pairs if you have trouble
+    * Question 4 is optional, but encouraged (integrating multiple sources of information into plots)
 - `shiny` with Katie Wilson
