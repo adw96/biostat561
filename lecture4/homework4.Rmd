@@ -33,11 +33,11 @@ arrange them into a single figure using the packages `grid` and `gridExtra`. Is 
 
 The dataset `abundances.txt` in the `lecture4` folder on github contains the abundances of different microbial taxa in different samples. The rows give the taxon name, and the columns give the sample, i.e. the element in row $i$ and column $j$ gives the number of times that taxon $i$ was observed in sample $j$. The sample names give the dates that the samples were collected. 
 
-Make a stacked bar plot showing how the compositions of the taxa change across time. Since there are 448 different taxa in the sample, choose a reasonable number of taxa and only plot the relative abundances of these taxa.
+Make a stacked bar plot showing how the compositions of the taxa change across time (e.g. if I look at three taxa (1, 2, 3) who have counts (10, 20, 10), then the stacked bar plot will show 25% for taxon 1, 50% for taxon 2 and 25% for taxon 3. Since there are 448 different taxa in the sample, choose a reasonable number of taxa and only plot the relative abundances of these taxa.
 
 Tips:
 
-- The dates are in an inconsistent form, and need to be cleaned up before they can be used.
+- The dates are in an inconsistent form, and need to be cleaned up before they can be used. In particular, the column names give the dates in the following form: X + day + . + month + . + year + . + sample ID number. Not all dates have a sample ID number, and the year format differs. Be sure to adjust for this.
 - You will need to convert the abundances from wide to long format before you can use `geom_bar`.
 - To confirm that your figure is correct, choose a specific sample/date and make sure that the relative abundances match those in the figure.
 
