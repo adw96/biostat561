@@ -1,0 +1,280 @@
+---
+title: "Computational Skills for Biostatistics I: Lecture 5"
+author: Amy Willis, Biostatistics, UW
+date: October 19, 2017
+output:
+  beamer_presentation:
+    includes:
+      in_header: ../lecture3/header_pagenrs.tex
+    fig_caption: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+knitr::opts_chunk$set(error=TRUE)
+library(ggplot2)
+library(tidyverse)
+library(magrittr)
+library(gapminder)
+```
+
+# Debugging
+
+"Finding your bug is a process of confirming the many things that you believe are true — until you find one which is not true." —Norm Matloff
+
+"Defensive programming is the art of making code fail in a well-defined manner even when something unexpected occurs. A key principle of defensive programming is to “fail fast”: as soon as something wrong is discovered, signal an error."  —Hadley Wickham
+
+# Example
+
+```{r, error=TRUE, tidy=TRUE}
+f <- function(a) g(a)
+g <- function(b) h(b)
+h <- function(c) i(c)
+i <- function(d) "a" + d
+f(10)
+```
+
+# RStudio
+
+![](figures/error1.png){width=400px}
+
+# Showing `traceback`
+
+![](figures/traceback.png){width=400px}
+
+# Condition handling
+
+```{r, error=TRUE}
+f1 <- function(x) {
+  x^2
+  0
+}
+f1("x")
+```
+
+
+# `try()`
+
+```{r, error=TRUE}
+f1 <- function(x) {
+  try(x^2)
+  0
+}
+f1("x")
+```
+
+An error is printed, but execution continues! 
+
+# `try()`
+
+Longer sections of code can be wrapped:
+
+```{r}
+try({
+  a <- 10
+  b <- "a"
+  a + b
+})
+```
+
+# Condition handling
+
+```{r}
+success <- try(1 + 2)
+class(success)
+```
+
+```{r}
+failure <- try("a" + 2)
+class(failure)
+```
+
+# Ensure some output is produced
+
+```{r}
+std_error <- Inf
+try(std_error <- my_risky_std_error("bad-input.csv"), 
+    silent = TRUE)
+std_error
+```
+
+# Creating an error
+ 
+```{r}
+square_variable <- function(x) {
+  if (class(x) == "numeric") {
+    x^2
+  } else {
+    stop("Non-numeric argument: 
+         I can only square numbers!\n")
+  }
+}
+square_variable(5)
+square_variable("5")
+```
+
+# Creating an error
+
+```{r}
+square_variable <- function(x) {
+  stopifnot(class(x) == "numeric")
+  x^2
+}
+square_variable(5)
+square_variable("5")
+```
+
+# Creating a warning
+
+\footnotesize
+```{r}
+square_root <- function(x) {
+  if (x >= 0) {
+    sqrt(x)
+  } else {
+    warning("Negative argument: 
+            Complex numbers produced!\n")
+    sqrt(x + 0i)
+  }
+}
+square_root(5)
+square_root(-5)
+```
+
+# Creating a message
+
+```{r}
+sample_normals <- function(x) {
+  if (x %% 1 == 0) {
+    my_sample <- rnorm(x)
+  } else {
+    message("Input not an integer; rounding")
+    my_sample <- rnorm(round(x))
+  }
+  my_sample
+}
+sample_normals(2.01)
+```
+
+# Messages > printing output
+
+```{r}
+chatty_function <- function() {
+  paste("Hi, Biostat561!")
+}
+chatty_function()
+silenceable <- function() {
+  message("Hi, Biostat561!")
+}
+silenceable()
+suppressMessages(silenceable())
+```
+
+# Local and global suppression
+
+`suppressMessages()`, `suppressWarnings()` can wrap noisy functions; use `options(warn = -1)` to silence globally
+
+```{r}
+options(warn=-1)
+warning("Reviewers can be mean!")
+options(warn=0)
+warning("Seattle has earthquake risk!")
+```
+
+# Best practice
+
+Be very careful when modifying `options()` calls in functions
+
+```{r}
+non_invasive_function <- function() {
+  oldw <- getOption("warn")
+  options(warn = -1)
+  # other_function
+  options(warn = oldw)
+}
+```
+
+
+# Huh?
+
+```{r}
+silenceable() %>% suppressMessages
+```
+
+
+# Closing out neatly
+
+```{r, error=TRUE}
+make_plots <- function(x, filename) {
+  destination <- paste(filename, ".pdf", sep="")
+  pdf(destination)
+  hist(rnorm(10))
+  hist(x)
+  dev.off()
+}
+make_plots("5", "my_plots")
+```
+
+# Closing out neatly with `tryCatch`
+
+
+```{r}
+plotting_wrapper <- function(x, filename) {
+  tryCatch(make_plots(x, filename),
+  error = function(c) print("Error in make_plots"),
+  warning = function(c) print("Warning in make_plots"), 
+  finally = {
+    if (dev.cur() != 1) {
+      print("Closing plotting window")
+      dev.off()
+    }
+  }
+  )
+}
+```
+
+# Closing out neatly with `tryCatch`
+
+```{r}
+plotting_wrapper(5, "my_plots")
+plotting_wrapper("5", "my_plots")
+```
+
+# Always code well, but consider context
+
+"If you’re writing functions to facilitate interactive data analysis, feel free to guess what the analyst wants and recover from minor misspecifications automatically. If you’re writing functions for programming, be strict. Never try to guess what the caller wants." 
+— Hadley Wickham
+
+# Profiling code
+
+“We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%. A good programmer will not be lulled into complacency by such reasoning, [she] will be wise to look carefully at the critical code; but only after that code has been identified.” —Donald Knuth.
+
+Lots of tools exist for profiling both memory and speed of your code (e.g. `lineprof`, `proftools`, `profr`); use them when you need them
+
+# Donald Knuth
+
+![](figures/knuth2.png){width=85%}
+
+
+
+
+# Parallelisation
+
+\footnotesize
+```{r}
+library(parallel)
+cores <- detectCores()
+cores
+pause <- function(i) {
+  function(x) Sys.sleep(i)
+}
+system.time(lapply(1:5, pause(0.25)))
+system.time(mclapply(1:5, pause(0.25), mc.cores = cores))
+```
+
+# Coming up
+
+- Next week: LaTex and Markdown by Kelsey and David
+- No homework this week!
+    * Homework on debugging and defensive programming due in 2 weeks... written in LaTex/Markdown!
+
