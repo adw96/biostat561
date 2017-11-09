@@ -1,0 +1,30 @@
+---
+title: "Biostat 561: Homework 7"
+author: "Instructor: Amy Willis, Biostatistics, UW"
+date: November 9, 2017
+output:
+  pdf_document:
+  number_sections: true
+---
+
+Homework due November 21, 5 p.m. 
+
+No office hours on Tuesday 14 in honour of your 512 midterm; new office hours Friday 17 at [TBD]
+
+Link to Homework 7 submission: `https://classroom.github.com/a/UgQFxilr`
+
+# Question 1: Make an R package
+
+Submit all of the source code for an R package that does a nontrivial task. If you need inspiration, think of something that you've been annoyed about in another package and write your own implementation, or code up a statistical procedure that you've learnt in another class. 
+
+Your package should 
+
+- have at least one exported function
+- have at least one non-exported function
+- have appropriate documentation including at least one example
+- require (and meaningfully use) another package
+- have a `DESCRIPTION` file and a `NAMESPACE` file
+- successfully build 
+- not throw any errors from `devtools::check()`
+
+If you're an experienced R user, I encourage you to make a vignette, explore the correct format for submitting data with your package, or write unit tests using `testthat`.
