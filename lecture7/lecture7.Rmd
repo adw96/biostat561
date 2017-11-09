@@ -29,7 +29,6 @@ Why write an R package?
 - Promote yourself and your work
 - Pass this class
 
-# Packages
 
 $$ \text{package} = \text{code} + \text{other stuff} $$
 
@@ -70,15 +69,16 @@ Moral of the story: Don't attach data frames, but it's fine to attach packages
 
 \center ![](IMG_8443.JPG){width=200px}
 
-If I ever used `require()` please forget it and use `library()` instead
+\footnotesize{If I ever used `require()` please forget it and use `library()` instead}
 
 # Accessing functions in packages
 
 The operator `x::y` means "the function `y` in the namespace of package `x`"
 
-```{r, fig.width=2.5, fig.height=2.5}
+```{r, fig.width=2, fig.height=2}
 ggplot  <- function(...) "Ha! Overwritten!"
-ggplot2::ggplot(iris, aes(x = Sepal.Length, y = Petal.Width))
+ggplot2::ggplot(iris, aes(x = Sepal.Length, 
+                          y = Petal.Width))
 ```
 
 # Namespaces
@@ -107,7 +107,7 @@ Short-term: Keeps track of imports (dependencies)
 
 Long-term: Help others find your package
 
-![](description.png){width=300px}
+![](description.png){width=350px}
 
 # Writing R packages: documentation
 
@@ -123,7 +123,7 @@ install.packages("roxygen2")
 
 Under the `Build` tab, under Build tools, check `Generate documentation with Roxygen`
 
-![](build1.png){width=300px}
+![](build1.png){width=400px}
 
 # Writing R packages: documentation
 
@@ -135,28 +135,28 @@ Under the `Build` tab, under Build tools, check `Generate documentation with Rox
 
 # Writing R packages: documentation
 
-![](roxygen.png){width=300px}
+![](roxygen.png){width=400px}
 
 # Writing R packages: documentation
 
-![](documentation.png){width=300px}
+![](documentation.png){width=400px}
 
 # Writing R packages: documentation
 
-![](namespace.png){width=300px}
+![](namespace.png){width=400px}
 
 # Writing R packages: documentation
 
-![](helpfiles.png){width=300px}
+![](helpfiles.png){width=500px}
 
 # Writing R packages: tags
 
 
-![](roxygen2.png){width=300px}
+![](roxygen2.png){width=400px}
 
 # Writing R packages: documentation
 
-![](namespace2.png){width=300px}
+![](namespace2.png){width=400px}
 
 # Building packages
 
@@ -169,12 +169,12 @@ Core "other stuff" for a package
 
 # documentation: vignettes
 
-![](vignette1.png){width=300px}
+![](vignette1.png){width=400px}
 
 # documentation: vignettes
 
 
-![](vignette2.png){width=300px}
+![](vignette2.png){width=400px}
 
 
 # Other things to keep in mind
