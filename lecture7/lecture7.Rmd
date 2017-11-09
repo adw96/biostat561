@@ -1,0 +1,116 @@
+---
+title: "Computational Skills for Biostatistics I: Lecture 5"
+author: Amy Willis, Biostatistics, UW
+date: November 8, 2017
+output:
+  beamer_presentation:
+    includes:
+      in_header: ../lecture3/header_pagenrs.tex
+    fig_caption: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+knitr::opts_chunk$set(error=TRUE)
+library(ggplot2)
+library(tidyverse)
+library(magrittr)
+library(gapminder)
+```
+
+# R packages
+
+Why write an R package?
+- The best way to contribute to science
+- Allow others to build on your advances
+- Promote yourself and your work
+- Pass this class
+
+# Packages
+
+package = code + other stuff
+
+This class will focus on the other stuff
+
+# Install versus load
+
+Brief refresher: `install.packages()` downloads the package from CRAN, and `library()` loads the library
+- Loads the library? `attach()`-es it
+    - Adds it to search path
+
+# Attaching
+
+Recall from homework 1 that you can `attach()` data frames to allow you to refer to the names of the columns directly
+
+```{r}
+attach(women)
+height
+height <- height*2.54
+height
+women$height
+```
+
+# Attaching
+
+Loading a library places its functions in the search path (recall: `search()`), but the global environment will always be in the first position
+
+```{r}
+ggplot  <- function(...) "Ha! Overwritten!"
+library(ggplot2)
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Width))
+```
+
+# Attach
+
+Moral of the story: Don't attach data frames, but it's fine to attach packages
+
+embarrassed gif
+
+(footnote: if I ever used `require()` please forget it and use `library()` instead)
+
+
+# Accessing functions in packages
+
+The operator `x::y` means "the function `y` in the namespace of package `x`"
+
+```{r}
+ggplot  <- function(...) "Ha! Overwritten!"
+ggplot2::ggplot(iris, aes(x = Sepal.Length, y = Petal.Width))
+```
+
+# Namespaces
+
+
+
+# Modularity
+
+# Writing R packages
+
+# Building packages
+
+# documentation: help files
+
+# documentation: examples
+
+# documentation: vignettes
+
+# data
+
+
+
+# putting it all together
+
+
+# Helpful hints: clean up
+
+Remove everything from global environment
+
+
+# Helpful hints: Hacking packages
+
+
+# Coming up
+
+- Next week: LaTex and Markdown by Kelsey and David
+- No homework this week!
+    * Homework on debugging and defensive programming due in 2 weeks... written in LaTex/Markdown!
