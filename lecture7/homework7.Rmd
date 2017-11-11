@@ -9,7 +9,7 @@ output:
 
 Homework due November 21, 5 p.m. 
 
-No office hours on Tuesday 14 in honour of your 512 midterm; new office hours Friday 17 at [TBD]
+No office hours on Tuesday 14 in honour of your 512 midterm the following day; new office hours Friday 17 at 3pm
 
 Link to Homework 7 submission: `https://classroom.github.com/a/UgQFxilr`
 

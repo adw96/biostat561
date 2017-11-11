@@ -1,5 +1,5 @@
 ---
-title: "Computational Skills for Biostatistics I: Lecture 5"
+title: "Computational Skills for Biostatistics I: Lecture 7"
 author: Amy Willis, Biostatistics, UW
 date: November 8, 2017
 output:
@@ -192,5 +192,5 @@ Core "other stuff" for a package
 - New homework: your first R package
 - Homework due Tuesday 21 November
     - Good luck with your 512 mid-term!
-    - Move office hours from 3 p.m. Tuesday 14 November to 3 p.m. Friday 17 November? 
+    - Move office hours from 3 p.m. Tuesday 14 November to 3 p.m. Friday 17 November
 - Next week: scripting + departmental computing with Brian Williamson
