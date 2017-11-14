@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[percent]{overpic}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amscd}
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2.5cm, headsep = 0.9cm]{geometry}
+\usepackage{verbdef}
+\usepackage[UKenglish]{isodate}
+\usepackage{enumitem}
+\setenumerate{listparindent=\parindent}
+\cleanlookdateon%
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.0in}
+\usepackage{setspace}
+\definecolor{gray}{RGB}{90,90,90}
+\usepackage[colorlinks=true, linktoc=all, linkcolor=blue]{hyperref}
+\usepackage{fancyvrb}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\sqbracket}[1]{\left[#1\right]}
+\newcommand{\cbracket}[1]{\left\{#1\right\}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand{\var}{\text{var}}
+\newcommand{\cov}{\text{cov}}
+\newcommand{\expit}{\text{expit}}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\setlength\parindent{10pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{12pt}
+\fancyhead[L]{BIOST 561, Autumn 2016}
+\fancyhead[R]{Homework 6}
+\fancyhead[C]{10 November 2016}
+\fancyfoot[C]{\thepage}
+\begin{document}
+Suppose that, as in lecture, we have a sample of $n$ observations generated from the model
+\begin{align*}
+X_i &\stackrel{i.i.d.}{\sim} N(0, 1), \\
+u_i &\stackrel{i.i.d.}{\sim} N(0, 1), \text{ independent of the } X_i, \\
+Y_i \mid X_i, u_i &= \beta_0 + \beta_1 X_i + \epsilon_i, \text{ where} \\
+\epsilon_i &= \abs{X_i}u_i.
+\end{align*}
+In this assignment we will compare model-based, robust (``sandwich''), and bootstrap standard errors for estimates $\hat{\beta}_1$ of $\beta_1$ from linear regression models. We set $\beta_0 = 1$ and $\beta_1 = 2$.
+\begin{enumerate}
+\item For $n \in \{10, 100, 1000\}$, conduct a simulation that compares the three different standard error estimates (model-based, sandwich, bootstrap) of the true standard error of $\hat{\beta}$. In each simulation, you will need to replicate the following steps $B = 5000$ times:
+\begin{enumerate}
+\item Generate a sample of observations $(X_i, Y_i)$ of size $n$ according to the model above
+\item Fit a linear regression model to the observed data and record the estimate $\hat{\beta}_1$
+\item Compute model-based and robust standard errors for $\hat{\beta}_1$
+\item Compute a bootstrap standard error for $\hat{\beta}_1:$ 
+\begin{itemize}
+\item Draw 1000 bootstrap samples of size $n$ from the observed sample $(X, Y)$
+\item Compute $\hat{\beta}_1$ for each of these 1000 samples
+\item Compute the standard deviation of these bootstrapped coefficient estimates
+\end{itemize}
+\end{enumerate}
+You can use the function \texttt{doOne()} in the file \texttt{se\_ex1.R} as a starting point for your simulations. You may do this on your own machine or on \texttt{cox}. Write your code so that the results are reproducible.
+
+\item Conduct simulations using 3 additional values of $n$, of your choosing, this time using batch submission of jobs on \texttt{bayes}. Split each simulation into either 5 or 10 jobs (not 1 job and not 5000 individual jobs). Perform this batch submission either using a loop in your shell script, or by using a job array. \textbf{NB}: If \texttt{bayes} is full, \texttt{gosset} has an identical setup (i.e., use \texttt{qsub} to submit jobs) and is restricted to student use only. This is an older (i.e., slower) cluster, but often has available cores.
+
+\item Present your results graphically and/or tabularly in a way that best illustrates your findings. Comment on what you see. Attach your code and any scripts in an Appendix.
+\end{enumerate}
+\end{document}
