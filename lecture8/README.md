@@ -1,16 +1,18 @@
 # Quick announcements for Week 8
 
+## Office hours
+
 Irregular office hours schedule due to break and special homework schedule to accommodate your midterms
 
 - Friday 17 (tomorrow) at 3 p.m. 
 - Monday 27 November at 3 p.m.
 
-Reminders
+## Reminders
 
 - Homework 7 (packages) due Tuesday 21 November 5 p.m.
 - Homework 8 (cluster computing) due Thursday 30 November 2 p.m.
 
-Survey
+## Survey
 
 Thank you for filling out the survey! I take your feedback very seriously and I'm grateful to all of you for giving such constructive comments. 
 
