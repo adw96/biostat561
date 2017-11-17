@@ -15,7 +15,7 @@ Link to Homework 8 submission: `https://classroom.github.com/a/JfDr7BQP`
 
 # Question 1: Running R scripts from the command line
 
-a) Read through `se_ex1.R`, the script to compare model-based and sandwich standard errors of the model
+a) Read through `se_ex1.R`, the script to compare the coverage of confidence intervals based on model-based and sandwich standard errors for the model
 
 $$  
 \begin{aligned}
@@ -26,7 +26,7 @@ Y_i \mid X_i, u_i &= \beta_0 + \beta_1 X_i + \epsilon_i, \text{ where} \\
 \end{aligned}
 $$
 
-Based on reading the script, which parameter are we interested in estimating? How do you know?
+Based on reading the script, for which parameter are we interested in the coverage? How do you know?
 
 b) Open up an R session (e.g. in RStudio) and make sure that the package `sandwich` is installed on your computer.
 
