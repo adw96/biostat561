@@ -5,7 +5,7 @@
 Irregular office hours schedule due to break and special homework schedule to accommodate your midterms
 
 - Friday 17 (tomorrow) at 3 p.m. 
-- Monday 27 November at 3 p.m.
+- Monday 27 November at 2 p.m.
 
 ## Reminders
 
