@@ -34,7 +34,7 @@ c) Open up a terminal and run the command
 
 `Rscript se_ex1.R B=10 seed=547 n=5 truebeta=2`
 
-What standard errors do you find based on each method?
+What coverage do you find based on each method?
 
 d) Now run the script `call_ex1_once.sh` via the command line:
 
