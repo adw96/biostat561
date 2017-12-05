@@ -1,3 +1,4 @@
+setwd("/Users/adwillis/teaching/17-561/lecture9/code/")
 library(microbenchmark)
 
 t.test.me <- function(x1, x2) {
@@ -18,3 +19,4 @@ obj <- microbenchmark(
     t.test.me(x1, x2),
     t_test_cpp(x1, x2))
 print(obj, digits = 2)
+
