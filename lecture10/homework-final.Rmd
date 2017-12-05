@@ -9,7 +9,7 @@ output:
 
 **Homework due Thursday 14 December, 2 p.m.** *Strictly no extensions.*
 
-Office hours Monday 11 December, 2 p.m., and Wednesday 13 December, 9:30 a.m.
+Office hours Monday 11 December, 2 p.m., and Wednesday 13 December, 3 p.m.
 
 Link to Final Homework submission: `https://classroom.github.com/a/l99ETbeb`
 
