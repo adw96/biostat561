@@ -17,7 +17,7 @@ Be sure to upload a `.cpp` file, a `.py` file, and a `.R` file along with a `.pd
 
 # Question 1: C++
 
-Write a C++ function that takes arguments `beta` (a vector of dimension `p`) and `n` (a scalar), generates data from the following model
+Write a C++ function that takes arguments `beta` (a vector of dimension `p=3`) and `n` (a scalar), generates data from the following model
 
 $$
 \begin{aligned}
