@@ -12,17 +12,17 @@ This course treats advanced programming and computing skills for biostatistics.
 - Materials: I will distribute materials using github and github classroom. Specifically, all homeworks and course notes will be available from github, but homework will be submitted via github classroom.
 - Assessment: Weekly homework; no exams. While attendance will not be formally recorded, credit will not be given if a student does not regularly attend lecture.
 - Homework: There will be a homework problem set made available after each class, due the next week just before class. To obtain credit for the class, students must make a good faith effort to answer every part of each exercise. Solutions will be read and corrected, and graded either credit/no credit. Students who will miss the deadline for any exercise should contact me as early as possible so that we can come to a fair arrangement.
-- Office hours: **TBD** in Health Sciences F657 (my office). Please bring your laptop if you want to show problems "live".
-- Accessibility:  Please contact me as soon as possible to let me know what accommodations you need.
+- Office hours: Mondays 2:30-3:30 in Health Sciences F657 (my office). Please bring your laptop if you want to show problems "live".
+- Accessibility: Please contact me as soon as possible to let me know what accommodations you need.
 
 Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 
 ## Schedule (preliminary and subject to major revision)
 
-- 4/3 Lecture 1: Intro to version control (i.e. `git`), basic `R` (types, methods), writing loops and functions, LaTex/markdown (?), RStudio projects (?)
+- 4/3 Lecture 1: Intro to version control (i.e. `git`), basic `R` (types, methods), RStudio projects, writing loops and functions
 - 4/10 Lecture 2: `dplyr`, `magrittr` (i.e. pipes `%>%`), `tibble`
 - 4/17 Lecture 3: `ggplot2`, more `dplyr` & `magrittr` practice
-- 4/24 Lecture 4: Simulation studies
+- 4/24 Lecture 4: Simulation studies (`simulator`)
 - 5/1 Lecture 5: fast computation (e.g., apply, `do.call`, mc\*apply family), STAN
 - 5/8 Lecture 6: Writing `R` packages, namespaces/environments
 - 5/15 Lecture 7: knitr, shiny, debugging, profiling
