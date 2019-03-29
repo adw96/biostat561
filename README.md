@@ -25,18 +25,18 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 - 4/24 Lecture 4: Simulation studies (`simulator`)
 - 5/1 Lecture 5: fast computation (e.g., apply, `do.call`, mc\*apply family), STAN
 - 5/8 Lecture 6: Writing `R` packages, namespaces/environments
-- 5/15 Lecture 7: knitr, shiny, debugging, profiling
+- 5/15 Lecture 7: debugging, profiling
 - 5/22 Lecture 8: unix, shell, regex
-- 5/29 Lecture 9: cluster computing at UW, computing with AWS (?) \*
+- 5/29 Lecture 9: cluster computing at UW \*
 - 6/5 Lecture 10: C++ and Python in `R` \*, recap
 
-Other topics to include (time permitting): functional programming, R expressions, S3/S4,
+Other topics to include (time permitting): functional programming, R expressions, S3/S4, shiny, AWS
 
 \* Indicates possible guest lecture by one of your classmates
 
 The homework based on the prior week's lecture will be due at 2:30 p.m. sharp on Wednesdays (i.e. just before lecture), to be submitted via GitHub classroom.
 
-In 2019 Biostat 561 is 2 credit class, so will have longer lectures, cover more material, and have more substantial homework than in previous years than when it was a 1 credit class.
+In 2019 Biostat 561 is 2 credit class, so will have longer lectures, cover more material, and have more substantial homework than previous years.
 
 ## Inclusivity
 
