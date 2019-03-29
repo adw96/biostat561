@@ -285,8 +285,8 @@ x^y
 The slow way: with loops. Avoid where possible!
 
 ```{r}
-# initialise empty vector: 
-z <- vector(mode="numeric", length=4) 
+# initialise empty vector:
+z <- vector(mode="numeric", length=4)
 z
 for (i in 1:4) {
   z[i] <- x[i]^y[i]
@@ -464,13 +464,13 @@ Don't get bogged down in reading *all* the documentation -- experiment and learn
 
 - You can use R in a terminal window by typing 'R' (once it is installed)
 - Alternative: RStudio
-    - Strongly recommended! 
+    - Strongly recommended!
         - interface for scripts, console, figures
         - multiple R sessions in different directories
         - Projects!
         - RMarkdown (integrating `R` and Markdown/LaTex)
-  
-# Workflow versus product 
+
+# Workflow versus product
 
 Your workflow:
 
@@ -480,7 +480,7 @@ Your workflow:
 - The code you ran yesterday
 - The programs you have installed at this time
 
-# Workflow versus product 
+# Workflow versus product
 
 Your product:
 
@@ -488,21 +488,21 @@ Your product:
 - The code that needs to be run on the raw data to get results
     - including dependencies
 - The report that you produce at the end of your analysis
-    
-# Workflow versus product 
+
+# Workflow versus product
 
 "Any R script you write should be written assuming that it will be run from a fresh R process with working directory set to the project directory. It creates everything it needs, in its own workspace or folder, and it touches nothing it did not create..." -- Jenny Bryan
 
-# Workflow versus product 
+# Workflow versus product
 
 You must avoid hardwiring your workflow into your product!
 
 - Every distinct intellectual unit you work on should have its own folder
-    - every data analysis, every method, every research project, every class 
+    - every data analysis, every method, every research project, every class
 - You can type `install_packages` into your console (that's workflow!), but use `library` in a script (that's product!)
     - Even better, throw a `warning` if the version that is installed is not the one you thought
 
-# Workflow versus product 
+# Workflow versus product
 
 - Portable
     - other computers
@@ -510,7 +510,7 @@ You must avoid hardwiring your workflow into your product!
 - Polite
     - Avoids overwriting or interfering with other projects
 
-# Workflow versus product 
+# Workflow versus product
 
 ![](../images/fire.png){width=450px}
 
@@ -730,6 +730,7 @@ Debugging code with ellipses can be tricky! Be cautious...
 - Atom as my primary text editor
     - Markdown, RMarkdown, shell scripts, data files...
     - works well with git
+    - also `vi`
 - Manage collaborations via GitHub wherever possible
     - Sometimes with overleaf
 - Automate tasks using shell scripts (occasionally R)
