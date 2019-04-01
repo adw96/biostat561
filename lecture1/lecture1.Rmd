@@ -86,15 +86,13 @@ I won't record attendance, but if you consistently do not show up you will not r
 
 Everyone is here with different backgrounds in programming and computing. Let's get statistical!
 
-?? responses to class survey
+Responses to class survey: 
+- 73\% Unix, 27\% Windows users
+- 100\% have used R, RStudio (data frames, loops)
+- ~40\% pipe, write packages
+- 18\% use git for **version control**
 
-- ?? Mac-Windows users
-- ??\% have used R
-- ??\% use the apply() family
-- ??\% pipe, write packages
-- ??\% use git for **version control**
-
-Is data missing-not-at-random?
+(n=11 out of possible 13) Is data missing-not-at-random?
 
 # Today's class
 

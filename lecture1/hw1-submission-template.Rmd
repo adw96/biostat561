@@ -1,0 +1,17 @@
+---
+title: "Biostat 561: Homework 1 Submission"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+  number_sections: true
+---
+  
+# Question 1
+
+(a) Your answer...
+
+  
+# Question 2
+
+1. (a) Your answer...

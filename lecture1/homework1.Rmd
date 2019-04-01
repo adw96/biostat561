@@ -4,7 +4,10 @@ author: "Instructor: Amy Willis, Biostatistics, UW"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
+    includes: 
+      in_header: ../hw-preamble.tex
   number_sections: true
+urlcolor: blue
 ---
 
 # Instructions and preliminaries
@@ -38,15 +41,15 @@ Please complete Steps 1-9 before Monday midday, and attend office hours if you a
     - Material for the class will be updated throughout the quarter. To update your materials to the latest copy (e.g., in a week), return to your materials folder and type `git pull`
 
 6. Sign into our virtual classroom at  
-`https://classroom.github.com/classrooms/48962297-biostat561-2019`  and create a repository with your *UW NetID* (not necessarily your github username) followed by "-561". eg. "adwillis-561" would be ideal for me.
+[classroom.github.com/classrooms/48962297-biostat561-2019](https://classroom.github.com/classrooms/48962297-biostat561-2019)  and create a repository with your *UW NetID* (not necessarily your github username) followed by "-561". eg. "adwillis-561" would be ideal for me.
 
 7. Copy a blank (or random) pdf to "/responses/", and call it "hw1-response.pdf"
 
 8. Read:
 
-    - `https://guides.github.com/activities/hello-world/`
-    - `http://kbroman.org/github_tutorial/pages/init.html`
-    - `https://stackoverflow.com/questions/6143285/git-add-vs-push-vs-commit`
+    - [guides.github.com/activities/hello-world/](https://guides.github.com/activities/hello-world/)
+    - [kbroman.org/github_tutorial/pages/init.html](http://kbroman.org/github_tutorial/pages/init.html)
+    - [stackoverflow.com/questions/6143285/git-add-vs-push-vs-commit](https://stackoverflow.com/questions/6143285/git-add-vs-push-vs-commit)
 
 9. Initialise a git repository in "/responses/" (your local copy) to "[your-name]-561" in github classroom (your remote copy). Add the pdf "homework1-response.pdf", commit the pdf, and push it to your classroom (remote) repository. Google (or similar) error messages you get. You may need to add an SSH key to your computer.
 
@@ -55,6 +58,16 @@ Work on your response to the remaining questions in this folder. Overwrite the b
 Most of the problems that newbies have with git relate to being in the wrong directory! Use `pwd` (`echo %cd%` for Windows) and `git status` liberally!
 
 Our repositories on github classroom are private, so your classmates cannot see your solution (but I can). You should practice adding, committing and pushing your homework as you work (e.g. as you finish each question) to get into good habits! I will not begin grading your solutions until after the deadline.
+
+
+# Question $\nicefrac{3}{4}$: RMarkdown
+
+In our class github, there is a template for completing your homework submission in RMarkdown. If you open a `.Rmd` file in RStudio, you will be able to "knit" them easily. Have a look at `homework1.Rmd` to see how I produced this homework assignment using RMarkdown. 
+
+For more information on producing RMarkdown documents, read through 
+[rmarkdown.rstudio.com/lesson-1.html](https://rmarkdown.rstudio.com/lesson-1.html) and subsequent lessons to learn how to interperse text and R code (with code and output included and suppressed). Note that pdf documents are only one type of document that can be produced with RMarkdown (html documents is another common option). 
+
+For all of your homework submissions for BIOST561, submit both your `Rmd` and your `pdf` files. There is no need to show *all* code and *all* output -- use your judgement and be succinct.   
 
 # Question 1: I don't know
 
@@ -89,7 +102,7 @@ doesn't tell you anything about plotting in `R`. To see the generic function `pl
 
 ```graphics:::plot.function```
 
-The `:::` is needed because plot.data.frame is an `internal function`, i.e., not in the namespace of the R package `graphics`. We will revisit this in Lecture 2 when we discuss R packages and namespaces.
+The `:::` is needed because plot.data.frame is an `internal function`, i.e., not in the namespace of the R package `graphics`. We will revisit this in later lectures when we discuss R packages and namespaces.
 
 Read through the source code for way that R plots objects of class `function`. In your own words, briefly describe what you think each line of the code does. If you are unsure about what any individual line does, say so.
 
@@ -107,7 +120,10 @@ We discussed `apply()` looping over rows or columns of a dataset, but the "apply
 
 # Question 6: Writing your own function
 
-**Update**
+A common data structure in microbiome *TODO(Amy)*
+
+[https://raw.githubusercontent.com/adw96/stamps/master/FWS_OTUs.txt](https://raw.githubusercontent.com/adw96/stamps/master/FWS_OTUs.txt)
+
 
 # Question 7: Bootstrapping
 
