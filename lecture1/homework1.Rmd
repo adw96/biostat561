@@ -120,9 +120,15 @@ We discussed `apply()` looping over rows or columns of a dataset, but the "apply
 
 # Question 6: Writing your own function
 
-A common data structure in microbiome *TODO(Amy)*
+A common data structure in microbiome science is a tab delimited file counting the number of times each micobial taxon was observed each sample. Here's an example:
 
 [https://raw.githubusercontent.com/adw96/stamps/master/FWS_OTUs.txt](https://raw.githubusercontent.com/adw96/stamps/master/FWS_OTUs.txt)
+
+Sometimes the information is transposed, but in this case the rows indicate the taxa and the columns indicate the sample.
+
+Write a function, `microbial_diversity()`, that takes in a matrix or data frame of microbial counts (with rows = taxa and columns = samples) and returns the number of species observed at least once in each sample. Use `stop()` or `stopifnot()` to perform some checks that the given arguments to the function are of the correct form. 
+
+Write another function, `microbial_diversity_floor()`, with mandatory argument `counts` and optional argument `floor`, that counts the number of species observed at least `floor` times in each sample. Choose a sensible default value of `floor`. 
 
 
 # Question 7: Bootstrapping

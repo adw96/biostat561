@@ -87,6 +87,7 @@ I won't record attendance, but if you consistently do not show up you will not r
 Everyone is here with different backgrounds in programming and computing. Let's get statistical!
 
 Responses to class survey: 
+
 - 73\% Unix, 27\% Windows users
 - 100\% have used R, RStudio (data frames, loops)
 - ~40\% pipe, write packages
@@ -165,7 +166,7 @@ Homework 1 Question 0 will get you started using git, GitHub and GitHub Classroo
 
 # Getting started with git
 
-The workflow that I want you to follow for downloading the latest lecture notes is `git pull` (see Question 0.5 of Homework 1)
+The workflow that I want you to follow for downloading the latest lecture notes is `git pull` (see Question 0 of Homework 1)
 
 The standard workflow for uploading a new file or updating an old one (e.g., for your homework submission):
 
@@ -178,6 +179,11 @@ git push
 
 You must have a git repository set up already to do this (e.g. with `git init` or `git clone ...`)
 
+
+# R
+
+Why `R`?
+
 # R
 
 A fancy calculator
@@ -187,6 +193,7 @@ log(2.7)
 log(2.7, base=10)
 var(c(1, 2, 5))
 ```
+
 # Object classes
 
 There are many different *classes* of objects in R
@@ -202,9 +209,12 @@ Others include `logical` (`TRUE`, `FALSE`), complex numbers...
 
 # Object classes
 
-`is.[class]` asks about the class. Normally you will be interested in the class, not the mode.
+`is.[class]` asks about the class.
 
 ```{r, echo = TRUE}
+x <- c(1, 2, 5)
+y <- c("a", "b")
+z <- as.factor(y)
 is.numeric(x)
 is.factor(z)
 is.numeric(z)
@@ -355,7 +365,18 @@ Double square brackets pull out individual elements. Single square brackets pull
 amy$pets.names
 amy[[3]] # subset third element
 amy[3] # third element -- a list!
+```
+
+
+# Lists
+
+
+Double square brackets pull out individual elements. Single square brackets pull out subsets of the list.
+
+\footnotesize
+```{r, error=TRUE}
 amy[2:3] # second and third elements -- a list!
+amy[-1]
 ```
 
 Using names is more robust than indices
