@@ -40,8 +40,10 @@ Please complete Steps 1-9 before Monday midday, and attend office hours if you a
     - Note that there is a full stop (.) in the command at the end!
     - Material for the class will be updated throughout the quarter. To update your materials to the latest copy (e.g., in a week), return to your materials folder and type `git pull`
 
-6. Sign into our virtual classroom at  
-[classroom.github.com/classrooms/48962297-biostat561-2019](https://classroom.github.com/classrooms/48962297-biostat561-2019)  and create a repository with your *UW NetID* (not necessarily your github username) followed by "-561". eg. "adwillis-561" would be ideal for me.
+6. Accept the homework assignment at  
+[https://classroom.github.com/a/ehYtTXjb](https://classroom.github.com/a/ehYtTXjb) using your *UW NetID*. 
+
+<!-- (not necessarily your github username) followed by "-561". eg. "adwillis-561" would be ideal for me. -->
 
 7. Copy a blank (or random) pdf to "/responses/", and call it "hw1-response.pdf"
 
