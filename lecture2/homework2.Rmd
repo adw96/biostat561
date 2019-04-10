@@ -1,0 +1,70 @@
+---
+title: "Biostat 561: Homework 2"
+author: "Instructor: Amy Willis, Biostatistics, UW"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    includes:
+      in_header: ../hw-preamble.tex
+  number_sections: true
+urlcolor: blue
+---
+
+# Instructions and preliminaries
+
+See the specification for Homework 1 regarding academic integrity, expectations about answers, and where to find answers to questions on this homework that were not discussed in class.
+
+Please complete Question 0 before Monday 15 April at 2:30pm, and attend office hours if you have trouble. The remaining questions are due Wednesday 17 April at 2:30pm sharp.
+
+You will need to install and load the `tidyverse` for this homework.
+
+# Question 0: Easy version control with git
+
+1. Go to your materials folder that you created last week and type `git pull`. This should download Lecture 2 and Homework 2 to your local copy. You should repeat this command every week to give you the latest course information and resources.
+
+2. Complete the following questions in your responses folder, then use the workflow from last week to upload Homework 2 to github classroom as a submission to `hw2`. Solutions must be completed using RMarkdown. Submit both your `Rmd` and your `pdf` files. There is no need to show *all* code and *all* output -- use your judgement and be succinct.   
+
+This is the last homework where these instructions will be formally repeated, but all future homeworks should be submitted in this way.
+
+Link to Homework 2 submissiohn: [https://classroom.github.com/a/fbGsK0bd](https://classroom.github.com/a/fbGsK0bd)
+
+# Question 1: Getting started with the tidyverse
+
+The dataset `faithful` gives waiting time between eruptions and the duration of the eruption for the Old Faithful geiser in Yellowstone.
+
+a) Use `apply` (without any piping) to calculate the mean waiting time and duration of the eruptions.
+
+b) Use the pipe operator in conjunction with `apply` to calculate the mean waiting time and duration.
+
+c) Using the pipe operator and `summarise`, calculate the mean eruption duration.
+
+d) Calculate the mean waiting time and duration. You need only the pipe operator and one other function from `dplyr`. Find this function at [http://dplyr.tidyverse.org/reference/index.html](http://dplyr.tidyverse.org/reference/index.html).
+
+e) `faithful` is a data frame. How many lines are output by default when you show a data frame in console? Convert `faithful` to a tibble. How many lines are output by default when you show a tibble? What other information is given?
+
+# Question 2: Intuitive data exploration
+
+a) `filter()` and `subset()` perform similar functions. List 3 differences between them. Which will you intend to use?
+
+b) Using the data frame `airquality`, calculate the mean and standard deviation of Ozone for Temperatures of 85 degrees or more.
+
+c) Using the data frame `airquality`, calculate the mean and standard deviation of Ozone, stratifying observations with temperatures of 85 degrees or more (versus less than 85 degrees). Verify that this matches your results from last week using `by()`. Which do you find more intuitive?
+
+(d) `mutate` versus `transmute`
+
+# Question 3: Function composition
+
+Install and load the package `magrittr`. Make extensive use of the documentation `http://magrittr.tidyverse.org/` in answering these questions.
+
+a) What does this do: `f <- . %>% cos %>% sin`?
+
+b) What is the compound assignment pipe operator, `%<>%`?
+
+c) The temperature variable in `airquality` is currently in degrees Fahrenheit. Modify it in place to the same measurement in Celsius, rounded to the nearest degree.
+
+# Question 4: Coming soon...
+
+
+# MBQC
+
+https://github.com/statdivlab/bbqchicken
