@@ -20,6 +20,9 @@ knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 - Comments from homeworks go in README files
     * Each week, look in the repository for this (in a couple of days...)
 
+# github and protected data
+
+ 
 # A note on history
 
 Why are permutation/resampling approaches to data analysis modern?
@@ -402,7 +405,7 @@ pcr %>%
          -SampleID)
 ```
 
-- `key` = new name of column variables 
+- `key` = new name of column variables
 - `value` = new name of information column
 
 # gather
