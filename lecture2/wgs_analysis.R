@@ -47,7 +47,7 @@ pcr <- qpcr %>%
   mutate(SampleID = mapping) %>%
   arrange(SampleID) %>%
   select(SampleID:`Lactobacillus crispatus`) 
-
+write_csv(pcr, "pcr.csv")
 pcr %>% 
   gather(key = SampleID, 
          value = Taxon, 
