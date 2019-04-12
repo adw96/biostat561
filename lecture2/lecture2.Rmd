@@ -359,7 +359,9 @@ starwars %>%
   summarise("mass" = mean(mass, na.rm = T))
 ```
 
-`starwars` is from the package `tibble`, `%>%` is from the package `magrittr`, `filter` is from the package `dplyr`... Hence `tidyverse`!
+`starwars` is from the package `tibble`, `filter` is from the package `dplyr`... Hence `tidyverse`!
+
+`%>%` is included in every `tidyverse` package
 
 # More piping
 
