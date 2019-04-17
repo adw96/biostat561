@@ -28,7 +28,7 @@ Graphical communication is critical for both *exploring* and *explaining* data
 
 # Name to know: Edward Tufte
 
-"Design cannot rescue failed content."
+<!-- "Design cannot rescue failed content." -->
 
 The Rules:
 
@@ -55,12 +55,40 @@ The Rules:
 
 # The greatest statistical graphic ever drawn
 
-
-![](images/Minard.png){width=400px}
+<center>
+![](../images/Minard.png){width=400px}
+</center>
 
 # The worst statistical graphic ever drawn
 
-![](images/worst.png){width=350px}
+<center>
+![](../images/worst.png){width=300px}
+</center>
+
+# Small multiples
+
+<center>
+![](../images/toxins.png){width=400px}
+</center>
+
+# Graphics can be beautiful
+
+<center>
+![](../images/beetle.png){width=400px}
+</center>
+
+
+# Let's critique!
+
+<center>
+![](../images/presence_within.pdf){width=420px}
+</center>
+
+# Context is important
+
+<center>
+![](../images/proportion_all.pdf){width=420px}
+</center>
 
 # ggplot
 
@@ -74,8 +102,14 @@ The Rules:
 
 # ggplot
 
-![](images/documentation.png){width=400px}
+![](../images/documentation-gg.png){width=400px}
 
+
+# ggplot
+
+```{r}
+diamonds %>% as_tibble
+```
 # ggplot
 
 ```{r, fig.width=3.5, fig.height=2.5}
@@ -103,11 +137,39 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 \footnotesize
 ```{r, fig.width=3.5, fig.height=2}
 ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point(aes(col = color), alpha = 0.2) + geom_smooth()
+  geom_point(aes(col = color), alpha = 0.2) + 
+  geom_smooth()
+```
+
+`ggplot` usually gives sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise caution and use your judgement!
+
+
+# What do we think is going to differ?
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+g1 <- ggplot(diamonds, 
+             aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2) + 
+  geom_smooth()
+g2 <- ggplot(diamonds, 
+             aes(x = carat, y = price, col = color), 
+             alpha = 0.2) + 
+  geom_point() + 
+  geom_smooth()
 ```
 
 
-`ggplot` usually gives sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise caution and use your judgement!
+
+# What do we think is going to differ?
+
+\footnotesize
+```{r, fig.width=4, fig.height=2, warning=FALSE, message=FALSE}
+ggpubr::ggarrange(g1, g2, common.legend=TRUE)
+```
+
+
+
 
 # Equivalent calls
 
@@ -117,6 +179,8 @@ ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ggplot(diamonds) + geom_point(aes(x = carat, y = price))
 ggplot(diamonds, aes(x = carat)) + geom_point(aes(y = price))
 ```
+
+Which is best?
 
 # Layering objects
 
@@ -134,9 +198,9 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point(col = "blue")
 ```
 
-Color only exists locally (in the context of the diamonds), so the following results in an error:
-```{r}
-# ggplot(diamonds, aes(x=carat, y=price))+geom_point(col=color)
+The following results in an error. Why?
+```{r, eval=FALSE}
+ggplot(diamonds, aes(x=carat, y=price))+geom_point(col=color)
 ```
 
 
@@ -184,7 +248,7 @@ Creating and plotting `ggplot` objects is not always fast; this may help
 
 The most important information should be the most clear, the next most important information should be the next most clear, etc.. 
 
-![](images/intervals.png){width=400px}
+![](../images/intervals.png){width=400px}
 
 # Infinitely customisable
 
@@ -192,6 +256,7 @@ The most important information should be the most clear, the next most important
 
 # All the layers
 
+\footnotesize
 ```{r, eval=FALSE}
 euc_plot <- ggplot(full_data_frame[order(full_data_frame$sigma_max), ], 
                    aes(x = sigma_max_char, y = mse_loss_euclidean_subset, col = Method)) +
@@ -210,6 +275,10 @@ ggpubr::ggarrange(shannon_plot, simpson_plot, bc_plot, euc_plot, ncol=2, nrow=2,
 ggsave("vary_sigma_max_beta_sd_1_n_20_p_2_q_20_sigma_min_0_01_all_shared.pdf", width=6, height = 4)
 ```
 
+# Catering to our senses
+
+![](../images/geology_faces.png){width=400px}
+
 
 # Final tips
 
@@ -217,7 +286,7 @@ ggsave("vary_sigma_max_beta_sd_1_n_20_p_2_q_20_sigma_min_0_01_all_shared.pdf", w
     * Exploding or otherwise
 - Align plots with similar axes 
 - Defer less important points to appendices
-     * Use figures where appropriate. Would a table suffice?
+     * Use figures __where appropriate__. Would a table suffice?
 - Critique your own figures 
      * Especially before public talks/conferences
 
@@ -227,7 +296,7 @@ Highly recommended reading:
 
 # Limitations of `ggplot`
 
-- *Forces you to use good coding practice*
+- *Forces you to use good coding practice* (?)
     * Data should all come from the same data frame
     * Painful at first but better than a retraction!
 - Constrained to two-dimensional (see `plot3d`, `scatterplot3d`)
@@ -235,11 +304,12 @@ Highly recommended reading:
 - Static (`shiny`)
 - Limited use for non-statistical graphics (Illustrator, Photoshop, Inkscape)
 
+# Other things
+
+- `1L` in `R`
+
 # Coming up
 
 - Reminder: `git pull` -- any time you work on any file in a directory with version control!
     * You won't get your comments on your homework if you don't
 - Homework 3 due next Wednesday at the usual time in the usual way
-    * Question 1 should be fun
-    * Question 3 should be challenging: work in pairs if you have trouble
-    * Question 4 is optional, but encouraged (integrating multiple sources of information into plots)
