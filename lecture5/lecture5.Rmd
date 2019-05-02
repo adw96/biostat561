@@ -1,0 +1,554 @@
+---
+title: "Computational Skills for Biostatistics I: Lecture 5"
+author: Amy Willis, Biostatistics, UW
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  beamer_presentation:
+    includes:
+      in_header: ../header_pagenrs.tex
+    fig_caption: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+library(tidyverse)
+library(magrittr)
+```
+
+# Theme for today: Computation time
+
+“Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered.”
+
+— Donald Knuth
+
+
+<!-- r get lots of shade for being slow -->
+
+# Theme for today: Computation time
+
+``R was purposely designed to make data analysis and statistics easier for you to do. It was not designed to make life easier for your computer. While R is slow compared to other programming languages, for most purposes, it’s fast enough.''
+
+— (BFF) Hadley Wickham
+
+# Theme for today: Computation time
+
+A language that was built for data analysis: R
+
+  - Of course you can do scientific computing in R
+
+Languages that were built for scientific computing: Python, MatLab, C++
+
+  - Of course you can do data analysis in these languages
+
+# Theme for today: Computation time
+
+However, with some understanding of how R works, and some understanding of how to use your computer effectively, you can significantly speed up runtime.
+
+# Evaluating runtime
+
+You can grab the "system time": how long have you been running your R process
+
+```{r}
+proc.time()
+t1 <- proc.time()
+Sys.sleep(0.25)
+t2 <- proc.time()
+t2 - t1
+```
+
+# Evaluating runtime
+
+You can also use `system.time()`
+
+```{r, cache=TRUE}
+system.time(rnorm(1e5))
+system.time(rnorm(1e7))
+```
+
+# Evaluating runtime
+
+Investigating chunks of code
+
+```{r, cache=TRUE}
+t1 <- Sys.time()
+my_inverse <- rnorm(1e6) %>% matrix(nrow = 1e3) %>% solve
+t2 <- Sys.time()
+t2 - t1
+```
+
+
+# Microbenchmarking
+
+For very small comparisons, the library `microbenchmark` is great!
+
+```{r, warning=FALSE}
+library(microbenchmark)
+x <- runif(100)
+mbm <- microbenchmark(
+  sqrt(x),
+  x ^ 0.5
+)
+mbm
+```
+
+# Microbenchmark
+
+```{r}
+mbm <- microbenchmark(
+  sqrt(x),
+  x ^ 0.5
+)
+autoplot(mbm)
+```
+
+# Microbenchmarking
+
+```{r}
+mbm
+```
+
+Which should you use?
+
+# `sqrt()` or `^0.5`: Which should you use?
+
+```{r}
+mbm
+```
+
+It actually doesn't matter -- a million square roots will take 0.5 or 2 seconds. 
+
+Don't agonise over microbenchmarks: no need to overoptimise
+
+# Tools for benchmarking
+
+- `microbenchmark()`
+- `Sys.time()`
+
+# Making larger gains in programming time
+
+Start with the biggest bottleneck, work to speed it up as fast as possible; move onto the next biggest bottleneck, and so on...
+
+There are easy and there are hard ways to make code run faster. Start with the easy ways!
+
+# The easiest way: run code in parallel
+
+Tools for running code in parallel
+
+- Writing functions: `parallel` and `snow`
+- Data analysis: `multidplyr`
+- Simulations: `simulator`
+
+# Quite practical example
+
+An expensive operation to perform repeatedly is matrix inversion: $O(n^3)$
+
+- I'm hoping we'll have time to come back to this notation
+
+```{r}
+my_matrices <- replicate(n=20, 
+                         rnorm(1e2) %>% matrix(nrow = 1e1), 
+                         simplify=FALSE)
+```
+
+Let's distribute the work multiple cores
+
+# `parallel`
+
+- The `parallel` package is an easy way to split computation over multiple cores
+
+```{r}
+library(parallel)
+detectCores()
+my_matrix_inverses <- mclapply(my_matrices, 
+                               solve, 
+                               mc.cores=4)
+```
+
+# `parallel`
+
+```{r, cache = TRUE}
+microbenchmark(times = 10, 
+  mclapply(my_matrices, solve, mc.cores=4),
+  mclapply(my_matrices, solve, mc.cores=2),
+  mclapply(my_matrices, solve, mc.cores=1)
+)
+```
+
+That's weird...
+
+# `mclapply`, `mcsapply`...
+
+`mclapply`, `mcsapply` and friends use "forks"
+
+  - Idea from Unix-based systems
+      - Does not work on Windows
+  - Takes a complete copy of the master process, including the workspace and state of the random-number stream
+      - Generally fast but there is overhead
+
+#  `parallel`
+
+```{r, cache=TRUE}
+my_matrices <- replicate(n=20, 
+                         rnorm(1e2) %>% matrix(nrow = 1e1), 
+                         simplify=FALSE)
+more_matrices <- replicate(n=20000, 
+                         rnorm(1e2) %>% matrix(nrow = 1e1), 
+                         simplify=FALSE)
+```
+
+#  `parallel`
+
+```{r}
+microbenchmark(times = 10, 
+  mclapply(more_matrices, solve, mc.cores=4),
+  mclapply(more_matrices, solve, mc.cores=2),
+  mclapply(more_matrices, solve, mc.cores=1)
+)
+```
+
+There is significant overhead involved in splitting work over cores: check it is justified first!
+
+
+# `parallel`
+
+- Argument: `mc.preschedule`
+    - TRUE: short computations or large number of values in X
+    - FALSE: high variance of completion time and not too many values of X compared to mc.cores
+- Be careful of multiple levels of parallelisation
+    - Multiple processes on multiple cores cause chaos (crashes)
+    - Be careful with GUIs and parallelisation (e.g., Shiny)
+ 
+# parallelisation on Windows
+
+Unfortunately it is slightly more work:
+
+```{r}
+z <- as.list(1:4)
+system.time(lapply(z, function(x) Sys.sleep(1)))
+```
+
+<!-- ```{r, warning=FALSE} -->
+<!-- # library(snow) -->
+<!-- cl <- snow::makeCluster(4, type="SOCK") -->
+<!-- system.time(snow::clusterApply(cl, z, function(x) Sys.sleep(1))) -->
+<!-- snow::stopCluster(cl) -->
+<!-- ``` -->
+
+You need to register a cluster, then use it. Don't forget to shut it down!
+
+```{r, warning=FALSE}
+cl <- parallel::makeCluster(4, type="SOCK")
+system.time(parallel::clusterApply(cl, z, function(x) Sys.sleep(1)))
+parallel::stopCluster(cl)
+```
+
+# Writing for parallelisation 
+
+Many well-written R packages will check to see if you have `doParallel` or `doSNOW` available, and then will adapt to your system
+
+  - Check to see if `ncores` (or similar) is an argument to a function that you are using
+  - Implementing this is a little advanced; check out `DivNet` if you're interested
+
+# Writing for parallelisation: why you should 
+
+"If a program takes longer than 8 minutes for me to install, I will never ever use it, no matter how good it is."
+
+- (Actual BFF) Chris Quince
+
+# An example of parallelisation via `parallel`
+
+The `simulator` uses `parallel` under the hood. 
+
+```{r, eval=FALSE}
+generated_model %>%
+  simulate_from_model(nsim = 40,
+                      index = 5:8,
+                      parallel = list(socket_names = 4)) %>%
+  run_method(list(lse),
+  parallel = list(socket_names = 4)) %>%
+  evaluate(list(squared_error))
+```
+
+# Summary so far
+
+We have now seen
+
+- How to benchmark options
+- How to run your own functions in parallel
+- How some packages use `parallel` under the hood
+
+What about large-scale data analysis?
+
+# Common in genomics, and increasingly common in modern public health
+
+Data analysis of large data frames
+
+```{r, warning=FALSE, message=FALSE}
+devtools::install_github("wesm/feather/R")
+library(feather)
+cakes <- feather::read_feather("iHMP_IBD.MTX.10samples.feather")
+cakes
+```
+
+About 5M doubles
+
+# Preparing for data analysis
+
+```{r}
+cakes %<>% gather(key="BioSample", "depth", -1)
+cakes
+```
+
+# Joining my `metadata` (mapping) file
+
+```{r, message=FALSE}
+meta <- read_csv("iHMP_IBD.csv")
+meta
+```
+
+# Joining my `metadata` (mapping) file
+
+```{r}
+cakes %<>% left_join(meta, by = "BioSample")
+cakes
+```
+
+# Grab only the necessary data
+
+```{r}
+cakes <- cakes %>%
+  select(BioSample, index, depth, health_status) %>%
+  filter(health_status %in% c("CD", "Non-IBD"))
+```
+
+# Analyzing this data
+
+Goal: Look for significant associations of genes (`index`) with disease state (`health_status`)
+
+How long do we think this will take?
+
+```{r}
+cakes %>% summarise(n_distinct(index)) %>% unlist
+cakes %>% summarise(n_distinct(BioSample)) %>% unlist
+```
+
+
+# Microbenchmark
+
+```{r}
+mbm <- microbenchmark(
+  {y <- rnorm(78); x <- rnorm(78); lm(y ~ x)}
+)
+mbm
+(mbm %$% time %>% median) * 1e-6 * 62248 / 3600 
+```
+Estimated: runtime of 62k regressions on 78 observations: about 8 hours
+
+# multidplyr
+
+"`multidplyr` is a backend for `dplyr` that partitions a data frame across multiple cores. You tell `multidplyr` how to split the data up with `partition()` and then the data stays on each node until you explicitly retrieve it with `collect()`. This minimises the amount of time spent moving data around, and maximises parallel performance..."
+
+-- BFF Hadley
+
+# multidplyr
+
+"Due to the overhead associated with communicating between the nodes, you won't expect to see much performance improvement on basic `dplyr` verbs with less than ~10 million observations..."
+
+-- BFF Hadley
+
+# Let's use `multidplyr`
+
+Definitely in development but actively maintained
+
+```{r, warning=FALSE}
+devtools::install_github("hadley/multidplyr")
+library(multidplyr)
+```
+
+# `multidplyr`
+
+Split data up over multiple cores
+
+```{r, cache=TRUE}
+ncores <- 4
+cakes %<>%
+  group_by(index)
+cluster <- create_cluster(cores = ncores)
+by_group <- cakes %>%
+  partition(index, cluster = cluster)
+```
+
+This ensures that all data in the same group goes in the same node
+
+# `multidplyr`
+
+```{r, cache=TRUE}
+start <- proc.time() # Start clock
+processed_in_parallel <- by_group %>%
+  summarise(p_val = summary(
+    lm(depth ~ health_status)
+  )$coef[2, 4],
+  coef_est = summary(
+    lm(depth ~ health_status)
+  )$coef[2, 1]) %>%
+  collect() %>% # function to recombine partitions
+  as_tibble()   
+time_elapsed_parallel <- proc.time() - start
+```
+
+# Always important to check
+
+\footnotesize
+```{r}
+summary(lm(depth ~ health_status,
+           data = cakes %>% filter(
+             index == processed_in_parallel$index[5]
+             )))$coef
+processed_in_parallel[5, ]
+```
+
+Thank goodness...
+
+# Let's see how long it took
+
+```{r}
+time_elapsed_parallel
+```
+
+This was unbelievable to me... and why I am teaching it to you!
+
+# A quick look at the data
+
+```{r}
+processed_in_parallel  %>%
+  arrange(desc(coef_est))
+```
+
+# A quick look at the data
+
+```{r}
+processed_in_parallel %>%
+  arrange(p_val)
+```
+
+# Save to file
+
+```{r}
+processed_in_parallel  %>%
+  arrange(p_val) %>%
+  write_csv(path="cd_vs_not_50pct.csv")
+```
+
+# Multiple ways to make your code run faster
+
+- Not intelligently
+- Intelligently
+
+It's not a bad thing to have your code run faster in a not-intelligent way! 
+
+# Intelligent ways of coding
+
+In methods development (and many job interviews), you only get points for the intelligent ways
+
+  - Thoughtfully using algorithms, or developing new ones
+    - There is a somewhat standard toolkit for developing statistical computing algorithms, and it varies by field
+    - Think about if you want to learn more about algorithms and tell me in your feedback sheet
+
+
+```{r, include=FALSE}
+make_file <- function(n) {
+  cbind(sample(LETTERS, n), sample(LETTERS, n), rnorm(n), rnorm(n)) %>% as_tibble
+}
+make_file(3)
+files <- sapply(sample(1:10, 40, replace=TRUE), make_file, simplify=F)
+for (i in 1:length(files)) write_csv(x=files[[i]], path=paste("tricky_example/file", i, ".csv", sep=""))
+```
+
+# A common problem 
+
+```{r}
+list.files("tricky_example/")
+```
+
+# Reading data from multiple files
+
+I want to read in all of these files and append them to make one long data frame
+
+\footnotesize
+```{r, message=FALSE}
+read_csv("tricky_example/file1.csv")
+read_csv("tricky_example/file40.csv")
+```
+
+# Read data into list
+
+\footnotesize
+```{r, message=FALSE}
+all_dfs_list <- lapply(1:40, 
+                  function(x) {
+        read_csv(paste("tricky_example/file", 
+                       x, '.csv', sep=''))
+                  })
+all_dfs_list
+```
+
+# Natural approaches that don't work
+
+```{r, message=FALSE}
+rbind(all_dfs_list)
+```
+
+# Natural approaches that don't work
+
+```{r, message=FALSE}
+lapply(all_dfs_list, rbind)
+```
+
+# Interesting alternative
+
+`do.call`
+
+- use a list to hold the arguments of the function
+
+`sapply`
+
+- use a vector to hold the arguments of the function
+
+
+`do.call` is just like `sapply`, but better
+
+# `do.call`
+
+\footnotesize
+```{r, message=FALSE}
+all_dfs_list <- lapply(1:40, 
+                    function(x) {
+                      read_csv(paste(
+                        "tricky_example/file", x, 
+                        '.csv', sep=''))
+           })
+answer <- do.call(rbind, all_dfs_list)
+answer %>% dim
+```
+
+# `do.call`
+
+```{r}
+answer
+```
+
+# The Max Power way
+
+- Certain operations are expensive: avoid them
+- A little thought can save a lot of time
+- More on profiling and debugging soon
+
+# Coming up
+
+- Homework 5: due next *Friday* afternoon
+    - Start it after your BIOST 533 final
+    - (Perk of seeing me all the time)
+- Mid-quarter feedback
+    - Specific comments on curriculum/syllabus welcome
+    - Tell me what you want to learn and I will try to accommodate you (and everyone else)!
+
