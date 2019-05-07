@@ -8,7 +8,7 @@ This course treats advanced programming and computing skills for biostatistics.
 ## Logistics
 
 - Instructor: Amy Willis, Ph.D.
-- Lectures: Wednesday 2:30pm - 5:20pm, HSB T-wing, room 359.
+- Lectures: Wednesday 3:30pm - 5:20pm, HSB T-wing, room 359.
 - Materials: I will distribute materials using github and github classroom. Specifically, all homeworks and course notes will be available from github, but homework will be submitted via github classroom.
 - Assessment: Weekly homework; no exams. While attendance will not be formally recorded, credit will not be given if a student does not regularly attend lecture.
 - Homework: There will be a homework problem set made available after each class, due the next week just before class. To obtain credit for the class, students must make a good faith effort to answer every part of each exercise. Solutions will be read and corrected, and graded either credit/no credit. Students who will miss the deadline for any exercise should contact me as early as possible so that we can come to a fair arrangement.
