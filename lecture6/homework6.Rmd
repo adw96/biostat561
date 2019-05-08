@@ -11,7 +11,7 @@ output:
 
 Homework 6 due May 15, 3:15pm
 
-Link to Homework 4 submission: [https://classroom.github.com/a/5blhlhkD](https://classroom.github.com/a/5blhlhkD)
+Link to Homework 6 submission: [https://classroom.github.com/a/5blhlhkD](https://classroom.github.com/a/5blhlhkD)
 
 # Question 0: Are you really using git?
 
