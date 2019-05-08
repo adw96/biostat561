@@ -23,11 +23,11 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 - 4/10 Lecture 2: `dplyr`, `magrittr` (i.e. pipes `%>%`), `tibble`
 - 4/17 Lecture 3: `ggplot2`, more `dplyr` & `magrittr` practice
 - 4/24 Lecture 4: Simulation studies (`simulator`)
-- 5/1 Lecture 5: fast computation (e.g., apply, `do.call`, mc\*apply family), STAN
-- 5/8 Lecture 6: Writing `R` packages, namespaces/environments
-- 5/15 Lecture 7: debugging, profiling
+- 5/1 Lecture 5: fast computation (e.g., apply, `do.call`, mc\*apply family, `multidplyr`)
+- 5/8 Lecture 6: Writing `R` packages \*, namespaces/environments
+- 5/15 Lecture 7: Algorithms (TBD)
 - 5/22 Lecture 8: unix, shell, regex
-- 5/29 Lecture 9: cluster computing at UW \*
+- 5/29 Lecture 9: cluster computing at UW, STAN \*
 - 6/5 Lecture 10: C++ and Python in `R` \*, recap
 
 Other topics to include (time permitting): functional programming, R expressions, S3/S4, shiny, AWS

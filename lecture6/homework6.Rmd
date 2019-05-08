@@ -1,0 +1,38 @@
+---
+title: "Biostat 561: Homework 6"
+author: "Instructor: Amy Willis, Biostatistics, UW"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    extra_dependencies: ["xcolor"]
+---
+
+(Note: there is no Homework 5)
+
+Homework 6 due May 15, 3:15pm
+
+Link to Homework 4 submission: [https://classroom.github.com/a/5blhlhkD](https://classroom.github.com/a/5blhlhkD)
+
+# Question 0: Are you really using git?
+
+Many of you are just uploading your homework when it's finished rather than using git as a version control system. One of the learning objectives of this class is learning about git's VCS, so please do make sure that you are using it properly. (i.e., Don't just click upload on GitHub Classroom!)
+
+Since Question 1 has many components of different types, I expect to see multiple commits for this homework.
+
+# Question 1: Make an R package
+
+Submit all of the source code for an R package that does a nontrivial task. If you need inspiration, think of something that you've been annoyed about in another package and write your own implementation, or code up a statistical procedure that you've learnt in another class (e.g., the power method for finding eigenvectors that you saw in HW2 of BIOST533).
+
+Your package should
+
+- have at least one exported function
+- have at least one non-exported function
+- have appropriate documentation, including at least one example
+- require (and meaningfully use) another package
+- have a `DESCRIPTION` file and a `NAMESPACE` file
+- successfully build
+- not throw any errors from `devtools::check()`
+- have at least one test, and pass all tests (`devtools::test()`)
+- be sufficiently distinct from your classmates' in purpose and style!
+
+If you're an experienced R user, I encourage you to make a vignette, explore the correct format for submitting data with your package, use `parallel` to run processes in parallel, or otherwise embellish your package in a meaningful way.
