@@ -334,19 +334,19 @@ Also called steepest descent
 
 # Linear programming
 
-Goal: Solve a linear objective function with linear constraints \ \
+Goal: Solve a linear objective function with linear constraints \ \ 
 
-Minimise $c^Tx$ \ \
-subject to $Ax \leq b$ \ \
-and $x \geq 0$ \ \
+Minimise $c^Tx$ \ \ 
+subject to $Ax \leq b$ \ \ 
+and $x \geq 0$ \ \ 
 
 Related: Linear integer programming
 
 # Linear programming
 
-Minimise $c^Tx$ \ \
-subject to $Ax \leq b$ \ \
-and $x \geq 0$ \ \
+Minimise $c^Tx$ \ \ 
+subject to $Ax \leq b$ \ \ 
+and $x \geq 0$ \ \ 
 
 - Solution exists on boundary of convex polytope
 - Common algorithm: Simplex algorithm
@@ -450,7 +450,7 @@ Problem: Generate a Markov chain with stationary distribution $p$ \ \
 
 Setting: Can evaluate $\pi(\theta|x)$ for some $\pi$ such that $p(\theta|x) \propto \pi(\theta|x)$ \ \ 
 
-Want to sample from $p(\theta|x)$ (typically posterior) and $p(\theta|x) \propto \pi(\theta|x)$ (typically joint distribution)
+Want to sample from $p(\theta|x)$ (typically posterior) and $p(\theta|x) \propto \pi(\theta|x)$ (typically unnormalised posterior)
 
 # Metropolis 
 
