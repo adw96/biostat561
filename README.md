@@ -25,14 +25,14 @@ Please contact me via email: [ad[my-last-name]@uw.edu](ad[my-last-name]@uw.edu).
 - 4/24 Lecture 4: Simulation studies (`simulator`)
 - 5/1 Lecture 5: fast computation (e.g., apply, `do.call`, mc\*apply family, `multidplyr`)
 - 5/8 Lecture 6: Writing `R` packages \*, namespaces/environments
-- 5/15 Lecture 7: Algorithms (TBD)
+- 5/15 Lecture 7: Algorithms
 - 5/22 Lecture 8: unix, shell, regex
 - 5/29 Lecture 9: cluster computing at UW, STAN \*
 - 6/5 Lecture 10: C++ and Python in `R` \*, recap
 
 Other topics to include (time permitting): functional programming, R expressions, S3/S4, shiny, AWS
 
-\* Indicates possible guest lecture by one of your classmates
+\* Indicates guest lecture
 
 The homework based on the prior week's lecture will be due at 2:30 p.m. sharp on Wednesdays (i.e. just before lecture), to be submitted via GitHub classroom.
 
@@ -52,6 +52,7 @@ I acknowledge that I sometimes speak very fast, especially when presenting in pu
 There is also formal infrastructure for arranging accessibility on campus, and I encourage you to contact them: Disability Resources for Students (DRS, uwdrs@uw.edu, 206-543-8924). If you have already established accommodations with DRS, please communicate your approved accommodations to me at your earliest convenience so we can discuss your needs in this course. If you have not yet established services through DRS, but have a temporary health condition or permanent disability that requires accommodations (conditions include but not limited to; mental health, attention-related, learning, vision, hearing, physical or health impacts), you are also welcome to contact DRS. DRS offers resources and coordinates reasonable accommodations for students with disabilities and/or temporary health conditions.  Reasonable accommodations are established through an interactive process between you, me (as your instructor) and DRS.  It is the policy and practice of the University of Washington to create inclusive and accessible learning environments, and I will do my best to uphold the standards in and outside of my classroom.
 
 ## Academic Integrity
+
 UW students are expected to maintain the highest standards of academic conduct, professional honesty, and personal integrity. The School of Public Health (SPH) is committed to upholding standards of academic integrity consistent with the academic and professional communities of which it is a part. Plagiarism, cheating, and other misconduct are serious violations of the University of Washington Student Conduct Code (WAC 478-120). I expect you to know and follow the university’s policies on cheating and plagiarism, and the SPH Academic Integrity Policy. Any suspected cases of academic misconduct will be handled according to University of Washington regulations. For more information, see the University of Washington Community Standards and Student Conduct website.
 
 
