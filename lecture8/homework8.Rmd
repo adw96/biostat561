@@ -31,10 +31,13 @@ Upload your shell script, but there is no need to upload the folders or their co
 
 Download a secure shell (SSH) client (I recommend TeraTerm if you are not familiar with one already). Open up your SSH client and enter `bayes.biostat.washington.edu` in the   `host` field and `22` in the `TCP port\#` field. Enter your UW NetID (e.g. mine is `adwillis`) and **Biostat password**.
 
-What is the name of the directory that you are in when you login?
-
 ## Mac/Linux users
 
 Open terminal and type `ssh [mynetid]@bayes.biostat.washington.edu`. Replace `[mynetid]` with your UW NetID (e.g. mine is `adwillis`). Enter your **Biostat password** when prompted.
 
+
+## Everyone
+
 What is the name of the directory that you are in when you login?
+
+Note that you received your Biostat password at the computing bootcamp that you did when you arrived at UW Biostat. You can reset it [here](https://intranet.biostat.washington.edu/support/reset-your-department-account-password). 
