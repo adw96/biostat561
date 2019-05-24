@@ -24,3 +24,17 @@ Write a shell script to
 You should confirm that your script works as intended on your own computer. I strongly recommend using `vim` as a text editor to get used to writing scripts on the command line rather than with an interface.
 
 Upload your shell script, but there is no need to upload the folders or their contents.
+
+# Question 2: Logging onto department clusters
+
+## Windows users
+
+Download a secure shell (SSH) client (I recommend TeraTerm if you are not familiar with one already). Open up your SSH client and enter `bayes.biostat.washington.edu` in the   `host` field and `22` in the `TCP port\#` field. Enter your UW NetID (e.g. mine is `adwillis`) and **Biostat password**.
+
+What is the name of the directory that you are in when you login?
+
+## Mac/Linux users
+
+Open terminal and type `ssh [mynetid]@bayes.biostat.washington.edu`. Replace `[mynetid]` with your UW NetID (e.g. mine is `adwillis`). Enter your **Biostat password** when prompted.
+
+What is the name of the directory that you are in when you login?
