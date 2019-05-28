@@ -1,0 +1,43 @@
+---
+title: "Biostat 561: Homework 8"
+author: "Instructor: Amy Willis, Biostatistics, UW"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    extra_dependencies: ["bbm", "hyperref"]
+linkcolor: 'red'
+---
+
+Homework 8 due May 29, 3:15pm
+
+Link to Homework 8 submission: [https://classroom.github.com/a/CamdT_zp](https://classroom.github.com/a/CamdT_zp)
+
+# Question 1: Shell scripts
+
+Write a shell script to
+
+- Create 500 folders called `folder1`, `folder2`, ...
+- In each of the folders, create a text file called `output_i.txt` containing the string "Output_of_simulation_i" where $i$ is the number of the folder
+- Edit the string in place (using `sed` or another command line regular expression parser) to replace all underscores with spaces
+- Delete all of the folders. Make sure your script only deletes folders and files created by the script!
+
+You should confirm that your script works as intended on your own computer. I strongly recommend using `vim` as a text editor to get used to writing scripts on the command line rather than with an interface.
+
+Upload your shell script, but there is no need to upload the folders or their contents.
+
+# Question 2: Logging onto department clusters
+
+## Windows users
+
+Download a secure shell (SSH) client (I recommend TeraTerm if you are not familiar with one already). Open up your SSH client and enter `bayes.biostat.washington.edu` in the   `host` field and `22` in the `TCP port\#` field. Enter your UW NetID (e.g. mine is `adwillis`) and **Biostat password**.
+
+## Mac/Linux users
+
+Open terminal and type `ssh [mynetid]@bayes.biostat.washington.edu`. Replace `[mynetid]` with your UW NetID (e.g. mine is `adwillis`). Enter your **Biostat password** when prompted.
+
+
+## Everyone
+
+What is the name of the directory that you are in when you login?
+
+Note that you received your Biostat password at the computing bootcamp that you did when you arrived at UW Biostat. You can reset it [here](https://intranet.biostat.washington.edu/support/reset-your-department-account-password). 

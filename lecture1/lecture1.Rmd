@@ -1,61 +1,48 @@
 ---
 title: "Computational Skills for Biostatistics I: Lecture 1"
 author: Amy Willis, Biostatistics, UW
-date: September 28, 2017
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   beamer_presentation:
     includes:
-      in_header: header_pagenrs.tex
+      in_header: ../header_pagenrs.tex
+    fig_caption: no
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 ```
 
+# Why bother?
+
+- As a statistician working in any capacity, you will need to know some programming
+- As a MS/PhD student in Biostats, you will do some serious programming!
+- Good programming practices will help you with research, collaborating, your job search, and your long-term career
+
 # Welcome!
 
-- Biost 561 is an add-on to Biost 514
-- 514 covers basic R commands, 561 covers more advanced R and other programming skills
-- As a MS/PhD student in Biostats, you will do some serious programming!
-- Good programming practices will help you with research, collaborating, your job search, and your long-term career... whichever path you choose!
+Biost 561 covers modern/advanced R and other programming skills
+
+- It is designed for graduate students in Biostatistics, and is tailored to their statistics and programming background
+- If you don't know a lot of R already, you will learn it today and in Homework 1
 
 # Structure and expectations
 
 - Weekly lectures
 - Weekly homeworks
-- Weekly office hours: HSB F-657. Tuesday 3-4?
-- Office hours by appointment
-
-Public folder of course materials at
-<https://github.com/adw96/biostat561>
-
-
-# Topics
-
-Subject to change
-
-- 9/28 Lecture 1: Intro to version control, types, methods
-- 10/5 Lecture 2: Efficient loops, functions
-- 10/12 Lecture 3: Pipes
-- 10/19 Lecture 4: ggplot, shiny *
-- 10/26 Lecture 5: Debugging, profiling
-- 11/2 Lecture 6: LaTex, Markdown, knitr *
-- 11/9 Lecture 7: More version control, writing packages *
-- 11/16 Lecture 8: unix, shell, UW cluster computing *
-- 11/23 no class; Thanksgiving
-- 11/30 Lecture 9: Calling C/C++ in R *
-- 12/7 Lecture 10: Python *
-
-\* indicates guest lecture by one of your classmates. A great opportunity to learn the latest, from the greatest!
+    - Posted within 24 hours of lecture
+    - Due at the beginning of lecture via GitHub classroom
+- Weekly office hours: HSB F-657, Mondays 2:30-3:30
 
 # Resources
 
-- Available via github <https://github.com/adw96/biostat561>
+- Available via GitHub [github.com/adw96/biostat561](github.com/adw96/biostat561)
     * Syllabus
-    * Slides (& source code)
-    * Examples
-    * Homeworks
-- Available via github classroom
+    * Slides
+    * Homeworks (approximately 10)
+    * Policies: inclusivity, accessibility, academic integrity
+- Available via GitHub classroom
     * Homework submission
 - Available via email
     * Announcements
@@ -69,16 +56,18 @@ What you should expect of me
 - I will treat you as adults, I will treat you with respect
 - I will talk slowly (tell me if I'm speaking too fast!)
 - I will try to make class engaging and fun!
+- I will teach you the way that I program, and (contemporary) alternatives
 
 # Expectations
 
 What I will expect of you
 
 - You make attending class a priority
-- You submit your best work for homework: your own work, on time
-- You engage in classroom discussion and quizzes!
-- You learn from the class; you learn to teach yourself programming skills
+- You submit your best work for homework
+    * your own work, on time
 - You treat me, guest lecturers, and each other with respect
+- You engage in classroom discussion
+- You learn from the class; you learn to teach yourself
 
 # Assessment
 
@@ -91,21 +80,27 @@ I won't record attendance, but if you consistently do not show up you will not r
 
 # About me
 
-![](images/github.png){width=300px} ![](images/friendly.png){width=150px}
+![](../images/github.png){width=300px} ![](../images/friendly.png){width=150px}
 
 # About you
 
 Everyone is here with different backgrounds in programming and computing. Let's get statistical!
 
-13 responses to class survey
+Responses to class survey: 
 
-- 50-50 Mac-Windows users
-- \>90\% have used R
-- <50\% use the apply() family
-- <30\% pipe, write packages
-- <20\% use git for **version control**
+- 73\% Unix, 27\% Windows users
+- 100\% have used R, RStudio (data frames, loops)
+- ~40\% pipe, write packages
+- 18\% use git for **version control**
 
-Is data missing at random?
+(n=11 out of possible 13) Is data missing-not-at-random?
+
+# Today's class
+
+1. Version control with git
+2. Intro to base `R` (types, methods)
+3. RStudio & RStudio projects
+4. Writing loops and functions
 
 # Version control
 
@@ -123,7 +118,7 @@ What problems can you see with the following approach to version control?
 
 1. How many versions until this becomes intractable?
 2. *Date Modified* sorting does not always help
-3. Tracking the changes is very difficult; what happens if you need to revert?
+3. Tracking changes is very difficult; reversion is even harder
 4. Exponential file number growth with multiple collaborators!
 5. The dreaded computer crash
 
@@ -134,8 +129,7 @@ Dropbox can help with some of these issues, but generally not (3) or (4)!
 - git is an open source version control system (VCS):
     - Track changes to code and documents. *What* changes by *who* and *when*?
     - Share code and collaborate
-
-- github is a website that uses git's VCS:
+- GitHub is a website that uses git's VCS:
     - Collaborate with others effectively
     - Distribute code
     - Solicit improvements (*pull* requests)
@@ -144,26 +138,63 @@ Dropbox can help with some of these issues, but generally not (3) or (4)!
 
 # Git with R
 
-Git & github are popular with R developers
+git & GitHub are popular with R developers
 
 - Integration with RStudio
 - Easy distribution of packages
     - Circumvents CRAN moderators; for better or worse
 - Always get the latest features (`devtools`; `install_github`)
-(in addition to all the other great things about good version control)
+
+# Git with life
+
+- Collaborations: syncing across multiple computers
+- Portability: including for you
+- TODOs as Issues: including your own
+- Teams: `fork`, `pull` request
+    - Like a package but hate the default figures? `fork` it, edit it, use your own version!
+- Visibility: social/professional network
 
 # Getting started with git
 
-- Download/update: <https://git-scm.com/downloads>
-- Intro: <https://guides.github.com/activities/hello-world/>
-    - Do this with Homework 1 and a blank pdf, not hello-world
-- With RStudio: File/New Project
+- Download/update: [git-scm.com/downloads](git-scm.com/downloads)
+- Intro: [guides.github.com/activities/hello-world](guides.github.com/activities/hello-world)
+- Do this with Homework 1 and a blank pdf, not hello-world
 - Questions? Error messages? The internet is a great resource!
-- A great habit to get into early!
+- *git is a great habit to get into early! Start now!*
 
-Homework 1 Question 0 will get you started using git. More later in the semester!
+Homework 1 Question 0 will get you started using git, GitHub and GitHub Classroom.
 
-# R: Class
+# Getting started with git
+
+The workflow that I want you to follow for downloading the latest lecture notes is `git pull` (see Question 0 of Homework 1)
+
+The standard workflow for uploading a new file or updating an old one (e.g., for your homework submission):
+
+```{r, eval = FALSE}
+git pull
+git add hw1-response.pdf
+git commit -a -m 'question 2 part b response'
+git push
+```
+
+You must have a git repository set up already to do this (e.g. with `git init` or `git clone ...`)
+
+
+# R
+
+Why `R`?
+
+# R
+
+A fancy calculator
+```{r, echo = TRUE}
+sqrt(50)
+log(2.7)
+log(2.7, base=10)
+var(c(1, 2, 5))
+```
+
+# Object classes
 
 There are many different *classes* of objects in R
 
@@ -176,25 +207,28 @@ c(class(x), class(y), class(z), class(c))
 
 Others include `logical` (`TRUE`, `FALSE`), complex numbers...
 
-# Modes
+# Object classes
 
-R has different modes. The mode tells the way a variable is stored.
-
-```{r, echo = TRUE}
-mode(x)
-mode(y)
-mode(z) # factors are stored as numerics
-mode(c)
-```
-
-# Modes
-
-`is.[class]` asks about the class. Normally you will be interested in the class, not the mode.
+`is.[class]` asks about the class.
 
 ```{r, echo = TRUE}
+x <- c(1, 2, 5)
+y <- c("a", "b")
+z <- as.factor(y)
 is.numeric(x)
 is.factor(z)
-is.numeric(z) # we asked about class, not the mode
+is.numeric(z)
+```
+
+# Object classes
+
+You can define new classes in multiple ways (**S3** is the most common).
+
+```{r, echo = TRUE, error = TRUE}
+class(x) <- c("my_new_class", class(x))
+x
+is.numeric(x)
+is.my_new_class(x)
 ```
 
 # Data structures
@@ -203,8 +237,9 @@ R can store data in various *objects*
 
 - vector: one-dimensional, all data points have same mode
 - matrix: two-dimensional, all data points have same mode
+- array: n-dimensional, all data points have same mode
 - data frame: two-dimensional, all data points in same column have same mode
-- list: one-dimensional, data points can be of any type
+- list: one-dimensional, elements can be of any type
 
 # Matrices
 
@@ -251,20 +286,28 @@ x^2
 y <- c(3, 1, 2, 1)
 x^y
 ```
+`c()` is for "combine"
 
 # Vectorization
 
 The slow way: with loops. Avoid where possible!
 
-```
-z <- rep(NA, 4)
+```{r}
+# initialise empty vector:
+z <- vector(mode="numeric", length=4)
+z
 for (i in 1:4) {
   z[i] <- x[i]^y[i]
 }
 z
 ```
 
-Code is easier to read, and usually easier to debug, when vectorised
+# Modes versus classes
+
+R has different "mode"s as well as different "class"es
+
+- `numeric`, `character`, `function`, `list`
+- Mode concerns storage; you will deal with class moss often than mode
 
 # Recycling
 
@@ -282,7 +325,8 @@ aa + cc # the silent killer
 Be careful!
 
 # Speed comparison
-vectorization can cause major speed-ups, because task is optimised and precompiled in C/Fortran, not interpreted R.
+
+Vectorization can cause major speed-ups, because task is optimised and precompiled in C/Fortran, not interpreted R.
 
 ```{r, eval=F, echo=T}
 dd <- matrix(rnorm(1e6), nrow = 1000)
@@ -314,21 +358,28 @@ amy
 # Lists
 
 
-Double square brackets pull out individual elements. Single square brackets pull out subsets of the list. I recommend using names wherever possible!
+Double square brackets pull out individual elements. Single square brackets pull out subsets of the list.
 
 \footnotesize
 ```{r}
+amy$pets.names
 amy[[3]] # subset third element
 amy[3] # third element -- a list!
 ```
 
+
 # Lists
 
+
+Double square brackets pull out individual elements. Single square brackets pull out subsets of the list.
+
 \footnotesize
-```{r}
+```{r, error=TRUE}
 amy[2:3] # second and third elements -- a list!
-amy$office # can also refer by name
+amy[-1]
 ```
+
+Using names is more robust than indices
 
 # Generic functions
 
@@ -344,6 +395,7 @@ layout(t(1:2), widths = c(3,1)); plot(log); plot(trees)
 
 `plot` is a *generic* function. Generic functions don't do anything themselves -- they call *methods*, which are tailored to the class.
 
+\footnotesize
 ```{r}
 plot
 methods("plot") # lists all types R knows how to plot
@@ -355,6 +407,7 @@ If no specialised method exists for that class, R will call `summary.default()`
 
 To find the functions that apply to a class
 
+\footnotesize
 ```{r}
 methods(class = "lm")
 ```
@@ -363,9 +416,22 @@ methods(class = "lm")
 
 To see the code for a generic function, type `[function].[class]`
 
+\footnotesize
 ```{r}
 dimnames.data.frame
 ```
+
+# Naming conventions
+
+Because of the `[function].[class]` syntax, naming variables with dots in them is discouraged.
+
+```{r}
+my.favourite.number <- exp(1)
+my_favourite_number <- exp(1) # better
+```
+
+- Assignment using `=` is also discouraged: use `<-` instead. (Why?)
+- [google.github.io/styleguide/Rguide.xml](google.github.io/styleguide/Rguide.xml) is worth reading
 
 # Help
 
@@ -373,26 +439,20 @@ There are many ways to get help with using functions or debugging code
 
 1. The internet
 
-![](images/google.png)
+![](../images/google.png)
 
 
 # Help
 
 2. `?fn` shows the documentation for `fn`...
 
-![](images/questionmark.png)
-
-# Help
-
-2. ... if it exists!
-
-![](images/documentation.png)
+![](../images/questionmark.png)
 
 # Help
 
 3. `help.search("topic")` searches help pages for "topic"
 
-![](images/helpsearch.png)
+![](../images/helpsearch.png)
 
 
 
@@ -400,7 +460,8 @@ There are many ways to get help with using functions or debugging code
 
 The documentation pages often show examples (`example(plot)`) and have demos (`demo(plotmath)`). `vignette()` opens longer worked examples that are great for playing with new packages.
 
-![](images/vignette.png)
+![](../images/vignette.png)
+
 # Keep in mind
 
 - The user of a function assumes responsibility for giving arguments in the correct form
@@ -418,13 +479,280 @@ Don't get bogged down in reading *all* the documentation -- experiment and learn
 2. Breakdown the components until you find the problem (bisection method converges linearly!)
 3. `traceback()` -- covered later in the course
 
+# RStudio
+
+- You can use R in a terminal window by typing 'R' (once it is installed)
+- Alternative: RStudio
+    - Strongly recommended!
+        - interface for scripts, console, figures
+        - multiple R sessions in different directories
+        - Projects!
+        - RMarkdown (integrating `R` and Markdown/LaTex)
+
+# Workflow versus product
+
+Your workflow:
+
+- Your operating system
+- Your code editor (e.g. RStudio)
+- The name of your home directory (mine is `/Users/adwillis`)
+- The code you ran yesterday
+- The programs you have installed at this time
+
+# Workflow versus product
+
+Your product:
+
+- The raw data
+- The code that needs to be run on the raw data to get results
+    - including dependencies
+- The report that you produce at the end of your analysis
+
+# Workflow versus product
+
+"Any R script you write should be written assuming that it will be run from a fresh R process with working directory set to the project directory. It creates everything it needs, in its own workspace or folder, and it touches nothing it did not create..." -- Jenny Bryan
+
+# Workflow versus product
+
+You must avoid hardwiring your workflow into your product!
+
+- Every distinct intellectual unit you work on should have its own folder
+    - every data analysis, every method, every research project, every class
+- You can type `install_packages` into your console (that's workflow!), but use `library` in a script (that's product!)
+    - Even better, throw a `warning` if the version that is installed is not the one you thought
+
+# Workflow versus product
+
+- Portable
+    - other computers
+    - robust to your own reorganisation
+- Polite
+    - Avoids overwriting or interfering with other projects
+
+# Workflow versus product
+
+![](../images/fire.png){width=450px}
+
+
+# RStudio Projects
+
+RStudio Projects are the implementation of this
+
+- RStudio creates `myproj.Rproj`, which goes in your working directory for that project
+- Double-click on your `Rproj` file to open a fresh RStudio instance in the correct working directory
+    - Has the capacity to load your `RData`
+    - Create a project with File -> New Project
+- You can run multiple R sessions using multiple RStudio Projects at once
+
+# Modern statistical computing
+
+If any of this seems like overkill
+
+- Cut down 1000 lines to 80 lines with `tidyverse`
+    - Amy 2017 >> Amy 2013
+- "I had to change exactly one character to redo all of my simulations"
+    - Bryan on the `simulator`
+- "I didn't know you could run multiple R sessions at once"
+    - Conversation with a (unnamed) fifth year
+- "Could you rerun the entire analysis with this patient added?"
+    - The ideal answer is "Yes!"
+    - *This will happen to you*
+
+# Break
+
+# Pop quiz
+
+What is the distribution of the median of 51 exponentially-distributed random variables with rate = 1?
+
+How could we use computing power to help us?
+
+# Avoiding math with computers
+
+To understand the distribution of the median of 51 exponentially-distributed random variables with rate = 1, we can
+
+- Draw 51 Exp(1) random variables, calculate their median
+- Do this again, and again, and again...
+
+We can use the collection of medians to calculate summary statistics, draw histograms, do hypothesis testing...
+
+# Avoiding math with computers...
+
+... and learning how to write loops in the process
+
+```{r, echo = TRUE}
+simulations <- 10000
+many_medians <- vector("numeric", simulations)
+set.seed(171005)
+for (i in 1:simulations) {
+  my_sample <- rexp(n = 51, rate = 1)
+  many_medians[i] <- median(my_sample)
+}
+```
+
+What is the value of `many_medians` if `i = 5` triggers an error?
+
+# Avoiding math with computers
+
+```{r, echo = TRUE, fig.width=3, fig.height=2.5}
+mean(many_medians) # actually: 0.70286
+var(many_medians) # actually: 0.01978
+```
+
+We just calculated the moments of an intractable distribution using computing!
+
+
+# Avoiding math with computers
+
+We could work out almost anything about the sample median in this way!
+
+The distribution of the median of 51 Exp(1) random variables:
+
+```{r, echo = TRUE, fig.width=3, fig.height=2.5}
+hist(many_medians)
+```
+
+# Reproducible simulations
+
+```{r}
+set.seed(9)
+rexp(4)
+rexp(4)
+set.seed(9)
+rexp(4)
+```
+
+# A note on history
+
+Why are permutation/resampling approaches to data analysis modern?
+
+# A note on history
+
+![](../images/book.png){width=450px}
+
+# Possibly containing errors?
+
+![](../images/review1.png){width=450px}
+
+# Difficult to follow
+
+![](../images/review2.png){width=450px}
+
+# Better just buy a sudoku book
+
+![](../images/review3.png){width=450px}
+
+# Structure of a for loop
+
+`for()` loops are not terrible, but watch out:
+
+- First make an empty object of the correct dimension (e.g. vector, matrix, data frame) and *then* fill it in
+    * Don't forget to store the output of each iteration!
+- For large loops and objects, growing the output is a big slowdown
+    * This is because of the way that memory is handled in R
+
+# A special set up
+
+The only use of the index `i` was for storage.
+
+```{r, echo = TRUE}
+simulations <- 10000
+many_medians <- vector("numeric", simulations)
+set.seed(171005)
+for (i in 1:simulations) {
+  my_sample <- rexp(n = 51, rate = 1)
+  many_medians[i] <- median(my_sample)
+}
+```
+
+# A special set up
+
+Since we are merely doing the same thing again and again, let's use a new function to take care of all of the admin
+
+```{r}
+set.seed(171005)
+many_medians <- replicate(simulations,
+                          median(rexp(n = 51, rate = 1)))
+```
+
+The second argument to `replicate()` is the expression you want replicated
+
+# Loop indices
+
+The index of our loop (`i`) does not need to be a vector
+
+```{r}
+str(airquality) # a built-in dataset
+```
+
+
+# Loop indices
+
+The index of our loop (`i`) does not need to be a vector
+
+```{r}
+for (month in unique(airquality$Month)) {
+  print(mean(airquality$Ozone[airquality$Month == month],
+   na.rm = TRUE)) # prints but doesn't store
+}
+```
+
+We'll see better ways to do this with `dplyr`
+
+# Looping over variables: `apply()`
+
+```{r}
+apply(X=airquality, MARGIN=2, FUN=mean, na.rm=TRUE)
+```
+
+- `X`: an array, usually a matrix or data frame
+- `MARGIN`: the direction. `MARGIN = 1` applies the function to each row, `MARGIN = 2` applies the function to each column.
+- `FUN`: the function to be applied
+- Any other arguments to be passed to `FUN`
+
+# Defining your own functions
+
+```{r}
+mean_and_sd <- function(x) {
+  c(mean = mean(x), sd = sd(x))
+}
+apply(airquality, 2, mean_and_sd)
+```
+
+# Defining your own functions as wrappers
+
+```{r}
+mean_and_sd <- function(x, ...) { c(mean = mean(x, ...),
+        sd = sd(x, ...)) }
+apply(airquality, 2, mean_and_sd, na.rm = TRUE)
+```
+
+Debugging code with ellipses can be tricky! Be cautious...
+
 
 # Homework 1 and next week
 
-- Slides:
-    * <https://github.com/adw96/biostat561/lecture1/lecture1.pdf>
-- Homework 1 is due next Thursday at 2 p.m.
-    * <https://github.com/adw96/biostat561/lecture1/homework1.pdf>
-- Complete Question 0 by next Tuesday (Office hours!)
+- Slides and Homework 1:
+    * [github.com/adw96/biostat561/lecture1](github.com/adw96/biostat561/lecture1)
+- Homework 1 is due next Wednesday at 2:30 p.m.
+    * [github.com/adw96/biostat561/lecture1/homework1.pdf](github.com/adw96/biostat561/lecture1/homework1.pdf)
+- Complete Question 0 by next Monday (office hours!)
 - Submission via github classroom (instructions included):
-    * <https://classroom.github.com/classrooms/32249780-biost-561>
+    * [classroom.github.com/classrooms/48962297-biostat561-2019](classroom.github.com/classrooms/48962297-biostat561-2019)
+
+
+# My personal computing setup
+
+- Mac user
+- R via RStudio
+    - R packages for all methods development
+    - Rscript (if I have to)
+- Atom as my primary text editor
+    - Markdown, RMarkdown, shell scripts, data files...
+    - works well with git
+    - also `vi`
+- Manage collaborations via GitHub wherever possible
+    - Sometimes with overleaf
+- Automate tasks using shell scripts (occasionally R)
+- Avoid Dropbox and Microsoft Word as much is possible
+- Avoid typing and mousing in favour of voicecoding and eyetracking
+- Favourite programs include RSIGuard and vimium
