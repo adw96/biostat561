@@ -1,220 +1,530 @@
 ---
 title: "Computational Skills for Biostatistics I: Lecture 4"
 author: Amy Willis, Biostatistics, UW
-date: October 19, 2017
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   beamer_presentation:
     includes:
-      in_header: ../lecture3/header_pagenrs.tex
+      in_header: ../header_pagenrs.tex
     fig_caption: no
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
-library(ggplot2)
 library(tidyverse)
 library(magrittr)
-library(gapminder)
+library(simulator)
+
+
+system("rm -rf test_idea")
+linear_model <- function(n, beta, x_width, sigma_sq) {
+  new_model(name = "slm", 
+            label = sprintf("n = %s, beta = %s, x_width = %s, sigma_sq = %s", n, beta, x_width, sigma_sq),
+            params = list(beta = beta, x_width = x_width, sigma_sq = sigma_sq, n = n),
+            simulate = function(n, beta, x_width, sigma_sq, nsim) {
+              sim_list <- list()
+              for (i in 1:nsim) {
+                x <- runif(n, -x_width, x_width)
+                y <- beta*x + rnorm(n, 0, sigma_sq)
+                sim_list[[i]] <- list("x" = x,
+                                      "y" = y)
+              }
+              return(sim_list) # make each col its own list element
+            })
+}
+lse <- new_method("lse", "LSE",
+                  method = function(model, draw) {
+                    yy <- draw$y
+                    xx <- draw$x
+                    fit <- lm(yy ~ xx - 1)
+                    list(betahat = fit$coef)
+                  })
+squared_error <- new_metric("squared_error", "Squared error",
+                            metric = function(model, out) {
+                              (out$betahat - model$beta)^2
+                            })
+
 ```
 
-# Graphical communication in practice
+# Critical pieces in developing a statistical method
 
-Graphical communication is critical for both *exploring* and *explaining* data
+- Define the problem
+- Come up with a solution
+- Investigate the performance of the solution
+    - Compare to existing methods, if they exist
+- <span style="color:grey">Explore the properties of the solution</span>
+- Describe the method and your results
 
-- base graphics in `R`: static
-- `ggplot`: static
-- `shiny`: interactive 
-- Non-data-based figures
+<!-- # Examples aka I'm definitely not the only person doing this -->
 
-# Name to know: Edward Tufte
+<!-- <!-- - Species richness estimates: Willis & Bunge --> -->
+<!-- <!-- - Coverage of confidence sets: Willis --> -->
+<!-- <!-- - Robustness to model assumptions: Bataille & Willis --> -->
+<!-- <!-- - Number of differentially abundant taxa: Martin, Witten & Willis --> -->
+<!-- <!-- - <span style="color:grey">Visualisation methods</span>: Willis & Bell --> -->
 
-"Design cannot rescue failed content."
+<!-- - Willis -->
+<!-- - Sadinle -->
+<!-- - Carone -->
+<!-- - Simon -->
+<!-- - Shoajie -->
 
-The Rules:
+# Focus of today
 
-1. Show Your Data
-2. Use Graphics
-3. Avoid Chartjunk
-4. Utilize Data-ink
-5. Use Labels
-6. Utilize Micro/Macro
-7. Separate Layers
-8. Use Multiples
-9. Utilize Color
-10. Understand Narrative
+- Define the problem
+- Come up with a solution
+- **Investigate the performance of the solution**
+    - **Compare to existing methods, if they exist**
+- <span style="color:gray">Explore the properties of the solution</span>
+- Describe the method and your results
 
-<!-- 1. Show the data -->
-<!-- 2. "Induce the viewer to think about the substance rather than about methodology, graphic design, the tech of graphic production, or something else." -->
-<!-- 3. Avoid Distorting the Data -->
-<!-- 4. Present Many Numbers in a Small Space -->
-<!-- 5. Make Large Datasets Coherent -->
-<!-- 6. Encourage Eyes to Compare Data -->
-<!-- 7. Reveal Data at Several Levels of Detail -->
-<!-- 8. Serve a Reasonably Clear Purpose -->
-<!-- 9. Be Closely Integrated with Statistical and Verbal Descriptions of the Dataset -->
+# Simulation studies
 
-# The greatest statistical graphic ever drawn
+Investigating the performance of a solution typically involves the following
 
+- Generate data...
+    - ...according to a model...
+    - ...with some parameters
+- apply your estimator/prediction, and competitors
+- evaluate the performance
 
-![](images/Minard.png){width=400px}
+Can also be done theoretically -- see your other classes!
 
-# The worst statistical graphic ever drawn
+# Exercise (5 minutes)
 
-![](images/worst.png){width=350px}
+In groups, investigate the performance of the least-squares estimate of a regression slope.
 
-# ggplot
-
-- `ggplot` is a function available in the `ggplot2` package.
-- Graphics are built in layers: a plot is initialised, *then* data is then drawn, *then* annotations are added.
-- Annotations include
-    * scales
-    * labels
-    * legends
-    * coordinate systems
-
-# ggplot
-
-![](images/documentation.png){width=400px}
-
-# ggplot
-
-```{r, fig.width=3.5, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price))
-```
-
-# Initialize, *then* add plotting elements
-
-\footnotesize
-```{r, fig.width=3.5, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point()
-```
-
-# Customise features about the layer
-
-\footnotesize
-```{r, fig.width=3.5, fig.height=2.5}
-ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point(aes(col = color), alpha = 0.2)
-```
-
-# Add another layer
-
-\footnotesize
-```{r, fig.width=3.5, fig.height=2}
-ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point(aes(col = color), alpha = 0.2) + geom_smooth()
-```
+In five minutes, I'm going to ask you to tell the class what approach you were implementing.
 
 
-`ggplot` usually gives sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise caution and use your judgement!
+# Exercise (5 minutes)
 
-# Equivalent calls
+- How did you design your study?
+- What parameters did you vary?
 
-\footnotesize
-```{r, eval=FALSE}
-ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
-ggplot(diamonds) + geom_point(aes(x = carat, y = price))
-ggplot(diamonds, aes(x = carat)) + geom_point(aes(y = price))
-```
 
-# Layering objects
+# My approach
 
-Arguments to a ggplot call:
+(released after class)
 
-- The first argument to a ggplot is the data frame (or tibble)
-- You can fix the aesthetics with `aes()` OR you can add aesthetics in layers
-- Any aspect of a plot that you want to vary based on a variable needs to be wrapped in a `aes()` call
+# My approach
 
-# `aes()` calls
-
-\footnotesize
-```{r, fig.width=3.5, fig.height=2}
-ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point(col = "blue")
-```
-
-Color only exists locally (in the context of the diamonds), so the following results in an error:
 ```{r}
-# ggplot(diamonds, aes(x=carat, y=price))+geom_point(col=color)
+nsims <- 100
+n <- 10
+beta <- 5
+sigma_squared <- 10
+betahat <- vector("numeric", nsims)
+for (i in 1:nsims) {
+  x <- runif(n, -1, 1)
+  y <- rnorm(n, beta*x, sigma_squared)
+
+  my_lm_fit <- lm(y ~ x - 1)
+  betahat[i] <- my_lm_fit$coef
+}
+mean((betahat-beta)^2)
+```
+
+# My approach
+
+```{r}
+library(tidyverse)
+library(magrittr)
+nsims <- 100
+n <- 10
+betas <- seq(from = 5, to = 50, by = 5)
+sigma_squared <- 10
+results <- tibble("iteration" = NA,
+                  "sigma_squared" = NA,
+                  "betahat"= NA, 
+                  "beta" = NA)
 ```
 
 
-# More layers
+# My approach
+
+```{r}
+for (k in 1:length(betas)) {
+  beta <- betas[k]
+  for (i in 1:nsims) {
+    x <- runif(n, -1, 1)
+    y <- rnorm(n, beta*x, sigma_squared)
+
+    my_lm_fit <- lm(y ~ x - 1)
+    results %<>% add_row("iteration" = i,
+                         "sigma_squared" = sigma_squared,
+                         "betahat" =  my_lm_fit$coef,
+                         "beta" = beta)
+  }
+}
+results %<>% filter(!is.na(iteration))
+```
+
+# My approach
+
+```{r, eval = F}
+results %>%
+  group_by(beta) %>%
+  mutate(sq_error = (betahat - beta)^2) %>%
+  summarise(MSE = mean(sq_error)) %>%
+  ggplot(aes(x = beta, y = MSE)) +
+  geom_point() +
+  ylim(0, 50)
+```
+
+# My approach
+
+```{r, print = F, plot = T, echo=F}
+results %>%
+  group_by(beta) %>%
+  mutate(sq_error = (betahat - beta)^2) %>%
+  summarise(MSE = mean(sq_error)) %>%
+  ggplot(aes(x = beta, y = MSE)) +
+  geom_point() +
+  ylim(0, 50)
+```
+
+Does this surprise anyone?
+
+# Expanding the simulation
+
+- What happens when I want `n` to vary?
+- What happens when I want `sigma_squared` to vary?
+- The distribution of the `x`'s?
+- What happens when I want to compare to other estimates? (e.g., ridge regression)
+
+
+# Welcome to reality: always more
+
+There are always more simulations that you need to do!
+
+- change more parameters
+- change the data generating process
+- someone publishes a method! Compare to theirs
+- Reviewer asks for their favourite evaluation criterion...
+
+# Welcome to reality: coding for succession
+
+- How would you write simulation code if you were planning to share it with someone else?
+    - co-author sharing (e.g., advisor, other students)
+    - What if that person were going to build on your simulation?
+    - interested readership (future competitor/extension method)
+    - future forgetful self
+
+# Key Observation
+
+Simulations
+
+- are highly formulaic in nature
+- reuse *a lot of code*
+- formulaic means this can be **standardized**
+
+How do we minimise the time spent rewriting and reorganising simulations?
+
+# Introducing... THE `SIMULATOR`
+
+`simulator` is an amazing R package 
+
+```{r, eval=T, message=FALSE, warning=FALSE}
+library(simulator)
+```
+
+# Great things about the simulator
+
+- easy to
+    - add more parameters
+    - change the data generating process
+    - change/adapt your method
+    - add a comparison method
+    - add an evaluation criterion
+
+# Great things about the simulator
+
+- reproducible
+- parallelisable
+- prevents mistakes
+    - errors from copying and pasting code
+    - accidentally using parameters in your estimates 
+
+The simulator can help you understand the methods development process: it forces you to think through `what` your method needs and `how` you will evaulate it
+
+# simulator: Running a simulation
+
+```{r, message=F}
+first_sim <- new_simulation("least-squares-estimates", 
+                            "What's up with LSEs") %>%
+  generate_model(linear_model,
+                 n = 10,
+                 sigma_sq = as.list(seq(5, 15, by = 5)),
+                 x_width = 1,
+                 beta = 1,
+                 vary_along = "sigma_sq") %>%
+  simulate_from_model(nsim = 10) %>%
+  run_method(list(lse)) %>%
+  evaluate(list(squared_error))
+```
+
+# simulator: Running a simulation
+
+Let's dive into where those pieces all come from!
+
+# simulator: Defining models
+
+```{r}
+linear_model <- function(n, beta, x_width, sigma_sq) {
+  new_model(
+    name = "slm", 
+    label = sprintf("n = %s, beta = %s, 
+                            x_width = %s, sigma_sq = %s", 
+                    n, beta, x_width, sigma_sq),
+    params = list(beta = beta, x_width = x_width, 
+                  sigma_sq = sigma_sq, n = n),
+    simulate = function(n, beta, x_width, sigma_sq, nsim){
+      sim_list <- list()
+      for (i in 1:nsim) {
+        x <- runif(n, -x_width, x_width)
+        y <- beta*x + rnorm(n, 0, sigma_sq)
+        sim_list[[i]] <- list("x" = x,
+                              "y" = y)
+      }
+      return(sim_list) 
+    })}
+```
+
+(Better: use `replicate`)
+
+# simulator: Defining methods
+
+```{r}
+lse <- new_method("lse", "LSE",
+                  method = function(model, draw) {
+                    yy <- draw$y
+                    xx <- draw$x
+                    fit <- lm(yy ~ xx - 1)
+                    list(betahat = fit$coef)
+                  })
+```
+
+
+# simulator: Defining methods
+
+```{r}
+squared_error <- 
+  new_metric("squared_error", 
+             "Squared error",
+             metric = function(model, out) {
+               (out$betahat - model$beta)^2
+            })
+```
+
+
+
+# simulator: Running a simulation
+
+```{r, cache=F}
+first_sim <- new_simulation("least-squares-estimates", 
+                            "What's up with LSEs") %>%
+  generate_model(linear_model,
+                 n = 10,
+                 sigma_sq = as.list(seq(5, 15, by = 5)),
+                 x_width = 1,
+                 beta = 1,
+                 vary_along = "sigma_sq") %>%
+  simulate_from_model(nsim = 10) %>%
+  run_method(list(lse)) %>%
+  evaluate(list(squared_error))
+```
+
+
+# simulator: Plotting the results
+
+```{r}
+plot_eval_by(first_sim, "squared_error", varying = "sigma_sq")
+```
+
+
+# simulator: Plotting the results (more nicely)
+
+```{r, eval=F, print = T, message=F, warning=F}
+ev_df <- first_sim %>% evals %>% as.data.frame
+model_df <- first_sim %>% model %>% as.data.frame
+right_join(model_df, ev_df, by = c("name" = "Model")) %>%
+  as_tibble %>%
+  mutate(sigma_sq_f = factor(sigma_sq)) %>%
+  ggplot(aes(x = sigma_sq_f, y = squared_error)) +
+  geom_boxplot() +
+  xlab("sigma^2") + 
+  ylab("Squared error in estimating beta")
+```
+
+
+
+# simulator: Plotting the results (more nicely)
+
+```{r, print = F, plot = T, echo=F, message=F, warning=F}
+ev_df <- first_sim %>% evals %>% as.data.frame
+model_df <- first_sim %>% model %>% as.data.frame
+right_join(model_df, ev_df, by = c("name" = "Model")) %>%
+  as_tibble %>%
+  mutate(sigma_sq_f = factor(sigma_sq)) %>%
+  ggplot(aes(x = sigma_sq_f, y = squared_error)) +
+  geom_boxplot() +
+  xlab("sigma^2") + 
+  ylab("Squared error in estimating beta")
+```
+
+# Oh no! Your adviser wants to see how the results change with `x_width`
+
+```{r, cache=FALSE, message=F}
+simulated_data <- new_simulation(
+  "lses-x", 
+  "How do LSEs change with the range of x?") %>%
+  generate_model(linear_model, 
+                 n = 10, 
+                 beta = 5, 
+                 x_width = as.list(seq(2, 10, by = 2)),
+                 sigma_sq = 1,
+                 vary_along = "x_width") %>%
+  simulate_from_model(nsim = 10) 
+```
+
+# Oh no! Your adviser wants to see how the results change with `x_width`
+
+```{r, cache=FALSE, message=F}
+evaluation_plot <- simulated_data %>%
+  run_method(list(lse)) %>%
+  evaluate(list(squared_error)) %>%
+  plot_eval_by("squared_error", varying = "x_width")
+```
+
+
+# Oh no! Your adviser wants to see how the results change with `x_width`
+
+```{r, cache=FALSE, message=F, print=F}
+evaluation_plot 
+```
+
+# Oh no! Your adviser wants more simulations!
+
+Easy! Increase `nsim`
+    - Better way: to avoid overwriting existing simulations, run `simulate_from_model` again with new indices
+
+# Oh no, it's taking forever
+
+Easy! Distribute it across multiple cores... or a cluster!
+
+```{r, cache=F, eval=FALSE}
+bigger_sim <- generated_model %>%
+  simulate_from_model(nsim = 40, 
+                      index = 5:8,
+                      parallel = list(socket_names = 4)) %>%
+  run_method(list(lse)) %>%
+  evaluate(list(squared_error))
+```
+
+
+# Oh no! Someone just published a new method!
+
+Adding another `run_method` does not overwrite your results
+
+```{r, eval=F}
+save_simulation(sim=results)
+load_simulation("results") %>%
+  run_method(list(the_new_method)) %>% 
+  evaluate(list(squared_error)) 
+```
+ 
+# Oh no! Your adviser prefers L6-loss 
+
+
+```{r, eval=F}
+load_simulation("results") %>%
+  evaluate(list(squared_error, wacky_evaluation)) 
+```
+
+# Oh no! A reviewer asks for computation time
+
+Computational time is calculated by default
 
 \footnotesize
-```{r, fig.width=3.5, fig.height=2}
-ggplot(diamonds, aes(x = carat, y = price)) + 
-  geom_point() + theme_bw() +
-  labs(x="Weight (carats)", y="Diamond price ($)") +
-  ggtitle("Exploratory analysis of Diamond prices") +
-  coord_cartesian(xlim = c(0, 3), ylim=c(0, 10000)) +
-  theme(plot.title = element_text(size = 10))
+```{r}
+plot_eval_by(first_sim, "time", varying = "sigma_sq")
 ```
 
-# Histograms
-```{r, fig.width=3.5, fig.height=2}
-ggplot(diamonds, aes(x = price)) + 
-  geom_histogram(binwidth = 200)
+# Pipeline of interlocking components
+
+![](for_amy/flow.png)
+
+- You "plug in" Models, Methods, and Metrics; simulator does the rest!
+- Modularity faciliates code sharing
+- When Models, Methods and Metrics are defined, they are also labeled -- accessed by plot and table functions downstream
+
+# Solicited and unsolicited feedback
+
+- Bryan Martin: "I highly recommend the simulator for reproducibility, organization, and speed"
+
+# Solicited and unsolicited feedback
+
+- Alex Paynter: "simulator's infrastructure encourages a big picture view of how code fits together (models, methods, evaluations), and simulations are highly human-readable.  Coding errors are harder to write when the structural details are handled by the package, and looking into the details of a simulation after it has run is relatively easy."
+
+# Solicited and unsolicited feedback
+
+- Kendrick Li: "I love simulator. simulator makes me happy."
+
+
+# Getting started with the simulator
+
+
+```{r}
+create("test_idea")
 ```
 
+Then go to the directory `test_idea` to fill out the details.
 
-# Timeseries
+# Results saved to file
 
-\footnotesize
-```{r, fig.width=3.5, fig.height=2}
-g <- ggplot(gapminder %>% filter(country == "Japan"), 
-            aes(x = year, y = lifeExp)) + geom_line() 
-g
+- no need to rerun parts of simulation that haven't changed
+- results saved at each stage of pipeline -- allows one to examine intermediate stages for better understanding of results
+- organized file structure (though user never has to explicitly learn the particulars since there are a series of simulator functions that take care of loading files)
+
+# Simulation object
+
+- `Simulation` object (S4 class) is passed through pipeline 
+- gets fed through the components; accumulates "record" of simulation
+- **Important:** consists of *references* to objects -- not the objects themselves
+- makes `Simulation` objects fast-to-load and easy to work with
+
+# Parallel processing and streams
+
+- Jacob Bien: "uses L'Ecuyer-CMRG generator to get separate streams"
+- Identical results whether run in sequence or in parallel
+
+# Unified interface for making plots and tables
+
+```{r, eval=FALSE, echo=TRUE}
+tabulate_eval(sim, "sqr_err")
 ```
 
-# Storing and modifying
-
-\footnotesize
-```{r, fig.width=3.5, fig.height=2}
-g + scale_x_continuous(breaks = seq(1950, 2011, 15)) +
-  theme_bw() +
-  ggtitle("Life expectancy in 20th C Japan")
+```{r, eval=FALSE, echo=TRUE}
+plot_eval(sim, "sqr_err")
 ```
 
-Creating and plotting `ggplot` objects is not always fast; this may help
+Also automated report generation via `knitr`
 
-# Showing intervals using transparency
+# References
 
-The most important information should be the most clear, the next most important information should be the next most clear, etc.. 
+https://github.com/jacobbien/simulator
 
-![](images/intervals.png){width=400px}
+*Vignettes:*
 
+- Getting started with the simulator
+- James-Stein estimator
+- Benjamini-Hochberg procedure
+- Lasso
+- Elastic net
 
-# Final tips
-
-- Never, ever show a pie chart to a statistical audience... or the internet!
-    * Exploding or otherwise
-- Align plots with similar axes 
-- Defer less important points to appendices
-     * Use figures where appropriate. Would a table suffice?
-- Critique your own figures 
-     * Especially before public talks/conferences
-
-Highly recommended reading: 
-
-"Graphical Display of Quantitative Information" by Edward Tufte
-
-# Limitations of `ggplot`
-
-- *Forces you to use good coding practice*
-    * Data should all come from the same data frame
-    * Painful at first but better than a retraction!
-- Constrained to two-dimensional (see `plot3d`, `scatterplot3d`)
-- No graphs/trees (`igraph`)
-- Static (`shiny`)
-- Limited use for non-statistical graphics (Illustrator, Photoshop, Inkscape)
+Many thanks to Jacob Bien for teaching materials and writing such a great package!
 
 # Coming up
 
-- Reminder: `git pull` -- any time you work on any file in a directory with version control!
-- Homework 4 due next Thursday at the usual time in the usual way
-    * Question 1 should be fun
-    * Question 3 should be challenging: work in pairs if you have trouble
-    * Question 4 is optional, but encouraged (integrating multiple sources of information into plots)
-- `shiny` with Katie Wilson
+- Homework 4 due next Wednesday at the usual time in the usual way; posted soon

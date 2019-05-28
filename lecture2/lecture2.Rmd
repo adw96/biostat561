@@ -1,275 +1,504 @@
 ---
 title: "Computational Skills for Biostatistics I: Lecture 2"
 author: Amy Willis, Biostatistics, UW
-date: October 5, 2017
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   beamer_presentation:
     includes:
-      in_header: header_pagenrs.tex
+      in_header: ../header_pagenrs.tex
     fig_caption: no
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
 ```
 
-# Housekeeping
+# This week
 
-- The high bar for Homework 1 was met
-- Individual comments coming soon via Github Classroom
+- Big challenge with Homework 1?
+- Comments from homeworks go in README files
+    * Each week, look in the repository for this (in a couple of days...)
 
-# Pop quiz
+# github and protected data
 
-What is the distribution of the median of 51 exponentially-distributed random variables with  rate = 1?
+ 
+# A note on history
 
-# Pop quiz
+Why are permutation/resampling approaches to data analysis modern?
 
-What is the distribution of the median of 51 exponentially-distributed random variables with rate = 1?
+# Where do random numbers even come from?
 
-- No idea? Me neither!
-- How could we use computing power to help us?
+- Linear congruential generators: $X_{n + 1} = (aX_n + c)$  mod $m$ 
+    * Definitely not random  -- but hard to tell if you don't know $X_0, a, c, m$
+    * Java's java.util.Random uses $m=2^{48}, a = 25214903917, c=11$
 
-# Avoiding math with computers
+# Where do random numbers even come from?
 
-To understand the distribution of the median of 51 exponentially-distributed random variables with rate = 1, we can
-
-- Draw 51 Exp(1) random variables, calculate their median
-- Do this again, and again, and again...
-
-We can use the collection of medians to calculate summary statistics, draw histograms, do hypothesis testing...
-
-# Avoiding math with computers...
-
-... and learning how to write loops in the process
-
-```{r, echo = TRUE}
-simulations <- 10000
-many_medians <- rep(NA, simulations)
-set.seed(171005)
-for (i in 1:simulations) {
-  my_sample <- rexp(n = 51, rate = 1)
-  many_medians[i] <- median(my_sample)
-}
-```
-
-
-
-# Avoiding math with computers
-
-
-```{r, echo = TRUE, fig.width=3, fig.height=2.5}
-mean(many_medians) # actually: 0.70286
-var(many_medians) # actually: 0.01978
-```
-
-We just calculated the moments of an intractable distribution using computing!
-
-
-# Avoiding math with computers
-
-We could work out almost anything about the sample median in this way!
-
-The distribution of the median of 51 Exp(1) random variables:
-
-```{r, echo = TRUE, fig.width=3, fig.height=2.5}
-hist(many_medians)
-```
-
-# Reproducible simulations
-
-```{r}
-set.seed(9)
-rexp(4)
-rexp(4)
-set.seed(9)
-rexp(4)
-```
+-  R uses the Mersenne Twister by default
+    * `?RNG` brings up some information the different options
+    * Not a LCG, but has period of $2^{19937}-1$
+    * Very interesting talk by Kellie Ottoboni & Philip Stark (UC Berkeley) on permutation testing
+        - devtools::install_github("statlab/permuter")`
+        - Python equivalent: [github.com/statlab/permute](github.com/statlab/permute)
 
 # A note on history
 
-
-# A note on history
-
-![](book.png){width=450px} 
+![](../images/book.png){width=450px}
 
 # Possibly containing errors?
 
-![](review1.png){width=450px} 
+![](../images/review1.png){width=450px}
 
 # Difficult to follow
 
-![](review2.png){width=450px}
+![](../images/review2.png){width=450px}
 
 # Better just buy a sudoku book
 
-![](review3.png){width=450px}
+![](../images/review3.png){width=450px}
 
-# Structure of a for loop
+# RStudio
 
-`for()` loops are not terrible, but watch out:
+- You should save all of your work as scripts (`.R` files)
+- Laying out your workspace effectively
+    * Rstudio -> Preferences -> Pane Layout
+- Running code quickly
+    * With the cursor on the line of script you want to run...
+         * `cmd + return` (Mac)
+         * `ctrl + enter` (Windows)
+- Commenting: precede comments by a `#`
 
-- First make an empty object of the correct dimension (e.g. vector, matrix, data frame) and *then* fill it in
-- Don't forget to store the output of each iteration!
-- For large loops and objects, growing the output is a big slowdown
-    - This is because of the way that memory is handled in R
+# RStudio
 
-# A special set up
-
-The only use of the index `i` was for storage.
-
-```{r, echo = TRUE}
-simulations <- 10000
-many_medians <- rep(NA, simulations)
-set.seed(171005)
-for (i in 1:simulations) {
-  my_sample <- rexp(n = 51, rate = 1)
-  many_medians[i] <- median(my_sample)
-}
-```
-
-# A special set up
-
-Since we are merely doing the same thing again and again, let's use a new function to take care of all of the admin
-
-```{r}
-set.seed(171005)
-many_medians <- replicate(simulations, 
-                          median(rexp(n = 51, rate = 1)))
-```
-
-The second argument to `replicate()` is the expression you want replicated
-
-# Loop indices
-
-The index of our loop (`i`) does not need to be a vector
-
-```{r}
-str(airquality) # a built-in dataset
-```
-
-
-# Loop indices
-
-The index of our loop (`i`) does not need to be a vector
-
-```{r}
-for (month in unique(airquality$Month)) {
-  print(mean(airquality$Ozone[airquality$Month == month], 
-             na.rm = TRUE)) # prints but doesn't store
-}
-```
-
-# Loop indices
-
-A better way using `by()`
+`R` sessions are located somewhere on your computer.
 
 \footnotesize
 ```{r}
-by(airquality$Ozone, list(month = airquality$Month), 
-   mean, na.rm = TRUE)
+getwd() # where am I?
 ```
 
-- "Break the data into subsets by month, then calculate the mean Ozone level for each month, omitting missing values"
-- "Calculate the month-specific means of Ozone, omitting missing values"
 
-# Looping over subsets: `by()`
+Try to avoid `setwd()` calls -- use projects instead! 
 
-```{r, eval = FALSE}
-by(airquality$Ozone, list(month = airquality$Month), 
-   mean, na.rm = TRUE)
+```{r, eval=FALSE}
+setwd("/Users/adwillis/research") # 
 ```
-- First argument (`data`): variable to be analysed
-- Second argument (`INDICES`): list of subsets. Could be multiple variables: `list(month = airquality$Month, toohot = airquality$Temp > 85)`
-- Third argument (`FUN`) is the analysis function to use on the subsets
-- Any other arguments (e.g. `na.rm=TRUE`) are used as additional arguments to the analysis function
 
-# Looping over subsets: `by()`
+If you open a RProject (`.Rproj`) file, your working directory will be the location of that file by default
 
-- Output is an object of class `by`, which has its own print method, `print.by()`
-- The implementation of print for objects of class `by` is kind of annoying: use `unclass()` to get rid of it
+# R packages
+
+- Most packages are distributed via CRAN, a global network for the distribution of R code
+    * You may need to set your "mirror"
+    * RStudio -> Preferences -> Packages
+- Packages need to be installed, and then loaded
+
+\footnotesize
+```{r, eval=FALSE}
+install.packages("tidyverse") # first download...
+library(tidyverse) # ...then load
+```
+
+```{r, include=FALSE, eval=TRUE}
+library(tidyverse)
+```
+
+Avoid `require(tidyverse)`...
+
+# tidyverse
+
+The `tidyverse` is a collection of packages based on 4 principles for handling data:
+
+1. Reuse existing data structures.
+2. Compose simple functions with the pipe.
+3. Embrace functional programming.
+4. Design for humans.
+
+The R project for Statistical Computing was built for a different age; the tidyverse is a collection of tools for *our* age
+
+# tidyverse
+
+
+<center>![](../images/tidypic.png){width=800px}</center>
+
+# New data arrives!
+
+What do you do?
+
+
+# Open it!
 
 ```{r}
-ozone_summary <- by(airquality$Ozone, 
-                    list(month = airquality$Month), 
-                    mean, na.rm = TRUE)
-unclass(ozone_summary) # one option
+wgs <- read_csv("colon_cancer.csv")
 ```
 
+# Open it!
 
-<!-- # Looping over subsets: `by()` -->
+`read_csv` is from the `readr` package (installed with the tidyverse)
 
-<!-- `by()` has an optional argument `simplify`:   -->
+- Much, much smarter than `read.csv` (base R)
+- `read_tsv`, `read_tsv`, `read_delim`, ...
+- No `read_xls`! (I use `readxl::read_xlsx` and `readxl::read_xls`)
 
-<!-- ```{r} -->
-<!-- # another option -->
-<!-- another_ozone_summary <- by(airquality$Ozone,  -->
-<!--                             list(month = airquality$Month),  -->
-<!--                             mean, na.rm = TRUE,  -->
-<!--                             simplify = TRUE) -->
-<!-- another_ozone_summary -->
-<!-- ``` -->
+Cannot deal with information that is not contained in cells (formatting, highlighting, etc.)
 
-# Looping over variables: `apply()`
+# Look at it!
+
+\footnotesize
+```{r}
+wgs
+```
+
+# Look at it!
 
 ```{r}
-apply(X=airquality, MARGIN=2, FUN=mean, na.rm=TRUE)
+class(wgs)
 ```
 
-- `X`: an array, usually a matrix or data frame
-- `MARGIN`: the direction. `MARGIN = 1` applies the function to each row, `MARGIN = 2` applies the function to each column.
-- `FUN`: the function to be applied
-- Any other arguments to be passed to `FUN`
+# Look at it!
 
-# Looking over variables: `apply()`
-
-Ad-hoc functions can be defined inline:
+\footnotesize
 ```{r}
-apply(airquality, 2,
-      function(x) { c(mean = mean(x, na.rm = TRUE),
-                      sd = sd(x, na.rm = TRUE))})
+as.data.frame(wgs)
 ```
 
-(but it's generally better to define them externally)
+# tibbles
 
-# Passing arguments through to other functions
+Data frames are great! Except for
+
+- printing them
+- working with both characters and factors
+- manipulating multiple columns
+
+tibbles are the data frame alternative of the tidyverse
+
+
+# tibbles
+
+\footnotesize
+```{r}
+starwars
+```
+
+# tibbles
+
+> A tibble, or tbl_df, is a modern reimagining of the data.frame, keeping what time has proven to be effective, and throwing out what is not. Tibbles are data.frames that are lazy and surly: they do less (i.e. they don't change variable names or types, and don't do partial matching) and complain more (e.g. when a variable does not exist). This forces you to confront problems earlier, typically leading to cleaner, more expressive code. Tibbles also have an enhanced print method() which makes them easier to use with large datasets containing complex objects.
+
+> - Hadley Wickham, Chief Scientist at RStudio (and tomorrow's guest speaker! T639 at 3:30pm 4/11)
+
+
+
+# How do we read code?
+
+Translate the following code into words:
 
 ```{r}
-mean_and_sd <- function(x, ...) { c(mean = mean(x, ...), 
-                                    sd = sd(x, ...)) }
-apply(airquality, 2, mean_and_sd, na.rm = TRUE)
+length(unique(wgs$Patient))
 ```
 
-Debugging code with ellipses can be tricky! Be cautious...
-
-# `by()`-ing more
-
-Applying our own functions using `by()`
+# Intuitive coding
 
 ```{r}
-by(airquality, list(toohot = airquality$Temp > 85),
-   function(subset) { round(apply(subset, 2, mean_and_sd), 
-                            digits = 2) })
+wgs$Patient %>%
+  unique %>%
+  length
 ```
 
-<!-- \footnotesize -->
+`%>%` is the "pipe operator"
 
-# git
+- `f(x)` is the same as `x %>% f`
+- "Take `x` and apply the function `f`"
 
-- To download all new material to your local copy, go to your materials folder and type `git pull`
-    * This will give you lecture 2 and homework 2
-- The standard workflow for adding a new file or updating an old one
-```{r, eval = FALSE}
-git pull
-git add homework2-response.pdf
-git commit -a -m 'question 2 part b response'
-git push
+
+# Analyse it
+
+How many PA samples do I have?
+
+```{r}
+sum(wgs$`PA/NPA` == "PA") # ugh
+sum(wgs$`PA/NPA` == "PA", na.rm = T)
 ```
-- You must have a git repository set up already to do this (e.g. with `git init` or `git clone ...`)
+
+How about for lots of different types?
+
+# Analyse it
+
+Awesome package to streamline data analysis: `dplyr`
+
+```{r}
+summarize(wgs, n())
+```
+
+
+# Analyse it
+
+`dplyr` functions integrate beautifully with pipes
+
+```{r}
+wgs %>%
+  summarize(n())
+```
+
+# Analyse it
+
+Amy's favourite thing about the tidyverse:
+
+```{r}
+wgs %>%
+  summarise(n())
+```
+
+Recall: where was R developed?
+
+# Analyse it
+
+```{r}
+wgs %>%
+  group_by(`PA/NPA`) %>%
+  summarise(n())
+```
+
+
+# Intuitive coding
+
+Using native tidyverse functions `group_by` and `summarise`/`summarize`
+
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(n())
+```
+
+
+# Intuitive coding
+
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(n()) %>% 
+  nrow
+```
+
+
+# Intuitive coding
+
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(mean.mass = mean(mass, na.rm = TRUE))
+```
+
+# Writing beautiful code
+
+The alternative:
+
+\footnotesize
+```{r}
+mean_masses <- vector("numeric", length(unique(starwars$species)))
+i <- 1
+for (sp in unique(starwars$species)) {
+  mean_masses[i] <- mean(starwars$mass[starwars$species == sp], 
+                         na.rm = TRUE)
+  i <- i + 1
+}
+data.frame(unique(starwars$species), mean_masses)
+```
+
+# More piping
+
+Multiple summary statistics at once
+
+```{r}
+starwars %>%
+  group_by(species) %>%
+  summarise(n = n(),
+            mean.mass = mean(mass, na.rm = TRUE),
+            sd.mass = sd(mass, na.rm = TRUE)) %>%
+  filter(n >= 3)
+```
+
+
+# dplyr
+
+*dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges:*
+
+- `mutate()` adds new variables that are functions of existing variables
+- `select()` picks variables based on their names.
+- `filter()` picks cases based on their values.
+- `summarise()` reduces multiple values down to a single summary.
+- `arrange()` changes the ordering of the rows
+
+# dplyr: data manipulation
+
+`select`: select only certain columns
+
+```{r}
+starwars %>%
+  select(name, ends_with("color"))
+```
+
+# dplyr: data manipulation
+
+`filter`: filter to certain rows
+
+```{r}
+starwars %>%
+  filter(hair_color == "black",
+         skin_color %in% c("fair", "light"))
+```
+
+# dplyr: data manipulation
+
+Get summary statistics
+
+```{r}
+starwars %>%
+  filter(hair_color == "black",
+         skin_color %in% c("fair", "light")) %>%
+  summarise("mass" = mean(mass, na.rm = T))
+```
+
+`starwars` is from the package `tibble`, `filter` is from the package `dplyr`... Hence `tidyverse`!
+
+`%>%` is included in every `tidyverse` package
+
+# More piping
+
+- `x %>% f` is equivalent to `f(x)`
+- `x %>% f()` is equivalent to `f(x)`
+- `x %>% f(y)` is equivalent to `f(x, y)`
+- `x %>% f(y, .)` is equivalent to `f(y, x)`
+
+
+# Advanced piping
+
+There are actually multiple different types of pipes (not just `%>%`)
+
+You need to load `magrittr` to use the following:
+
+- `starwars %$% name` is `starwars[, "name"]` *as a vector*
+- `x %<>% f` is equivalent to `x <- f(x)`
+
+# Watch out!
+
+```{r, error=TRUE}
+starwars
+  %>% filter(hair_color == "black",
+         skin_color %in% c("fair", "light"))
+  %>% summarise("mass" = mean(mass, na.rm = T))
+```
+
+# tidyverse
+
+- Programming in R using the tidyverse will require you to unlearn some bad habits, and may be more difficult for experienced R programmers
+- Learning this style will make your code more readable, debugable, and efficient
+- Graduate school is the time to learn!
+- All of your code should be using this syntax starting now!
+
+**I will ask you to redo homework questions if you do not write them in the style**
+
+# I wish...
+
+- "...that my output didn't spew numbers when I type `my_big_data_frame`"
+- "...there was a function to tell me which elements in my vector that satisfy my condition..."
+- "...there was a function to calculate minima pointwise..."
+
+Similarly, "How do I turn a data frame into a tibble?"
+
+# Tidy data
+
+![](../images/tidydata.png){width=450px}
+
+
+# Tidy data
+
+![](../images/tidydata-excerpt.png){width=350px}
+
+- You should avoid doing operations across rows
+- You will be given data with variables in rows
+
+# Messy data
+
+```{r}
+pcr <- read_csv("pcr.csv")
+```
+
+
+# Messy data
+
+\footnotesize
+```{r}
+pcr
+```
+
+
+# Tidy-ing messy data
+
+```{r}
+pcr %>%
+  gather(key = taxon,
+         value = total,
+         -SampleID)
+```
+
+- `key` = new name of column variables
+- `value` = new name of information column
+
+# gather
+
+Tidying your data can be annoying...
+
+Amy's hot tip: avoid naming your new columns with the same names as old
+
+```{r}
+pcr %>%
+  gather(key = SampleID,
+         value = Taxon,
+         -SampleID) # GAH
+```
+
+# Other options
+
+- spread is the inverse of gather
+- Good alternatives that I don't use: `reshape2` package and its functions `melt`, `dcast`, `acast`
+
+# Putting it all together
+
+```{r}
+pcr %>%
+  gather(key = taxon,
+         value = total,
+         -SampleID) %>%
+  group_by(SampleID) %>%
+  summarise(n_reads = sum(total))
+```
+
+# Integrating data
+
+One of your homework questions will involve joining together data from multiple sources. 
+
+- `left_join`, `right_join`, `inner_join`...
+
+Check out [https://dplyr.tidyverse.org/reference/join.html](https://dplyr.tidyverse.org/reference/join.html)
+
+# There is probably an easier way!
+
+An extremely helpful index:
+
+[https://dplyr.tidyverse.org/reference/index.html](https://dplyr.tidyverse.org/reference/index.html)
+
+Hot tip: Learn how abstract what you're doing so you can better find help on the internet! 
+
+- Googling "r tibble sort" brings me to the help page for `arrange`
+
 
 #  Coming soon
 
-- Homework 2 due next Thursday at 2 p.m.
+- Does anyone have any non-microbiome data they would be willing to share with the class?
+- Homework 2 will be posted in the next 24 hours
+- Homework 2 due next Wednesday at 3:30 p.m.
     * Submission via github classroom
-    * Same instructions as homework 1 -- but don't overwrite homework 1!
+    * Same instructions as Homework 1 -- but don't overwrite homework 1!
 - Homework 1 feedback coming soon
-- Next week: pipe operators!
+- Next week: gorgeous plots operators!

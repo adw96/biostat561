@@ -1,260 +1,315 @@
 ---
 title: "Computational Skills for Biostatistics I: Lecture 3"
 author: Amy Willis, Biostatistics, UW
-date: October 12, 2017
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   beamer_presentation:
     includes:
-      in_header: header_pagenrs.tex
+      in_header: ../header_pagenrs.tex
     fig_caption: no
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "footnotesize")
+library(ggplot2)
+library(tidyverse)
+library(magrittr)
+library(gapminder)
 ```
 
-# This week
+# Graphical communication in practice
 
-- Big challenge with Homework 2: working within requirements of each function
-- Another challenging assignment, more great work
-- Comments from homeworks go in README files
-    * Each week, look in the repository for this
+Graphical communication is critical for both *exploring* and *explaining* data
 
-# RStudio
+- base graphics in `R`: static
+- `ggplot`: static
+- `shiny`: interactive 
+- Non-data-based figures
 
-- You should save all of your work as scripts (`.R` files)
-- Laying out your workspace effectively
-    * Rstudio -> Preferences -> Pane Layout
-- Running code quickly
-    * With the cursor on the line of script you want to run...
-         * `cmd + return` (Mac)
-         * `ctrl + enter` (Windows)
-- Commenting: precede comments by a `#`
+# Name to know: Edward Tufte
 
-# RStudio
+<!-- "Design cannot rescue failed content." -->
 
-`R` sessions are located somewhere on your computer
+The Rules:
+
+1. Show Your Data
+2. Use Graphics
+3. Avoid Chartjunk
+4. Utilize Data-ink
+5. Use Labels
+6. Utilize Micro/Macro
+7. Separate Layers
+8. Use Multiples
+9. Utilize Color
+10. Understand Narrative
+
+<!-- 1. Show the data -->
+<!-- 2. "Induce the viewer to think about the substance rather than about methodology, graphic design, the tech of graphic production, or something else." -->
+<!-- 3. Avoid Distorting the Data -->
+<!-- 4. Present Many Numbers in a Small Space -->
+<!-- 5. Make Large Datasets Coherent -->
+<!-- 6. Encourage Eyes to Compare Data -->
+<!-- 7. Reveal Data at Several Levels of Detail -->
+<!-- 8. Serve a Reasonably Clear Purpose -->
+<!-- 9. Be Closely Integrated with Statistical and Verbal Descriptions of the Dataset -->
+
+# The greatest statistical graphic ever drawn
+
+<center>
+![](../images/Minard.png){width=400px}
+</center>
+
+# The worst statistical graphic ever drawn
+
+<center>
+![](../images/worst.png){width=300px}
+</center>
+
+# Small multiples
+
+<center>
+![](../images/toxins.png){width=400px}
+</center>
+
+# Graphics can be beautiful
+
+<center>
+![](../images/beetle.png){width=400px}
+</center>
+
+
+# Let's critique!
+
+<center>
+![](../images/presence_within.pdf){width=420px}
+</center>
+
+# Context is important
+
+<center>
+![](../images/proportion_all.pdf){width=420px}
+</center>
+
+# ggplot
+
+- `ggplot` is a function available in the `ggplot2` package.
+- Graphics are built in layers: a plot is initialised, *then* data is then drawn, *then* annotations are added.
+- Annotations include
+    * scales
+    * labels
+    * legends
+    * coordinate systems
+
+# ggplot
+
+![](../images/documentation-gg.png){width=400px}
+
+
+# ggplot
+
+```{r}
+diamonds %>% as_tibble
+```
+# ggplot
+
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price))
+```
+
+# Initialize, *then* add plotting elements
 
 \footnotesize
-```{r}
-setwd("/Users/adwillis/Documents/") 
-getwd() # where am I? 
-# change to:
-setwd("/Users/adwillis/Documents/teaching/17-561/lecture3/") 
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point()
 ```
 
-# R packages
+# Customise features about the layer
 
-- Most packages are distributed via CRAN, a global network for the distribution of R code
-    * You may need to set your "mirror"
-    * RStudio -> Preferences -> Packages
-- Packages need to be installed, and then loaded
+\footnotesize
+```{r, fig.width=3.5, fig.height=2.5}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2)
+```
+
+# Add another layer
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2) + 
+  geom_smooth()
+```
+
+`ggplot` usually gives sensible results, but, e.g., the authors are not going to be experts in smoothing algorithms. Exercise caution and use your judgement!
+
+
+# What do we think is going to differ?
+
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+g1 <- ggplot(diamonds, 
+             aes(x = carat, y = price)) + 
+  geom_point(aes(col = color), alpha = 0.2) + 
+  geom_smooth()
+g2 <- ggplot(diamonds, 
+             aes(x = carat, y = price, col = color), 
+             alpha = 0.2) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+
+
+# What do we think is going to differ?
+
+\footnotesize
+```{r, fig.width=4, fig.height=2, warning=FALSE, message=FALSE}
+ggpubr::ggarrange(g1, g2, common.legend=TRUE)
+```
+
+
+
+
+# Equivalent calls
 
 \footnotesize
 ```{r, eval=FALSE}
-install.packages("tidyverse") # first download...
-library(tidyverse) # ...then load
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
+ggplot(diamonds) + geom_point(aes(x = carat, y = price))
+ggplot(diamonds, aes(x = carat)) + geom_point(aes(y = price))
 ```
 
-```{r, include=FALSE, eval=TRUE}
-library(tidyverse) # ...then load
-```
+Which is best?
 
+# Layering objects
 
-# Writing beautiful code
+Arguments to a ggplot call:
 
-Suppose you have a data frame of Star Wars characters `starwars` and you want to find the average weight of each species where we have data for more than 2 characters.
+- The first argument to a ggplot is the data frame (or tibble)
+- You can fix the aesthetics with `aes()` OR you can add aesthetics in layers
+- Any aspect of a plot that you want to vary based on a variable needs to be wrapped in a `aes()` call
 
+# `aes()` calls
 
 \footnotesize
-```{r}
-ns <- unclass(table(starwars$species))
-means <- unclass(by(starwars, starwars$species, 
-                    function(x) mean(x$mass, na.rm = TRUE)))
-means[ns > 2]
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point(col = "blue")
 ```
 
-What is lousy about this code?
+The following results in an error. Why?
+```{r, eval=FALSE}
+ggplot(diamonds, aes(x=carat, y=price))+geom_point(col=color)
+```
 
-# Writing beautiful code
 
-Here is another way to write that code
+# More layers
 
 \footnotesize
-```{r}
-starwars %>%
-  group_by(species) %>%
-  summarise(n = n(),
-            mass = mean(mass, na.rm = TRUE)) %>%
-  filter(n > 2)
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = carat, y = price)) + 
+  geom_point() + theme_bw() +
+  labs(x="Weight (carats)", y="Diamond price ($)") +
+  ggtitle("Exploratory analysis of Diamond prices") +
+  coord_cartesian(xlim = c(0, 3), ylim=c(0, 10000)) +
+  theme(plot.title = element_text(size = 10))
 ```
 
-Which is easier to read? Which is easier to debug?
-
-# tidyverse
-
-The `tidyverse` is a collection of packages based on 4 principles for handling data:
-
-1. Reuse existing data structures.
-2. Compose simple functions with the pipe.
-3. Embrace functional programming.
-4. Design for humans.
-
-The R project for Statistical Computing was built for a different age; the tidyverse is a collection of tools for *our* age
-
-# tidyverse
+# Histograms
+```{r, fig.width=3.5, fig.height=2}
+ggplot(diamonds, aes(x = price)) + 
+  geom_histogram(binwidth = 200)
+```
 
 
-<center>![](tidypic.png){width=800px}</center>
-
-
-# tibbles
-
-Data frames are great! Except for 
-
-- printing them
-- working with both characters and factors
-- manipulating multiple columns
-
-tibbles are the data frame alternative of the tidyverse
-
-
-# tibbles
+# Timeseries
 
 \footnotesize
-```{r}
-starwars
+```{r, fig.width=3.5, fig.height=2}
+g <- ggplot(gapminder %>% filter(country == "Japan"), 
+            aes(x = year, y = lifeExp)) + geom_line() 
+g
 ```
 
-# tibbles
+# Storing and modifying
 
-> A tibble, or tbl_df, is a modern reimagining of the data.frame, keeping what time has proven to be effective, and throwing out what is not. Tibbles are data.frames that are lazy and surly: they do less (i.e. they don't change variable names or types, and don't do partial matching) and complain more (e.g. when a variable does not exist). This forces you to confront problems earlier, typically leading to cleaner, more expressive code. Tibbles also have an enhanced print method() which makes them easier to use with large datasets containing complex objects.
-
-> - Hadley Wickham, Chief Scientist at RStudio 
-
-# How do we read code?
-
-Translate the following code into words:
-
-```{r}
-length(unique(starwars$species))
+\footnotesize
+```{r, fig.width=3.5, fig.height=2}
+g + scale_x_continuous(breaks = seq(1950, 2011, 15)) +
+  theme_bw() +
+  ggtitle("Life expectancy in 20th C Japan")
 ```
 
-# Intuitive coding
+Creating and plotting `ggplot` objects is not always fast; this may help
 
-```{r}
-starwars$species %>% 
-  unique %>% 
-  length
+
+# Showing intervals using transparency
+
+The most important information should be the most clear, the next most important information should be the next most clear, etc.. 
+
+![](../images/intervals.png){width=400px}
+
+# Infinitely customisable
+
+![](../images/vary_sigma_max_beta_sd_1_n_20_p_2_q_20_sigma_min_0_01_all_shared.pdf){width=400px}
+
+# All the layers
+
+\footnotesize
+```{r, eval=FALSE}
+euc_plot <- ggplot(full_data_frame[order(full_data_frame$sigma_max), ], 
+                   aes(x = sigma_max_char, y = mse_loss_euclidean_subset, col = Method)) +
+  geom_boxplot(outlier.size=0.1) + 
+  xlab(label=expression(sigma[max]~": Strength of cooccurrences")) +
+  ylab("Log MSE: Euclidean index") +
+  theme_bw() + 
+  theme(text = element_text(size = 9),
+        panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_color_manual(values=c("blue", "red", "#999999", "#E69F00", "#56B4E9")) 
+
+ggpubr::ggarrange(shannon_plot, simpson_plot, bc_plot, euc_plot, ncol=2, nrow=2, 
+                  common.legend = T, legend="right")
+
+ggsave("vary_sigma_max_beta_sd_1_n_20_p_2_q_20_sigma_min_0_01_all_shared.pdf", width=6, height = 4)
 ```
 
-`%>%` is the "pipe operator"
+# Catering to our senses
 
-- `f(x)` is the same as `x %>% f`
-- "Take `x` and apply the function `f`"
+![](../images/geology_faces.png){width=400px}
 
-# Intuitive coding
 
-Using native tidyverse functions `group_by` and `summarise`/`summarize`
+# Final tips
 
-```{r}
-starwars %>% 
-  group_by(species) %>% 
-  summarise(n()) %>% 
-  nrow
-```
+- Never, ever show a pie chart to a statistical audience... or the internet!
+    * Exploding or otherwise
+- Align plots with similar axes 
+- Defer less important points to appendices
+     * Use figures __where appropriate__. Would a table suffice?
+- Critique your own figures 
+     * Especially before public talks/conferences
 
-# More piping
+Highly recommended reading: 
 
-Multiple summary statistics at once
+"Graphical Display of Quantitative Information" by Edward Tufte
 
-```{r}
-starwars %>%
-  group_by(species) %>%
-  summarise(n = n(),
-            mean.mass = mean(mass, na.rm = TRUE),
-            sd.mass = sd(mass, na.rm = TRUE)) %>%
-  filter(n > 2)
-```
+# Limitations of `ggplot`
 
-# dplyr
+- *Forces you to use good coding practice* (?)
+    * Data should all come from the same data frame
+    * Painful at first but better than a retraction!
+- Constrained to two-dimensional (see `plot3d`, `scatterplot3d`)
+- No graphs/trees (`igraph`)
+- Static (`shiny`)
+- Limited use for non-statistical graphics (Illustrator, Photoshop, Inkscape)
 
-*dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges:*
+# Other things
 
-- `mutate()` adds new variables that are functions of existing variables
-- `select()` picks variables based on their names.
-- `filter()` picks cases based on their values.
-- `summarise()` reduces multiple values down to a single summary.
-- `arrange()` changes the ordering of the rows
+- `1L` in `R`
 
-# dplyr: data manipulation
+# Coming up
 
-Show only certain variables
-
-```{r}
-starwars %>%
-  select(name, ends_with("color"))
-```
-
-# dplyr: data manipulation
-
-Show only certain variables
-
-```{r}
-starwars %>%
-  filter(hair_color == "black",
-         skin_color %in% c("fair", "light"))
-```
-
-# dplyr: data manipulation
-
-Get summary statistics
-
-```{r}
-starwars %>%
-  filter(hair_color == "black",
-         skin_color %in% c("fair", "light")) %>% 
-  summarise("mass" = mean(mass, na.rm = T))
-```
-
-`starwars` is from the package `tibble`, `%>%` is from the package `magrittr`, `filter` is from the package `dplyr`... Hence `tidyverse`!
-
-# Advanced piping
-
-- `x %>% f` is equivalent to `f(x)`
-- `x %>% f(y)` is equivalent to `f(x, y)`
-- `x %>% f(y, .)` is equivalent to `f(y, x)`
-
-# Watch out!
-
-```{r, error=TRUE}
-starwars 
-  %>% filter(hair_color == "black",
-         skin_color %in% c("fair", "light"))
-  %>% summarise("mass" = mean(mass, na.rm = T))
-```
-
-# tidyverse
-
-- Programming in R using the tidyverse will require you to unlearn some bad habits, and may be more difficult for experienced R programmers
-- Learning this style will make your code more readable, debugable, and efficient
-- Graduate school is the time to learn!
-- I will ask you to redo homework questions if you do not write them in the style; all of your code should be using this syntax starting now!
-
-# If wishes were horses...
-
-... we would all be eating steak:
-
-- "I wish that my output didn't spew numbers when I type `head(my_big_data_frame)`..."
-- "I wish there was a function to tell me which elements in my vector that satisfy my condition..."
-- "I wish there was a function to calculate minima pointwise..."
-
-Similarly, "How do I turn a data frame into a tibble?"
-
-#  Coming soon
-
-- Homework 3 due next Thursday at 2 p.m.
-    * All solutions need to be written in best coding practice (i.e., tidyverse)
-    * Submission via github classroom
-- Homework 2 feedback coming soon
-- Next week: how to make awesome plots!
+- Reminder: `git pull` -- any time you work on any file in a directory with version control!
+    * You won't get your comments on your homework if you don't
+- Homework 3 due next Wednesday at the usual time in the usual way
