@@ -62,7 +62,7 @@ names(param.grid) <- c("n", "truebeta", "B", "seed")
 current <- param.grid[ifelse(job.id %% 3 == 0, 3, job.id %% 3), ]
 library(sandwich)
 set.seed(current$seed)
-system.time(output <- replicate(B, doOne(n = current$n, 
+system.time(output <- replicate(current$B, doOne(n = current$n, 
                                          beta = current$truebeta)))
 save(output, file = paste("ex2_output_b_", current$B, "_s_", 
                           current$seed, "_n_", current$n, 
