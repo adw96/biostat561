@@ -82,7 +82,7 @@ Time to use the cluster! Use the examples from lecture to guide your script-writ
 
 We want to investigate the effect of $n$ on the coverage of the two procedures for the two data-generating mechanisms $f_1(x)$ and $f_2(x)$. We want to run 5000 simulations per `n` and per `option`, and look at $n\in\{50, 100, 150, \ldots, 500\}$. 
 
-Adapt your response to question 1 to write an R script with one argument, `reps` (the number of replicates to use) that runs `reps` replicates for option 1 and 2, and all $n\in\{50, 100, 150, \ldots, 500\}$. Confirm it works for small `reps`. Call this script `qtn2_response.R`. 
+Adapt your response to question 1 to write an R script that runs `reps` replicates for option 1 and 2, and all $n\in\{50, 100, 150, \ldots, 500\}$. Confirm it works for small `reps`. Call this script `qtn2_response.R`. 
 
 Write a shell script called `call_qtn2.sh` that calls `qtn2_response.R`. `qtn2.sh` should be similar to `call_sim_robust_se.sh`, seen in class, and have arguments `sim-name`, `nreps-total` and `nreps-per-job`. 
 
