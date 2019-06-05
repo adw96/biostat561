@@ -241,7 +241,7 @@ x
 # Python: Syntax
 
 - Indentation/spacing is *very important*
-    - Use either spaces or tabs
+    - Use 4 spaces to indent loops
     - Spacing determines the grouping of operations, e.g., levels of loops
 - Indexing starts at 0, not 1
     - First element in an array is number 0
@@ -306,7 +306,7 @@ qsub -t 1-22
 - Alternative to RMarkdown: Jupyter Notebooks
     - Easy install: `conda install ipython jupyter`
         - Maybe `conda install pyzmq` too
-    - [Awesome tutorials!](https://hub.mybinder.org/user/ipython-ipython-in-depth-6w6758qo/notebooks/binder/Index.ipynb) (linked)
+    - [Awesome tutorials!](https://mybinder.org/v2/gh/ipython/ipython-in-depth/master?filepath=binder/Index.ipynb) (linked)
 
 
 # Python: Versions
