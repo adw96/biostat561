@@ -217,7 +217,7 @@ Both python and R are C under the hood, so it's not always worth switching for s
 
 # Language comparison
 
-"Gibbs sampler in various languages (revisited)" by Darren Wilkinson (Newcastle)
+[Gibbs sampler in various languages (revisited)](https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/) by Darren Wilkinson (Newcastle)
 
 - R: 1.0
 - Python: 1.86
@@ -252,7 +252,7 @@ x
     - Spacing determines the grouping of operations, e.g., levels of loops
 - Indexing starts at 0, not 1
     - First element in an array is number 0
-- You will usually need the `numpy` library
+- You will usually need the `numpy` library for working with arrays and matrices
 
 # Python: matrix algebra
 
