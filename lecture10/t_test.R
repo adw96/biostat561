@@ -10,7 +10,7 @@ t.test.me <- function(x1, x2) {
     return(nume/denom)
 }
 
-Rcpp::sourceCpp("2017-cpp/code/t_test_cpp.cpp")
+Rcpp::sourceCpp("t_test_cpp.cpp")
 set.seed(1)
 x1 <- rnorm(30)
 x2 <- rnorm(50)

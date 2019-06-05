@@ -273,15 +273,19 @@ np.matmul(A, b2)
 
 ```{r, eval = FALSE}
 import pandas as pd
-dt = pd.read_csv('../lecture2/colon_cancer.csv')
+dt = pd.read_csv('lecture2/colon_cancer.csv')
+dt.columns
 dt['Tissue']
+dt.iloc[1] # get second row
+dt['Polyp type'].describe()
+dt.describe(include='all')
 ```
 
-# Python scripts; on clusters
+# Python scripts
 
 - You can execute a python script on the command line by running `/usr/local/bin/python2.7 myscript.py`
     - (or the equivalent for your installation location)
-    - or `python2.7 myscript.py` if it's in your PATH
+    - or `python myscript.py` if it's in your PATH
 - You can execute a python script via a shell script (useful for the clusters)
 
 # Python on the cluster
