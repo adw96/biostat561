@@ -56,7 +56,7 @@ Learning objectives
 
 - Understand when you may want to write in C++
 - See the infrastructure for interfacing R and C++
-- Grasp the basic syntax of python
+- Grasp the basic syntax of Python
 
 It is not possible to learn a new language in a single lecture; it is possible to get a feel for a new language
 
@@ -123,7 +123,7 @@ double t_test_cpp(NumericVector x1, NumericVector x2) {
 - Functionality for easy-to-use R functions
 - i.e. C++ is not vectorized, but certain Rcpp functions are
     - e.g., implementations of `sapply`, `pnorm`, `ifelse`, vectorised addition/pointwise multiplication
-    - [http://dirk.eddelbuettel.com/code/rcpp/Rcpp-sugar.pdf](http://dirk.eddelbuettel.com/code/rcpp/Rcpp-sugar.pdf)
+    - [dirk.eddelbuettel.com/code/rcpp/Rcpp-sugar.pdf](http://dirk.eddelbuettel.com/code/rcpp/Rcpp-sugar.pdf)
 
 # Rcpp: when not to bother
 
@@ -137,7 +137,6 @@ y <- rnorm(100)
 for (i in 1:10) {
   total <- total + x[i]*y[i]
 }
-
 x %*% y
 ```
 
@@ -146,7 +145,6 @@ x %*% y
 - Tasks that cannot be vectorised in R can typically be sped up in C++
     - Loops that you can't get rid of
 - Iterative procedures where the next step depends on the current step
-- Examples
     - Gradient descent
     - Expectation maximisation
     - Markov chains
@@ -155,7 +153,7 @@ x %*% y
 # Rcpp: considerations
 
 - Always prototype in R, then translate
-    - when starting out, assume nothing about syntax!
+    - When starting out, assume nothing about syntax; check everything!
 - Expect more difficulty debugging
 - It is also possible to do with C instead of C++
     - It's much harder and benefits are limited
@@ -167,7 +165,7 @@ x %*% y
     - `Rcpp`
     - A C++ compiler
         - Windows: Install `Rtools`
-        - Mac: Install `XCode` (takes a lot of memory)
+        - Mac: Install `XCode` (Warning: takes a lot of memory)
 
 # How to learn a programming language
 
@@ -178,31 +176,25 @@ Good advice for *any* programming language
 - Use Google liberally
     - "c++ mean of vector"
 
-# TODO
-
-- Mauricio example
--
-
 # Moving beyond R to Python
 
-In your career as a statistician/data scientist, you will probably need some familiarity with python
+In your career as a statistician/data scientist, you will probably need *some* familiarity with Python
 
 - Collaborating on projects, especially interdisciplinary
-- If you work with spatial data/image analysis, it may be worth learning to program in python
+- Working with spatial data/image analysis
 - Significantly easier to read/learn if you know R
 
 # Moving beyond R to Python
 
-*Python and R are arguably the two most dominant languages for data scientists. R is often preferred by statisticians, and python is often preferred by computer scientists.*
+*Python and R are arguably the two most dominant languages for data scientists. R is often preferred by statisticians, and Python is often preferred by computer scientists.*
 
 # Python
 
 - Often faster than R
-    - Typically in the same settings that C++ are preferable to R, python will beat R too
+    - Typically in the same settings that C++ are preferable to R, Python will beat R too
     - Often faster for IO and loops
 - Large online community
-- Modules extend base functionality
-    - Similar to R packages
+- Modules and libraries extend base functionality
     - `numpy`, `scipy`, `pandas`, `scikit-learn`
 
 # Python
@@ -212,8 +204,9 @@ In your career as a statistician/data scientist, you will probably need some fam
     - ML libraries (though TensorFlow/keras now runs from R)
 - There is never any reason to be a snob about this stuff...
     - ... or anything else
+- Both Python and R are C under the hood, so it's not always worth switching for speed considerations
+- May lose statistical audience
 
-Both python and R are C under the hood, so it's not always worth switching for speed considerations.
 
 # Language comparison
 
@@ -221,7 +214,7 @@ Both python and R are C under the hood, so it's not always worth switching for s
 
 - R: 1.0
 - Python: 1.86
-    - PyPy (alternative implementation of python with a JIT compiler): 14
+    - PyPy (alternative implementation of Python with a JIT compiler): 14
 - Java: 38
 - C: 54
 
@@ -283,10 +276,10 @@ dt.describe(include='all')
 
 # Python scripts
 
-- You can execute a python script on the command line by running `/usr/local/bin/python2.7 myscript.py`
-    - (or the equivalent for your installation location)
-    - or `python myscript.py` if it's in your PATH
-- You can execute a python script via a shell script (useful for the clusters)
+- You can execute a Python script on the command line by running `/usr/local/bin/python2.7 myscript.py`
+    - or the equivalent for your installation location
+    - or `python myscript.py` if python is in your PATH
+- You can execute a Python script via a shell script
 
 # Python on the cluster
 
@@ -294,7 +287,6 @@ With the script you want to run in `my_script.py` and with header `#!/usr/local/
 
 ```{r, eval = FALSE}
 #!/bin/sh
-
 /usr/local/bin/python2.7 my_script.py
 ```
 
@@ -313,7 +305,8 @@ qsub -t 1-22
 - Alternative to RStudio: Spyder
 - Alternative to RMarkdown: Jupyter Notebooks
     - Easy install: `conda install ipython jupyter`
-    - Awesome tutorial: [https://hub.mybinder.org/user/ipython-ipython-in-depth-6w6758qo/notebooks/binder/Index.ipynb](https://hub.mybinder.org/user/ipython-ipython-in-depth-6w6758qo/notebooks/binder/Index.ipynb)
+        - Maybe `conda install pyzmq` too
+    - [Awesome tutorials!](https://hub.mybinder.org/user/ipython-ipython-in-depth-6w6758qo/notebooks/binder/Index.ipynb) (linked)
 
 
 # Python: Versions
@@ -323,25 +316,39 @@ qsub -t 1-22
     - Better libraries, documentation
     - Default distribution for Unix
 - Python 3.x is the *present and future* (from the Wiki)
-  - Moving forward, new features will be in Python 3 but not added to Python 2
+    - Moving forward, new features will be in Python 3 but not added to Python 2
+    - Personal recommendation: learn Python 3
 
-# You can add the following your CV/R\'esum\'e
+# Wrap up
 
-Skills/Software
+# Wrap up of the class
+
+- Learning programming languages is like learning any language: *immersion* and *practice* are critical
+    - Continue to practice
+    - Every minute you spend coding improves your skills as a programmer
+
+# Wrap up of the class
+
+- This syllabus is very modern, emphasising best practices, cutting-edge software, and self-teaching
+- Well done to everyone for keeping up, *especially those who started with less R background*
+
+# You can add the following your CV/Resume
+
+Computing skills
 
 - Proficient: R
-    - Data analysis: tidyverse (dplyr, tibble, stringr, readr, tidyr), magrittr, \[others from other classes\]
+    - Data analysis: tidyverse (dplyr, tibble, stringr, readr, tidyr), magrittr, [others from other classes, e.g. survival, lme4, inla...]
     - Reporting: ggplot2, RMarkdown, knitr
     - Performance: Rcpp, benchmarking, debugging, vectorisation
-    - Development: R package creation and maintenance, simulator, RStudio
-- Familiar: git, unix, bash, Python, C++, distributed/cluster systems, optimisation algorithms
+    - Development: R package creation and maintenance, simulator
+- Familiar: git, shell scripting, distributed/cluster systems, optimisation algorithms, Python, C++
 
 
-
-# Coming up
+# Final wrap-up
 
 - Homework 10: final homework due next *Wednesday*
     - A final exercise with tidyverse
     - Basic use of Rcpp
-    - Basic use of python
-- Best of luck with your continuing education as a programmer and data analyst
+    - Basic use of Python
+- Final 561 office hours: *Tuesday 12:30-1pm*
+- **Best of luck with your continuing education as a programmer and data analyst!**
